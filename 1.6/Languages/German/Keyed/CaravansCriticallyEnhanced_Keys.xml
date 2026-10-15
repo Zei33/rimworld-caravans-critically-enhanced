@@ -74,5 +74,6 @@
   <CaravansCriticallyEnhanced_NoCarrier>niemand in der Karawane kann das mitnehmen</CaravansCriticallyEnhanced_NoCarrier>
   <CaravansCriticallyEnhanced_LoadingSkippedBlocked>Niemand in der sich formierenden Karawane konnte {0} lang einige Waren holen, daher reist sie ohne diese ab: {1}.</CaravansCriticallyEnhanced_LoadingSkippedBlocked>
   <CaravansCriticallyEnhanced_LoadingGaveUp>Die sich formierende Karawane hat {0} lang nichts geladen und reist daher ohne Folgendes ab: {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
+  <CaravansCriticallyEnhanced_SpotOutsideArea>der Karawanensammelplatz liegt außerhalb des erlaubten Gebiets</CaravansCriticallyEnhanced_SpotOutsideArea>
 
 </LanguageData>

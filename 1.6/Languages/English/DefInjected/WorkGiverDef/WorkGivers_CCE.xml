@@ -5,4 +5,8 @@
   <CCE_LoadCaravan.verb>load</CCE_LoadCaravan.verb>
   <CCE_LoadCaravan.gerund>loading</CCE_LoadCaravan.gerund>
 
+  <CCE_RopeAnimalsToCaravan.label>rope animals for caravans</CCE_RopeAnimalsToCaravan.label>
+  <CCE_RopeAnimalsToCaravan.verb>rope</CCE_RopeAnimalsToCaravan.verb>
+  <CCE_RopeAnimalsToCaravan.gerund>roping</CCE_RopeAnimalsToCaravan.gerund>
+
 </LanguageData>

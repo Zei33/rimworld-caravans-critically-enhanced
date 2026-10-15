@@ -5,4 +5,8 @@
   <CCE_LoadCaravan.verb>verladen</CCE_LoadCaravan.verb>
   <CCE_LoadCaravan.gerund>Verladen von</CCE_LoadCaravan.gerund>
 
+  <CCE_RopeAnimalsToCaravan.label>Haustiere für Karawanen anleinen</CCE_RopeAnimalsToCaravan.label>
+  <CCE_RopeAnimalsToCaravan.verb>anleinen</CCE_RopeAnimalsToCaravan.verb>
+  <CCE_RopeAnimalsToCaravan.gerund>Anleinen von</CCE_RopeAnimalsToCaravan.gerund>
+
 </LanguageData>

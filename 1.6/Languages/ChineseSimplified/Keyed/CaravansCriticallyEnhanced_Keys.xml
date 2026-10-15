@@ -74,5 +74,6 @@
   <CaravansCriticallyEnhanced_NoCarrier>远行队中无人能携带</CaravansCriticallyEnhanced_NoCarrier>
   <CaravansCriticallyEnhanced_LoadingSkippedBlocked>组建中的远行队在{0}内无人能够拿到部分物品，因此将不带这些物品出发：{1}。</CaravansCriticallyEnhanced_LoadingSkippedBlocked>
   <CaravansCriticallyEnhanced_LoadingGaveUp>组建中的远行队在{0}内没有装载任何物品，因此将不带以下物品出发：{1}。</CaravansCriticallyEnhanced_LoadingGaveUp>
+  <CaravansCriticallyEnhanced_SpotOutsideArea>远行点位于允许活动区域外</CaravansCriticallyEnhanced_SpotOutsideArea>
 
 </LanguageData>

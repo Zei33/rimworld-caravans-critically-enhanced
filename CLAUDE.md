@@ -24,8 +24,8 @@ Fixes caravan forming. When finished it will:
 
 plus stuck-caravan fixes, loaded-cargo protection, unloading returning pack animals at a stockpile,
 and a better manual load. The work is in slices; `docs/ROADMAP.md` in the workspace says which have
-landed. **As of Slice 1 the Load work type and the completion guard are in; nothing else changes
-the game yet.**
+landed. **As of Slice 2 the Load work type, the completion guard and helpers leading pen animals
+are in; nothing else changes the game yet.**
 
 ## Architecture
 
@@ -39,17 +39,24 @@ the game yet.**
 | `CaravanLordAccess` | `1.6/Utils/CaravanLordAccess.cs` | `FieldRefAccess` to the lord job's `exitSpot` and `meetingPoint` and the toils' copies of the exit, each resolved lazily and on its own, null if its field has gone |
 | `CaravanMessages` | `1.6/Utils/CaravanMessages.cs` | The only caller of `Messages.Message`, always `historical: false` |
 | `JobMemo<TAsker, TSubject, TAnswer>` | `1.6/Core/JobMemo.cs` | Copied from Simple Improve: lets a work giver's `HasJobOnThing` and `JobOnThing` answer from one computation |
-| `CaravansCriticallyEnhancedDefOf` | `1.6/Core/CaravansCriticallyEnhancedDefOf.cs` | `CCE_Loading` |
+| `CaravansCriticallyEnhancedDefOf` | `1.6/Core/CaravansCriticallyEnhancedDefOf.cs` | `CCE_Loading`, `CCE_RopeAnimalToCaravan` |
 | `WorkGiver_CCE_LoadCaravan : WorkGiver_Scanner` | `1.6/Jobs/WorkGiver_CCE_LoadCaravan.cs` | The Load giver. No thing request; `ShouldSkip` skips any pawn in a lord and is free when nothing is forming, and then forgets what it held; the search set from `LoadingIndex`; one memoised `BuildJob` behind both scan entry points, carrier first; hands out vanilla's own `PrepareCaravan_GatherItems` job with `job.lord` set |
 | `LoadingIndex`, `LoadingClaim` | `1.6/Core/LoadingIndex.cs` | Per map, rebuilt at most once per tick and frame: which listed items helpers may fetch (not in a closed haul source) and which caravan and row each belongs to |
 | `LoadingCandidates` | `1.6/Core/LoadingCandidates.cs` | The search set's rules: no nulls, first caravan to list a thing owns it, a `List`. Pure |
 | `CarrierRule` | `1.6/Core/CarrierRule.cs` | Which member a helper may hand an item to: none drafted, in a mental state or outside the helper's area; no overloaded colonists, colonists only with the setting, none while animals gather, rope animals only once tied at their own spot. Pure |
 | `CompletionGuard`, `CompletionVerdict` | `1.6/Core/CompletionGuard.cs` | Whether a caravan vanilla calls loaded really is: hold while items are takeable, hold blocked items for the grace period, let go after the watchdog. Also every rule its reader applies: the stage it acts in, who counts as a waiting member and as a taker, how a listed thing counts, when an expiry is due and confirmed. Clocks travel as one `GuardClocks` value. Pure |
 | `LoadingCompletion` | `1.6/Core/LoadingCompletion.cs` | The guard's reader: asks vanilla's own `FindThingToHaul` for each undrafted member, counts live units, keeps the clocks per lord job, applies the drafted-member exemption, clears rows with no things left while holding, and lets expired items go with a message |
+| `WorkGiver_CCE_RopeCaravanAnimals : WorkGiver_Scanner` | `1.6/Jobs/WorkGiver_CCE_RopeCaravanAnimals.cs` | The Load column's second giver: colonists not in any lord lead a vanilla forming caravan's pen animals to its spot while it gathers animals. Same shape as the Load giver; the set from `AnimalGatherIndex`; checks area, reservation, then vanilla's `CanRoperTakeAnimalToDest` |
+| `JobDriver_CCE_RopeAnimalToCaravan : JobDriver_RopeToDestination` | `1.6/Jobs/JobDriver_CCE_RopeAnimalToCaravan.cs` | Vanilla's gather-animals driver with the spot in target B instead of the roper's duty, which a helper lacks. Fails once the caravan is gone or past gathering animals, so the base finish action drops every rope |
+| `AnimalGatherIndex` | `1.6/Core/AnimalGatherIndex.cs` | Per map, per tick and frame: the rope animals of vanilla lords gathering animals that nobody is leading, and each one's spot, read from its own duty |
+| `RopeCandidates` | `1.6/Core/RopeCandidates.cs` | Which animals wait to be led: rope-managed, not on a rope, not tied at the spot, with the gather duty, in the gathering stage itself. Pure |
 | `LoadingMigration` | `1.6/Core/LoadingMigration.cs` | The one-time Load priority copy, and `MakeRoom`, which puts later work types' priorities back in their own slots on the first load. Pure |
 
 Defs: `CCE_Loading` (WorkTypeDef, naturalPriority 310, the column directly left of Haul, Hauling's
-work tags) and `CCE_LoadCaravan` (WorkGiverDef, priorityInType 110). `1.6/Patches/MechWorkTypes.xml`
+work tags), `CCE_LoadCaravan` (WorkGiverDef, priorityInType 110), `CCE_RopeAnimalsToCaravan`
+(WorkGiverDef, priorityInType 120, so animals come before items, `canBeDoneByMechs` false, verb and
+gerund copied from vanilla's `TakeToPen`) and `CCE_RopeAnimalToCaravan` (JobDef, copied from vanilla's
+`PrepareCaravan_GatherAnimals` but for the driver). `1.6/Patches/MechWorkTypes.xml`
 adds `CCE_Loading` to every `mechEnabledWorkTypes` list that names Hauling, which in the shipped game
 is the Lifter alone.
 
@@ -62,6 +69,7 @@ Harmony surface, one class per vanilla target in `1.6/Patches/`, each applied on
 | `Patch_JobDriver_PrepareCaravan_GatherItems_MakeNewToils` | `JobDriver_PrepareCaravan_GatherItems.MakeNewToils` | Postfix | A helper's job fails once the caravan leaves the gathering stages |
 | `Patch_CaravanFormingUtility_AllItemsLoadedOntoCaravan` | `CaravanFormingUtility.AllItemsLoadedOntoCaravan` | Postfix, last | The single owner of the answer, in the item-gathering stage only: drafted-member exemption, then the completion guard |
 | `Patch_LordJob_FormAndSendCaravan_LordJobTick` | `LordJob_FormAndSendCaravan.LordJobTick` | Postfix | Every 250 ticks per lord, staggered: the progress clock and letting expired items go |
+| `Patch_CaravanFormingUtility_StopFormingCaravan` | `CaravanFormingUtility.StopFormingCaravan` | Prefix | Ends the animal helpers' rope jobs, current and queued, before vanilla cancels, so vanilla's `LeadAnimalsToPen`, which skips any roped animal, leads their animals home too, and no queued job's reservation breaks the pen lord's rope jobs |
 | `Patch_Pawn_WorkSettings_ExposeData` | `Pawn_WorkSettings.ExposeData` | Postfix | Saves `cceLoadingInit`; on the first load without it, realigns later work types' priorities and copies the helper's work type priority into Load |
 
 ## Invariants and traps
@@ -123,6 +131,22 @@ The plan's architecture rules are binding on every slice; the short form:
   scanner default, and it only filters which item is chosen (`JobGiver_Work` passes `MaxPathDanger`
   to the search). The carrier test and the walk itself still use Deadly, as vanilla does. Also a
   changelog note.
+- **A helper never holds an animal into the collect stage.** Vanilla's `IsRopedByCaravanPawn`
+  counts an animal as led only when its roper is in the same lord, so a helper still holding one
+  there would stall collection. The rope driver fails as soon as the caravan is past gathering
+  animals (or gone: `Lord.Cleanup` leaves the toil and member list as they were, so the test is the
+  map's lord list, as in vanilla's gather-items driver), and the base finish action drops the ropes.
+- **The rope giver never takes over a reservation, even forced.** A reserved caravan animal is one a
+  member or another helper is walking to; vanilla's forced takeover ends that pawn's rope job, and
+  the job's finish action lets go of every animal it already leads.
+- **Removing the mod mid-rope leaves a helper idle until something interrupts it.** The rope job's
+  def and driver fail to load, and `Pawn_JobTracker`'s cleanup of a job with no def throws, leaving
+  the pawn with a dead job (its ropes break by themselves). Every mod with its own job has this;
+  it belongs in the store page's removal note. Slice 1 has none, because it reuses vanilla's job.
+- **A slow helper can make the caravan wait.** Members cannot take an animal a helper has reserved,
+  so gathering waits for the helper, as it would for a slow member. Nothing can stick.
+- **The rope driver ties at target B, not at the animal's duty.** It carries on through the pause
+  for a mental break, where every duty is the pause duty, which has no spot.
 - **A pawn in any lord is never a helper.** `ThinkNode_Duty` overwrites a job's lord with the pawn's
   own, and a forming caravan's pause duty, Defend, Follow and Build all run `JobGiver_Work`; the
   gather driver then works the wrong caravan or throws casting the wrong lord job.

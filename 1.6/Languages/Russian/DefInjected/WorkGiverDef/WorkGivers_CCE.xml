@@ -5,4 +5,8 @@
   <CCE_LoadCaravan.verb>загрузить</CCE_LoadCaravan.verb>
   <CCE_LoadCaravan.gerund>загрузить</CCE_LoadCaravan.gerund>
 
+  <CCE_RopeAnimalsToCaravan.label>отводить животных к караванам</CCE_RopeAnimalsToCaravan.label>
+  <CCE_RopeAnimalsToCaravan.verb>отвести в загон</CCE_RopeAnimalsToCaravan.verb>
+  <CCE_RopeAnimalsToCaravan.gerund>отвести в загон</CCE_RopeAnimalsToCaravan.gerund>
+
 </LanguageData>

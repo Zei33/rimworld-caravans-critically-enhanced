@@ -42,7 +42,7 @@ namespace CaravansCriticallyEnhanced.Tests
             List<(string Type, string Name, string Where)> references = CollectReferences().ToList();
 
             // The count is the positive control. Update it when a reference is added on purpose.
-            Assert.That(references.Count, Is.EqualTo(2), "Def references found in 1.6/Defs.");
+            Assert.That(references.Count, Is.EqualTo(4), "Def references found in 1.6/Defs.");
 
             List<string> unresolved = references
                 .Where(r => !DefXml.DefNamesOfType(r.Type).Contains(r.Name))
@@ -62,7 +62,7 @@ namespace CaravansCriticallyEnhanced.Tests
                 .SelectMany(t => t.GetFields(BindingFlags.Public | BindingFlags.Static))
                 .ToList();
 
-            Assert.That(fields.Count, Is.EqualTo(1), "Fields on the mod's [DefOf] classes.");
+            Assert.That(fields.Count, Is.EqualTo(2), "Fields on the mod's [DefOf] classes.");
 
             List<string> unbound = fields
                 .Where(f => !DefXml.DefNamesOfType(f.FieldType.Name).Contains(f.Name))

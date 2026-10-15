@@ -60,6 +60,14 @@ applies; `LoadingCompletion` reads the lord for it, asking vanilla's own `FindTh
 any undrafted member would fetch something, and from the lord job's tick takes expired items off
 the list once a fresh look confirms nobody started hauling meanwhile.
 
+The Load column's second giver leads pen animals the same way: a scanner with no thing request over
+`AnimalGatherIndex`, the rope animals of every vanilla forming lord that is gathering animals, and a
+job of its own whose driver subclasses vanilla's `JobDriver_RopeToDestination`. Vanilla's own
+gather-animals driver reads its destination from the roper's duty, which a helper does not have, so
+this one carries the spot as target B. The base class supplies the walk, the opportunistic pick-up
+and the finish action that drops every rope, and a fail condition ends the job when the caravan
+moves on, so a helper never holds an animal into the collect stage.
+
 The first load of a save made without the mod also puts back the work priorities of mods loaded
 after it, which the inserted work type shifts along by one, and then copies each pawn's hauling
 priority into Load.

@@ -99,9 +99,18 @@ namespace CaravansCriticallyEnhanced.Tests
                 }
             }
 
-            // The positive control: the work giver the mod registers is found on both sides.
-            Assert.That(declared, Does.Contain("CaravansCriticallyEnhanced.Jobs.WorkGiver_CCE_LoadCaravan"));
-            Assert.That(named, Does.Contain("CaravansCriticallyEnhanced.Jobs.WorkGiver_CCE_LoadCaravan"));
+            // The positive control: the work givers and the job driver the mod registers are found on
+            // both sides.
+            foreach (string cls in new[]
+            {
+                "CaravansCriticallyEnhanced.Jobs.WorkGiver_CCE_LoadCaravan",
+                "CaravansCriticallyEnhanced.Jobs.WorkGiver_CCE_RopeCaravanAnimals",
+                "CaravansCriticallyEnhanced.Jobs.JobDriver_CCE_RopeAnimalToCaravan",
+            })
+            {
+                Assert.That(declared, Does.Contain(cls));
+                Assert.That(named, Does.Contain(cls));
+            }
 
             Assert.That(declared.Where(name => !named.Contains(name)).ToList(), Is.Empty,
                 "These classes can only be built from a def and no shipped def names them.");

@@ -74,5 +74,6 @@
   <CaravansCriticallyEnhanced_NoCarrier>キャラバン隊に運べる者がいない</CaravansCriticallyEnhanced_NoCarrier>
   <CaravansCriticallyEnhanced_LoadingSkippedBlocked>編成中のキャラバン隊では{0}の間、一部のアイテムを誰も回収できなかったため、それらを置いて出発します：{1}。</CaravansCriticallyEnhanced_LoadingSkippedBlocked>
   <CaravansCriticallyEnhanced_LoadingGaveUp>編成中のキャラバン隊では{0}の間、何も積み込まれなかったため、次のアイテムを置いて出発します：{1}。</CaravansCriticallyEnhanced_LoadingGaveUp>
+  <CaravansCriticallyEnhanced_SpotOutsideArea>キャラバンスポットが制限ゾーンの外にある</CaravansCriticallyEnhanced_SpotOutsideArea>
 
 </LanguageData>

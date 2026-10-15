@@ -41,6 +41,7 @@ namespace CaravansCriticallyEnhanced.Tests
         private static readonly string[] ExpectedPatchClasses =
         {
             "Patch_CaravanFormingUtility_AllItemsLoadedOntoCaravan",
+            "Patch_CaravanFormingUtility_StopFormingCaravan",
             "Patch_JobDriver_PrepareCaravan_GatherItems_IsUsableCarrier",
             "Patch_JobDriver_PrepareCaravan_GatherItems_MakeNewToils",
             "Patch_LordJob_FormAndSendCaravan_LordJobTick",

@@ -74,5 +74,6 @@
   <CaravansCriticallyEnhanced_NoCarrier>personne dans la caravane ne peut l'emporter</CaravansCriticallyEnhanced_NoCarrier>
   <CaravansCriticallyEnhanced_LoadingSkippedBlocked>Personne dans la caravane en formation n'a pu récupérer certains objets pendant {0}, elle partira donc sans eux : {1}.</CaravansCriticallyEnhanced_LoadingSkippedBlocked>
   <CaravansCriticallyEnhanced_LoadingGaveUp>La caravane en formation n'a rien chargé pendant {0}, elle partira donc sans les objets suivants : {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
+  <CaravansCriticallyEnhanced_SpotOutsideArea>l'emplacement de la caravane est en dehors de la zone autorisée</CaravansCriticallyEnhanced_SpotOutsideArea>
 
 </LanguageData>

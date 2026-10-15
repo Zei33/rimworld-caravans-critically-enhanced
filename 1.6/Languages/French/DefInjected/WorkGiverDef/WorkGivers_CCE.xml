@@ -5,4 +5,8 @@
   <CCE_LoadCaravan.verb>charger</CCE_LoadCaravan.verb>
   <CCE_LoadCaravan.gerund>charge</CCE_LoadCaravan.gerund>
 
+  <CCE_RopeAnimalsToCaravan.label>attacher les animaux pour les caravanes</CCE_RopeAnimalsToCaravan.label>
+  <CCE_RopeAnimalsToCaravan.verb>attacher</CCE_RopeAnimalsToCaravan.verb>
+  <CCE_RopeAnimalsToCaravan.gerund>attache</CCE_RopeAnimalsToCaravan.gerund>
+
 </LanguageData>

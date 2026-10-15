@@ -18,6 +18,9 @@ namespace CaravansCriticallyEnhanced.Core
         /// <summary>The Load work type, the column next to Haul.</summary>
         public static WorkTypeDef CCE_Loading;
 
+        /// <summary>A helper leading a caravan's animal to the gathering spot.</summary>
+        public static JobDef CCE_RopeAnimalToCaravan;
+
         /// <summary>
         /// Ensures the fields are bound, as every <c>[DefOf]</c> class does.
         /// </summary>

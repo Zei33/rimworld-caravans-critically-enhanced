@@ -5,4 +5,8 @@
   <CCE_LoadCaravan.verb>cargar</CCE_LoadCaravan.verb>
   <CCE_LoadCaravan.gerund>cargar</CCE_LoadCaravan.gerund>
 
+  <CCE_RopeAnimalsToCaravan.label>llevar con soga a los animales para las caravanas</CCE_RopeAnimalsToCaravan.label>
+  <CCE_RopeAnimalsToCaravan.verb>llevar con soga</CCE_RopeAnimalsToCaravan.verb>
+  <CCE_RopeAnimalsToCaravan.gerund>llevar con soga</CCE_RopeAnimalsToCaravan.gerund>
+
 </LanguageData>

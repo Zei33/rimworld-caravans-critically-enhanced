@@ -5,4 +5,8 @@
   <CCE_LoadCaravan.verb>を 荷積み</CCE_LoadCaravan.verb>
   <CCE_LoadCaravan.gerund>を 荷積みする</CCE_LoadCaravan.gerund>
 
+  <CCE_RopeAnimalsToCaravan.label>キャラバン隊の家畜を誘導</CCE_RopeAnimalsToCaravan.label>
+  <CCE_RopeAnimalsToCaravan.verb>を誘導</CCE_RopeAnimalsToCaravan.verb>
+  <CCE_RopeAnimalsToCaravan.gerund>を誘導する</CCE_RopeAnimalsToCaravan.gerund>
+
 </LanguageData>

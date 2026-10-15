@@ -74,5 +74,6 @@
   <CaravansCriticallyEnhanced_NoCarrier>ninguém na caravana pode levar isso</CaravansCriticallyEnhanced_NoCarrier>
   <CaravansCriticallyEnhanced_LoadingSkippedBlocked>Ninguém na caravana em formação conseguiu pegar alguns itens por {0}, então ela vai partir sem eles: {1}.</CaravansCriticallyEnhanced_LoadingSkippedBlocked>
   <CaravansCriticallyEnhanced_LoadingGaveUp>A caravana em formação não carregou nada por {0}, então vai partir sem os seguintes itens: {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
+  <CaravansCriticallyEnhanced_SpotOutsideArea>o ponto de encontro da caravana está fora da área permitida</CaravansCriticallyEnhanced_SpotOutsideArea>
 
 </LanguageData>

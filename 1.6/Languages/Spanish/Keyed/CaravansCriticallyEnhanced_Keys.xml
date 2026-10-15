@@ -74,5 +74,6 @@
   <CaravansCriticallyEnhanced_NoCarrier>nadie en la caravana puede llevar eso</CaravansCriticallyEnhanced_NoCarrier>
   <CaravansCriticallyEnhanced_LoadingSkippedBlocked>Nadie en la caravana en formación pudo recoger algunos objetos durante {0}, así que saldrá sin ellos: {1}.</CaravansCriticallyEnhanced_LoadingSkippedBlocked>
   <CaravansCriticallyEnhanced_LoadingGaveUp>La caravana en formación no cargó nada durante {0}, así que saldrá sin lo siguiente: {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
+  <CaravansCriticallyEnhanced_SpotOutsideArea>el punto de caravana está fuera del área permitida</CaravansCriticallyEnhanced_SpotOutsideArea>
 
 </LanguageData>

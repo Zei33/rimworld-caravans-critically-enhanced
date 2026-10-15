@@ -5,4 +5,8 @@
   <CCE_LoadCaravan.verb>装载</CCE_LoadCaravan.verb>
   <CCE_LoadCaravan.gerund>装载</CCE_LoadCaravan.gerund>
 
+  <CCE_RopeAnimalsToCaravan.label>为远行队牵引动物</CCE_RopeAnimalsToCaravan.label>
+  <CCE_RopeAnimalsToCaravan.verb>牵引</CCE_RopeAnimalsToCaravan.verb>
+  <CCE_RopeAnimalsToCaravan.gerund>牵引</CCE_RopeAnimalsToCaravan.gerund>
+
 </LanguageData>

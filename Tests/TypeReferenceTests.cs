@@ -48,8 +48,8 @@ namespace CaravansCriticallyEnhanced.Tests
                 }
             }
 
-            // Positive control: one work giver at Slice 1.
-            Assert.That(references.Count, Is.EqualTo(1));
+            // Positive control: two work givers and one job driver at Slice 2.
+            Assert.That(references.Count, Is.EqualTo(3));
 
             List<string> failures = references
                 .Select(r => (r, Type: Resolve(r.Name)))

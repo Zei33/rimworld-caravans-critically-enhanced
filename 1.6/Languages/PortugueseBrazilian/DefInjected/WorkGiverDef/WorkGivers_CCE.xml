@@ -5,4 +5,8 @@
   <CCE_LoadCaravan.verb>carregar</CCE_LoadCaravan.verb>
   <CCE_LoadCaravan.gerund>carregando</CCE_LoadCaravan.gerund>
 
+  <CCE_RopeAnimalsToCaravan.label>atagem de animais para caravanas</CCE_RopeAnimalsToCaravan.label>
+  <CCE_RopeAnimalsToCaravan.verb>atar</CCE_RopeAnimalsToCaravan.verb>
+  <CCE_RopeAnimalsToCaravan.gerund>atando</CCE_RopeAnimalsToCaravan.gerund>
+
 </LanguageData>

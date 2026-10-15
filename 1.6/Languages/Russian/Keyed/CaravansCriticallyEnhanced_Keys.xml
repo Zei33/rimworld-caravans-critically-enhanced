@@ -74,5 +74,6 @@
   <CaravansCriticallyEnhanced_NoCarrier>никто в караване не может это взять</CaravansCriticallyEnhanced_NoCarrier>
   <CaravansCriticallyEnhanced_LoadingSkippedBlocked>Никто в собирающемся караване не смог забрать некоторые вещи (время ожидания: {0}), поэтому караван уйдёт без них: {1}.</CaravansCriticallyEnhanced_LoadingSkippedBlocked>
   <CaravansCriticallyEnhanced_LoadingGaveUp>Собирающийся караван ничего не погрузил (время ожидания: {0}), поэтому уйдёт без этих вещей: {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
+  <CaravansCriticallyEnhanced_SpotOutsideArea>место сбора каравана находится вне доступной области</CaravansCriticallyEnhanced_SpotOutsideArea>
 
 </LanguageData>

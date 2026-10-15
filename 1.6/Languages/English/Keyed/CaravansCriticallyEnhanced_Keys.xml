@@ -74,5 +74,6 @@
   <CaravansCriticallyEnhanced_NoCarrier>nobody in the caravan can take it</CaravansCriticallyEnhanced_NoCarrier>
   <CaravansCriticallyEnhanced_LoadingSkippedBlocked>Nobody in the forming caravan could take some items for {0}, so it will leave without them: {1}.</CaravansCriticallyEnhanced_LoadingSkippedBlocked>
   <CaravansCriticallyEnhanced_LoadingGaveUp>The forming caravan loaded nothing for {0}, so it will leave without: {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
+  <CaravansCriticallyEnhanced_SpotOutsideArea>the caravan's spot is outside the allowed area</CaravansCriticallyEnhanced_SpotOutsideArea>
 
 </LanguageData>

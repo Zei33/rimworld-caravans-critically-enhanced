@@ -5,4 +5,8 @@
   <CCE_LoadCaravan.verb>załaduj</CCE_LoadCaravan.verb>
   <CCE_LoadCaravan.gerund>ładowanie</CCE_LoadCaravan.gerund>
 
+  <CCE_RopeAnimalsToCaravan.label>uwiązuj zwierzęta dla karawan</CCE_RopeAnimalsToCaravan.label>
+  <CCE_RopeAnimalsToCaravan.verb>uwiąż</CCE_RopeAnimalsToCaravan.verb>
+  <CCE_RopeAnimalsToCaravan.gerund>uwiązywanie</CCE_RopeAnimalsToCaravan.gerund>
+
 </LanguageData>

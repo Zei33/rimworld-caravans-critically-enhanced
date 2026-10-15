@@ -63,6 +63,8 @@ Measured, not assumed:
 | `WorkGiverSurfaceTests` | No thing request; every scan entry point declared on the class; both answer from `JobFor`, which goes through the memo; `BuildJob` checks in order, carrier second, and reads `JobDefOf.PrepareCaravan_GatherItems` and stores `Job.lord`; `ShouldSkip` reads the lord and the Load and early-loading switches, and forgets what it held when nothing is open; `PotentialWorkThingsGlobal` exits early before building the set |
 | `LoadingPatchBodyTests` | Each patch body still hands over to its decision, the helper's fail condition included, which sits in a hoisted lambda; which switches each body reads, by opcode (`ToggleReads`); the guard's reader through every pure rule, in order; the migration reading its flag, realigning first, and its node name as a literal; the patches applied class by class |
 | `FormingStagesTests` (Slice 1 additions) | Where helpers may carry on: both gathering stages and their pauses, nothing else |
+| `RopeCandidatesTests` | Which animals wait to be led: the whole truth table has one yes, and only the gathering stage itself counts |
+| `RopeJobSurfaceTests` | The index asking the candidate rule with the real stage about animals only, and reading the spot from the animal's duty; the rope giver above the Load giver and never to mechs; the cancel prefix ending the helpers' rope jobs; the rope giver's shape as the Load giver's (no thing request, own entry points, one memoised decision, early exit, skipping on colonist, lord, switch and gathering, forgetting when idle), its checks in order, the job def and `Job.lord`; the driver a rope driver, each hook declared, arrival against target B, tying at the spot, pick-ups by the search rule, and the fail condition ahead of the base toils reading the map's lord list and the stage |
 | `PatchTargetTests` | Every patch class resolved the way Harmony will, every parameter bound by name, one class per target, the guard running last, the injected private fields |
 | `LoadingDefsTests` | The Load column directly left of Haul against every shipped work type; Hauling's tags; the mech patch matching the Lifter alone in the shipped game |
 | `DefReferenceTests`, `TypeReferenceTests` | Every defName and class the mod's XML names resolves to the right type; the DefOf field binds; every def carries the prefix |
@@ -149,6 +151,52 @@ Ten of the first twelve passed every test before the review; all are caught now.
 | Empty rows no longer cleared on the lord tick | `RowsWithNothingLeftAreClearedSoVanillasListCannotThrow` |
 | Every class handed to Harmony, not only those with a Harmony attribute | `ThePatchesAreAppliedClassByClassAndNeverAllAtOnce` |
 
+Mutations measured on Slice 2, all caught:
+
+| Mutation | Caught by |
+|---|---|
+| Candidates accepted in the gathering pause too | `OnlyTheGatheringStageItselfCounts` |
+| Animals that walk by themselves accepted | `AnAnimalThatWalksByItselfIsNot` |
+| Animals already on a rope accepted | `AnAnimalAlreadyOnSomebodysRopeIsNot` |
+| The rope giver no longer skipping non-colonists | `SkippingIsDecidedByTheSettingTheColonistTheMembershipAndTheGathering` |
+| The rope giver keeping its memo when nothing gathers | `SkippingIsDecidedByTheSettingTheColonistTheMembershipAndTheGathering` |
+| The rope giver ignoring its switch | `SkippingIsDecidedByTheSettingTheColonistTheMembershipAndTheGathering` |
+| The spot's area no longer checked | `TheJobDecisionChecksInTheOrderTheReasonsNeed` |
+| `job.lord` no longer set on the rope job | `TheJobIsTheModsRopeJobPointedAtTheAnimalsCaravan` |
+| An arrived animal tied at its duty's spot | `AnArrivedAnimalIsTiedAtTheSpot` |
+| The fail condition no longer added | `TheToilsAreTheBaseToilsBehindOneFailCondition` |
+| A removed lord no longer ending the job | `TheFailConditionAsksWhetherTheCaravanIsStillGathering` |
+| Pick-ups no longer obeying the search rule | `PickingUpOnTheWayObeysTheSearchRule` |
+| The search set always empty | `TheSearchSetHasItsOwnEarlyExitBeforeTheSetIsBuilt` |
+| The rope work giver def naming the Load giver's class | `TheDefsPointAtTheseClasses` |
+
+After the Slice 2 audit, which showed the same defects one layer up, in the index that reads the
+game, passed every test:
+
+| Mutation | Caught by |
+|---|---|
+| The index no longer asking the candidate rule | `TheIndexAppliesTheCandidateRuleToEachAnimal` |
+| The index passing a constant gathering stage, so helpers start in the pause | `TheIndexAppliesTheCandidateRuleToEachAnimal` |
+| "Tied" read as tied to any spot in the index | `TheIndexAppliesTheCandidateRuleToEachAnimal` |
+| The index no longer limited to animals | `TheIndexAppliesTheCandidateRuleToEachAnimal` |
+| The destination no longer read from the animal's duty | `TheDestinationIsTheAnimalsOwnDutySpot` |
+| Pick-ups no longer limited to the job's caravan | `PickingUpOnTheWayObeysTheSearchRule` |
+| Pick-ups ignoring the helper's area | `PickingUpOnTheWayObeysTheSearchRule` |
+| An animal taken out of the caravan on the way tied at the spot anyway | `AnArrivedAnimalIsTiedAtTheSpot` |
+| `canBeDoneByMechs` false removed from the rope giver | `TheRopeGiverComesBeforeLoadingAndNeverToMechs` |
+| The rope giver below the Load giver in the column | `TheRopeGiverComesBeforeLoadingAndNeverToMechs` |
+| The cancel prefix no longer letting go | `CancellingACaravanEndsItsHelpersRopeJobsBeforeVanillaRuns` |
+| `LetGoFor` no longer ending the jobs | `CancellingACaravanEndsItsHelpersRopeJobsBeforeVanillaRuns` |
+| A forced ask taking an animal's reservation over from a member | `ARightClickNeverTakesAnAnimalOverFromAnotherPawn` |
+| A cancel ending current rope jobs only, leaving queued ones holding their reservations | `CancellingACaravanEndsItsHelpersRopeJobsBeforeVanillaRuns` |
+| A cancel ending other caravans' rope jobs too | `CancellingACaravanEndsItsHelpersRopeJobsBeforeVanillaRuns` |
+| The destination trusting this tick's set instead of asking the rule again | `TheDestinationIsTheAnimalsOwnDutySpot` |
+
+Cost-only, and not pinned: disabling the index's cache, keying it on the tick alone, or letting
+`AnyGathering` accept any stage all pass, and are for the profiler checks (12 and 26). Also not
+pinned: `LetGoFor` ending the helpers' jobs without starting new ones in the same tick (check 21);
+the call's last argument is the pool flag, so the walker cannot see the start flag.
+
 Not pinned, because the walker reads calls and not control flow, and so left to the in-game checks:
 `LetGo` skipping a row with no things (check 13), the lord tick's `finally` that clears a verdict
 even when letting go throws, and the refusal reasons being built only for a forced ask.
@@ -230,3 +278,34 @@ looked. Dev mode on. Record the date, the build and what was seen beside each ch
     keeps its own priorities per work giver and per hour, and the copy reads vanilla's raw value.
 18. **A pawn in another lord.** A colonist assigned to a quest's defend-point lord takes no Load job
     and nothing logs an `InvalidCastException`.
+
+### Slice 2
+
+19. **Fifteen distant muffalo.** Form a caravan of two colonists and fifteen muffalo grazing in a
+    pen across the map, with four colonists not going who have Load on. The helpers lead muffalo,
+    several at a time, tie them at the spot, and gathering finishes well before the two members
+    could have done it alone. An elephant in the same caravan walks over by itself and is never
+    roped by a helper. Turn off "Helpers bring pen animals": only the members fetch.
+20. **Force depart mid-gathering.** While helpers are leading animals, Force depart: every helper
+    lets go at once, the animals walk to the exit with the caravan as they do when its members let
+    go, and the caravan leaves without stalling.
+21. **Cancel mid-gathering.** While helpers are leading animals, cancel the caravan: the helpers let
+    go at once, and the caravan's colonists lead every pen animal back to the pen, the ones the
+    helpers held included. Animals already tied at the spot stay tied, as in vanilla. Repeat with a
+    helper walking to a far muffalo (its rope job is often queued behind a haul it picked up on the
+    way): no red "Could not reserve" error, and every animal is still penned.
+22. **Removed on the way.** While a helper leads a muffalo, remove that muffalo from the caravan in
+    its tab: the helper lets it go at the spot rather than tying it there.
+23. **Area on the way.** A helper restricted to an area roping a muffalo inside it does not pick up
+    a second one just outside it.
+24. **A mental break while animals gather.** A member breaks while a helper is mid-way with a
+    muffalo: the helper finishes, the muffalo is tied at the spot, not let loose, and gathering
+    resumes after the break.
+25. **Prioritize and the area.** Right-click a caravan muffalo with a colonist not going:
+    "Prioritize roping" works. On a muffalo a member is walking to, the option is greyed with
+    "reserved by" that member, and the member's rope train stays together. Restrict that
+    colonist to an area that excludes the caravan's spot:
+    the option is greyed with "the caravan's spot is outside the allowed area". A caravan member, a
+    guest and a colony mech never get the option.
+26. **Cost.** As check 12, while a caravan with twenty pen animals is gathering them: no measurable
+    difference with "Helpers bring pen animals" on and off.

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    A helper leading a caravan's animal to the gathering spot. Vanilla's PrepareCaravan_GatherAnimals
+    with its own driver, because vanilla's reads the spot from the roper's duty and a helper has none.
+    The other fields are copied from the vanilla def.
+  -->
+  <JobDef>
+    <defName>CCE_RopeAnimalToCaravan</defName>
+    <driverClass>CaravansCriticallyEnhanced.Jobs.JobDriver_CCE_RopeAnimalToCaravan</driverClass>
+    <reportString>leading TargetA to caravan spot.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>

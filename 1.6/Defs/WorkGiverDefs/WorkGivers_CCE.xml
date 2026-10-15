@@ -20,4 +20,26 @@
     </requiredCapacities>
   </WorkGiverDef>
 
+  <!--
+    Leads a forming caravan's pen animals to its gathering spot. Ahead of loading in the Load column,
+    because the caravan gathers its animals before its items. Only colonists rope animals in vanilla,
+    so mechs are kept off it here as well as in the giver's ShouldSkip. The verb, gerund and
+    capacities are vanilla TakeToPen's, so the right-click option reads as vanilla's roping does.
+    TakeToPen's prioritizeSustains is left out: JobGiver_Work acts on it only for a giver whose thing
+    request accepts the prioritised thing, and this giver has no thing request.
+  -->
+  <WorkGiverDef>
+    <defName>CCE_RopeAnimalsToCaravan</defName>
+    <label>rope animals for caravans</label>
+    <giverClass>CaravansCriticallyEnhanced.Jobs.WorkGiver_CCE_RopeCaravanAnimals</giverClass>
+    <workType>CCE_Loading</workType>
+    <verb>rope</verb>
+    <gerund>roping</gerund>
+    <priorityInType>120</priorityInType>
+    <canBeDoneByMechs>false</canBeDoneByMechs>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
 </Defs>
