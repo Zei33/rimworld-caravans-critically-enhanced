@@ -76,4 +76,16 @@
   <CaravansCriticallyEnhanced_LoadingGaveUp>组建中的远行队在{0}内没有装载任何物品，因此将不带以下物品出发：{1}。</CaravansCriticallyEnhanced_LoadingGaveUp>
   <CaravansCriticallyEnhanced_SpotOutsideArea>远行点位于允许活动区域外</CaravansCriticallyEnhanced_SpotOutsideArea>
 
+  <!-- Leads -->
+  <CaravansCriticallyEnhanced_DropLead>松开牵引</CaravansCriticallyEnhanced_DropLead>
+  <CaravansCriticallyEnhanced_DropLeadDesc>松开该殖民者正在牵引的一只动物。若同时牵引多只，可选择松开哪一只，或全部松开。</CaravansCriticallyEnhanced_DropLeadDesc>
+  <CaravansCriticallyEnhanced_DropLeadOf>{1}牵引的{0}</CaravansCriticallyEnhanced_DropLeadOf>
+  <CaravansCriticallyEnhanced_DropLeadAll>全部</CaravansCriticallyEnhanced_DropLeadAll>
+  <CaravansCriticallyEnhanced_TakeLead>牵起{0}</CaravansCriticallyEnhanced_TakeLead>
+  <CaravansCriticallyEnhanced_TakeLeadNotMember>不随此远行队出发</CaravansCriticallyEnhanced_TakeLeadNotMember>
+  <CaravansCriticallyEnhanced_LeadReleasedHungry>{1}过于饥饿，无法继续跟随，{0}松开了它。</CaravansCriticallyEnhanced_LeadReleasedHungry>
+  <CaravansCriticallyEnhanced_LeadReleasedTired>{1}过于疲劳，无法继续跟随，{0}松开了它。</CaravansCriticallyEnhanced_LeadReleasedTired>
+  <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0}松开了牵引的动物。只有在被征召时，或正在将动物引导至远行点或出口时，才会保持牵引。</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
+  <CaravansCriticallyEnhanced_LeadRecollecting>{0}无法自行到达远行队的出口，因此远行队重新开始召集动物。</CaravansCriticallyEnhanced_LeadRecollecting>
+
 </LanguageData>

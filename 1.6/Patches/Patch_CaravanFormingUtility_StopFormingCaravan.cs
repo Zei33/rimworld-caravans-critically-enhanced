@@ -1,6 +1,7 @@
 using System;
 using CaravansCriticallyEnhanced.Core;
 using CaravansCriticallyEnhanced.Jobs;
+using CaravansCriticallyEnhanced.Utils;
 using HarmonyLib;
 using RimWorld.Planet;
 using Verse;
@@ -12,9 +13,10 @@ namespace CaravansCriticallyEnhanced.Patches
     /// Cancelling a forming caravan: everything the mod has to undo before vanilla takes it apart.
     /// </summary>
     /// <remarks>
-    /// One prefix for every feature with something to undo here. So far that is the animal helpers,
-    /// who let go so that vanilla can lead every pen animal home with the caravan's colonists; see
-    /// <see cref="JobDriver_CCE_RopeAnimalToCaravan.LetGoFor"/>.
+    /// One prefix for every feature with something to undo here. So far that is the animal helpers
+    /// and drafted members holding leads, who all let go so that vanilla can lead every pen animal
+    /// home with the caravan's colonists; see <see cref="JobDriver_CCE_RopeAnimalToCaravan.LetGoFor"/>
+    /// and <see cref="LeadUtility.LetGoForCancelled"/>.
     /// </remarks>
     [HarmonyPatch(typeof(CaravanFormingUtility), nameof(CaravanFormingUtility.StopFormingCaravan))]
     public static class Patch_CaravanFormingUtility_StopFormingCaravan
@@ -38,6 +40,7 @@ namespace CaravansCriticallyEnhanced.Patches
             try
             {
                 JobDriver_CCE_RopeAnimalToCaravan.LetGoFor(lord);
+                LeadUtility.LetGoForCancelled(lord);
             }
             catch (Exception exception)
             {

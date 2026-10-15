@@ -68,6 +68,21 @@ this one carries the spot as target B. The base class supplies the walk, the opp
 and the finish action that drops every rope, and a fail condition ends the job when the caravan
 moves on, so a helper never holds an animal into the collect stage.
 
+Keeping leads while drafted is four patches that have to agree, because vanilla cuts a drafted
+roper's leads in four places: drafting ends the rope job, whose finish action drops the ropes; the
+rope tick breaks a drafted roper's ropes; it breaks them again for a roper not in a rope job; and the
+follow giver gives an animal nothing to do unless its roper is in a rope job. The draft setter opens
+a `LeadKeepScope` that the `DropRopes` prefix honours, the rope tick prefix takes over for a held
+roper, and the follow giver postfix hands out vanilla's own follow job. `LeadPolicy` decides each of
+those, and `LeadUtility` reads the roper for it.
+
+Two pieces exist because of where vanilla puts things. The message that undrafting dropped the leads
+is posted by the rope tick, not the draft setter: a mental break undrafts before it is recorded, so
+the setter leaves a `LeadUndraftNotices` entry and the next rope tick, which can tell, posts it or
+not. And the shared lord tick postfix, after the loading pass, sends a leaving caravan back to
+collecting when a pen animal let go there cannot reach the exit and every loose one would be
+fetched, because vanilla's leaving stage has no timeout and nothing else would ever end the wait.
+
 The first load of a save made without the mod also puts back the work priorities of mods loaded
 after it, which the inserted work type shifts along by one, and then copies each pawn's hauling
 priority into Load.

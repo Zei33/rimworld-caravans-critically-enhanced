@@ -2,5 +2,6 @@
 <LanguageData>
 
   <CCE_RopeAnimalToCaravan.reportString>ведёт TargetA к месту сбора каравана</CCE_RopeAnimalToCaravan.reportString>
+  <CCE_TakeLead.reportString>берёт на привязь TargetA</CCE_TakeLead.reportString>
 
 </LanguageData>

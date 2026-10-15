@@ -63,6 +63,9 @@ Measured, not assumed:
 | `WorkGiverSurfaceTests` | No thing request; every scan entry point declared on the class; both answer from `JobFor`, which goes through the memo; `BuildJob` checks in order, carrier second, and reads `JobDefOf.PrepareCaravan_GatherItems` and stores `Job.lord`; `ShouldSkip` reads the lord and the Load and early-loading switches, and forgets what it held when nothing is open; `PotentialWorkThingsGlobal` exits early before building the set |
 | `LoadingPatchBodyTests` | Each patch body still hands over to its decision, the helper's fail condition included, which sits in a hoisted lambda; which switches each body reads, by opcode (`ToggleReads`); the guard's reader through every pure rule, in order; the migration reading its flag, realigning first, and its node name as a literal; the patches applied class by class |
 | `FormingStagesTests` (Slice 1 additions) | Where helpers may carry on: both gathering stages and their pauses, nothing else |
+| `LeadPolicyTests` | Who keeps leads (one yes in the whole table), vanilla's other breaking conditions, releasing an animal at every hunger and rest level, the auto-undraft, the stages where undrafting resumes, the drop button, the take-lead checks in order |
+| `LeadKeepScopeTests` | Push, pop, nesting, the same pawn twice, popping a pawn never pushed |
+| `LeadPatchBodyTests` | The rope tick leaving first for a pawn leading nothing, then the policy, the fatal break, needs and speed in order; the readers through the policy (and not reading drafted as fatal); the draft setter's scope and its finalizer closing it first; `DropRopes` refused only inside the scope and while spawned; the previous roper let go; vanilla's follow job; the auto-undraft and stage-change patches through the policy and the switch; the gizmo, button, menu option and take-lead driver to their rules |
 | `RopeCandidatesTests` | Which animals wait to be led: the whole truth table has one yes, and only the gathering stage itself counts |
 | `RopeJobSurfaceTests` | The index asking the candidate rule with the real stage about animals only, and reading the spot from the animal's duty; the rope giver above the Load giver and never to mechs; the cancel prefix ending the helpers' rope jobs; the rope giver's shape as the Load giver's (no thing request, own entry points, one memoised decision, early exit, skipping on colonist, lord, switch and gathering, forgetting when idle), its checks in order, the job def and `Job.lord`; the driver a rope driver, each hook declared, arrival against target B, tying at the spot, pick-ups by the search rule, and the fail condition ahead of the base toils reading the map's lord list and the stage |
 | `PatchTargetTests` | Every patch class resolved the way Harmony will, every parameter bound by name, one class per target, the guard running last, the injected private fields |
@@ -197,6 +200,78 @@ Cost-only, and not pinned: disabling the index's cache, keying it on the tick al
 pinned: `LetGoFor` ending the helpers' jobs without starting new ones in the same tick (check 21);
 the call's last argument is the pool flag, so the walker cannot see the start flag.
 
+Mutations measured on Slice 3, all caught:
+
+| Mutation | Caught by |
+|---|---|
+| Leads kept outside a forming caravan | `OnlyADraftedCaravanColonistLeadingAnimalsIsHeld` |
+| Asleep no longer breaking the ropes | `EachOfVanillasOtherBreakingConditionsStillBreaks` |
+| Animals released only when starving | `AnAnimalIsLetGoOnlyWhenUrgentlyHungryOrExhausted` |
+| The auto-undraft spared for a drafted member holding nothing | `TheAutoUndraftIsSuppressedOnlyForALeadHolderInACaravan` |
+| Undrafting resuming in the gathering pause | `VanillaResumesLeadingOnlyInTheGatherAndCollectStages` |
+| A lone held animal getting a menu | `TheDropButtonDropsALoneAnimalAndOtherwiseOffersAMenu` |
+| The reservation no longer checked before taking a lead | `TakingALeadNeedsTheCaravanThenACellThenTheReservationThenThePath` |
+| Popping the oldest scope instead of the pawn's own | `ScopesNestAndAnotherPawnsScopeIsNotThisOnes` |
+| The rope tick no longer breaking on a fatal condition | `TheRopeTickStillBreaksOnVanillasOtherConditionsAndLooksAfterTheAnimals` |
+| The rope tick no longer releasing needy animals | `TheRopeTickStillBreaksOnVanillasOtherConditionsAndLooksAfterTheAnimals` |
+| `DropRopes` refused while despawned too | `DroppingRopesIsRefusedOnlyInsideTheScopeAndWhileSpawned` |
+| The draft finalizer no longer closing the scope | `DraftingOpensTheScopeAndTheFinalizerAlwaysClosesIt` |
+| The previous roper no longer let go | `RopingAnAnimalLetsItsPreviousRoperGoFirst` |
+| The follow job without vanilla's re-check on expiry | `AnAnimalFollowsADraftedRoperWithVanillasOwnJob` |
+| A stage change ending drafted members' jobs too | `AStageChangeEndsTheJobsOfUndraftedMembersOfVanillaCaravansOnly` |
+| Being drafted read as a breaking condition | `TheRopersReadingsGoThroughThePolicy` |
+| The drop button on pawns the player does not control | `TheGizmoPostfixAddsTheDropButtonWhereTheRuleSays` |
+| The drop button's click sound played once per holder (`alsoClickIfOtherInGroupClicked` left on; the menu is built once either way) | `TheDropButtonDecidesThroughThePolicyAndSoundsOnce` |
+| The take-lead job carrying on after the animal left the caravan | `TheTakeLeadJobRopesWithVanillasToilsAndFailsWhenItNoLongerApplies` |
+
+Measured after the two reviews of Slice 3, on the fixes they asked for and on the auditor's own
+mutations (`docs/caravans/wip/tools/muts-s3-fixes.json`, `muts-s3-review-fixes.json`,
+`muts-s3-review2.json` and the remeasured `muts-s3-audit*.json` in the workspace): 80 more, 59
+caught. The ones caught, in short:
+
+| Mutation | Caught by |
+|---|---|
+| A dog, or a starving animal outside the leaving stage, offered for taking; the stage not read | `OnlyARopeAnimalThatCouldKeepTheLeadCanBeTaken`, `ANeedyAnimalCanBeTakenOnlyWhileLeaving`, `TheTakeLeadOptionDecidesThroughThePolicyAndOrdersTheModsJob` |
+| The take-lead job's undraft or animal checks gone | `TheTakeLeadJobRopesWithVanillasToilsAndFailsWhenItNoLongerApplies` |
+| The let-go postfix ignoring the switch, a null animal, or the speed match | `ALetGoAnimalStopsFollowingAndNoLongerSetsThePace`, `TheLetGoPostfixIgnoresANullAnimal` |
+| A cancel no longer letting drafted holders go, or letting undrafted ones go too | `CancellingACaravanHasItsDraftedMembersLetGoBeforeVanillaLeadsTheAnimalsHome` |
+| The auto-undraft spared in gathering, collecting or leaving, or regardless of the stage | `TheAutoUndraftStillRescuesTheCaravanWhereAHolderWouldStallIt`, `TheAutoUndraftIsSuppressedThroughThePolicy` |
+| Needy animals let go while leaving | `NeedyAnimalsAreNotLetGoWhileLeaving`, `NeedyAnimalsAreLetGoWithAMessageAndTheRoperMatchesTheSlowest` |
+| The scope's pop moved below the early return, or popping a scope it did not open | `TheFinalizerClosesItsOwnScopeWhicheverWayThePawnWent`, `TheFinalizerLeavesAScopeItDidNotOpen` |
+| `DropRopes` refused outside the scope; every non-roper, or every roper not held, skipping vanilla | `DroppingRopesRunsVanillaOutsideTheScopeAndForAnUnspawnedPawnInsideIt`, `TheRopeTickHandsEveryRoperTheModDoesNotHoldToVanilla` |
+| `KeepsLeads` reading the settings before the cheap exits | `TheRopersReadingsGoThroughThePolicy` |
+| Dead, burning or not in the caravan no longer read | `TheRopersReadingsGoThroughThePolicy` |
+| The follow job's expiry, the group-click setting or the needs interval changed | `AnAnimalFollowsADraftedRoperWithVanillasOwnJob`, `TheDropButtonDecidesThroughThePolicyAndSoundsOnce`, `TheRopeTickStillBreaksOnVanillasOtherConditionsAndLooksAfterTheAnimals` |
+| The undraft message ignoring the switch, posted from the setter, or shown for a break | `DraftingOpensTheScopeAndTheFinalizerAlwaysClosesIt`, `TheUndraftMessageWaitsForTheRopeTickThatDropsTheLeadsAndSkipsABreak` |
+| A notice kept past its window, from an older save, taken twice, or left behind | `LeadUndraftNoticesTests` (all four) |
+| A leaving caravan going back in another stage, for a led or walking animal, when nobody would fetch it, without the memo, with a misspelt memo, or not at all | `OnlyALeavingCaravanWatchesForStrandedAnimals`, `APenAnimalIsStrandedWhenNobodyInTheCaravanLeadsItAndItCannotWalkOut`, `ALeavingCaravanGoesBackOnlyWhenCollectingCouldFinish`, `ALeavingCaravanGoesBackForAStrandedAnimalOnlyWhenAColonistWouldFetchIt` |
+| The scope's lookup skipping its first entry | `LeadKeepScopeTests` (four of them) |
+
+Not pinned, the 19 that survive, and each the kind the walker cannot see: control flow, a constant
+returned, or an argument. Each has the in-game check that covers it:
+
+- the rope tick prefix returning true after it handled a held roper, which turns the feature off
+  (check 27), or false from its `catch`, which only an exception reaches;
+- the draft prefix opening the scope on an undraft rather than a draft (checks 27 and 28);
+- the auto-undraft postfix's result inverted (check 31);
+- the stage-change prefix letting vanilla run as well, or its vanilla-lord test inverted (check 33);
+- the follow postfix overriding vanilla's own follow job, or its `KeepsLeads` test inverted (check 27);
+- `CreateRope`'s duplicate guard inverted (check 30);
+- the let-go postfix ending a follow job aimed at somebody else, or `ForgetSpeedOf` clearing the
+  wrong animal's speed match (check 29);
+- the speed match picking the fastest animal (check 27);
+- the needy release's test inverted, its loop run forwards while it removes, or its leaving test
+  inverted (check 32);
+- the take-lead option's caravan test inverted (check 30);
+- `IsFatal`'s asleep reading inverted, which lets every awake holder go (check 27);
+- the drop button shown for a holder or a controlled pawn rather than both (check 29);
+- the stranded-animal pass forgetting that a loose animal could not be fetched, a store to a local
+  (check 37, its walled-in half).
+
+Two more are equivalent: `KeepsLeads` passing `true` for "leading anything" to the policy, which its
+own early exit has already made true; and `LeadUndraftNotices` not treating a collected pawn as
+expired, which differs only after a garbage collection, when nothing can match it anyway.
+
 Not pinned, because the walker reads calls and not control flow, and so left to the in-game checks:
 `LetGo` skipping a row with no things (check 13), the lord tick's `finally` that clears a verdict
 even when letting go throws, and the refusal reasons being built only for a forced ask.
@@ -309,3 +384,43 @@ looked. Dev mode on. Record the date, the build and what was seen beside each ch
     guest and a colony mech never get the option.
 26. **Cost.** As check 12, while a caravan with twenty pen animals is gathering them: no measurable
     difference with "Helpers bring pen animals" on and off.
+
+### Slice 3
+
+27. **Drafting mid-rope.** While a caravan member leads three muffalo to the spot, draft it: it
+    keeps all three, and they follow it wherever it is ordered, at the slowest one's pace with no
+    stop-start. With "Keep leads when drafted" off, drafting drops them, as in vanilla.
+28. **Undrafting in each stage.** Undraft a lead holder while animals are gathering: it walks on to
+    the spot with them. While animals are collected before leaving: the same. While items are
+    gathering, or during a pause: it lets go with a message.
+29. **Drop lead.** One held animal: the button lets it go at once, it stops following straight
+    away, and the colonist walks on at its own pace. Three held: a menu lists each and "All of them". Two colonists selected, each holding
+    animals: one button, one menu, rows saying who holds each.
+30. **Take the lead.** With two drafted members selected, right-click a caravan muffalo nobody leads:
+    the nearer one walks to it and takes its lead, untying it from the spot if tied. A drafted
+    colonist not going with the caravan gets the option greyed, "not going with this caravan". An
+    animal somebody is leading gets no option, nor does a dog, nor an urgently hungry muffalo until
+    the caravan is leaving. Undraft the colonist on its way: it stops.
+31. **A long hold.** Keep a lead holder drafted and idle for 10000 ticks with no enemy about while
+    items are gathering: it is not undrafted. A drafted colonist holding nothing still is, and so is
+    a holder while animals are gathered (it then leads them on to the spot) and while leaving.
+32. **A hungry animal.** Hold a muffalo until it is urgently hungry: it is let go with a message, and
+    goes to eat. A sleeping animal still breaks its own rope, as in vanilla.
+33. **A stage change.** While one member stands drafted holding animals and the others finish loading,
+    the caravan moves on: the drafted member's order is not cancelled.
+34. **Handlers.** A handler leading animals to a pen, drafted: it drops them, as in vanilla. A Load
+    helper leading caravan animals, drafted: it drops them too.
+35. **Despawn and departure.** A drafted lead holder entering a transport pod or leaving the map with
+    the caravan: no rope survives, and nothing is logged.
+36. **Cost.** With fifty pawns on the map and nobody leading anything, the rope tick patch costs
+    nothing measurable in the dev profiler; with three drafted lead holders, likewise.
+37. **Stranded while leaving.** While the caravan walks to the exit, have a drafted holder drop a
+    muffalo in a room behind an ordinary door or a fence gate, not an animal flap, which pen animals
+    open themselves. Within about 250 ticks a message says the caravan is collecting its animals
+    again; a colonist fetches the muffalo, the others retie theirs, and the caravan leaves. Drop one
+    in the open instead: it walks to the exit by itself and the caravan does not go back. With the
+    first one still shut in, wall a second one in where no colonist can reach: nothing happens, and
+    the caravan waits at the exit as vanilla's would.
+38. **A break while holding.** With dev mode, give a drafted lead holder a mental break while items
+    are gathering: the break's own letter and vanilla's "caravan formation paused" message, but no
+    "let go of the animals" message. Undraft one by hand in the same stage: that message, once.

@@ -76,4 +76,16 @@
   <CaravansCriticallyEnhanced_LoadingGaveUp>Собирающийся караван ничего не погрузил (время ожидания: {0}), поэтому уйдёт без этих вещей: {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
   <CaravansCriticallyEnhanced_SpotOutsideArea>место сбора каравана находится вне доступной области</CaravansCriticallyEnhanced_SpotOutsideArea>
 
+  <!-- Leads -->
+  <CaravansCriticallyEnhanced_DropLead>Отпустить животное</CaravansCriticallyEnhanced_DropLead>
+  <CaravansCriticallyEnhanced_DropLeadDesc>Отпустить животное, которое ведёт этот поселенец. Если он ведёт нескольких, выберите, какое отпустить, или отпустите всех.</CaravansCriticallyEnhanced_DropLeadDesc>
+  <CaravansCriticallyEnhanced_DropLeadOf>{0} (ведёт {1})</CaravansCriticallyEnhanced_DropLeadOf>
+  <CaravansCriticallyEnhanced_DropLeadAll>Все животные</CaravansCriticallyEnhanced_DropLeadAll>
+  <CaravansCriticallyEnhanced_TakeLead>Взять на привязь: {0}</CaravansCriticallyEnhanced_TakeLead>
+  <CaravansCriticallyEnhanced_TakeLeadNotMember>не уходит с этим караваном</CaravansCriticallyEnhanced_TakeLeadNotMember>
+  <CaravansCriticallyEnhanced_LeadReleasedHungry>{0} отпускает животное ({1}): оно слишком голодно, чтобы идти следом.</CaravansCriticallyEnhanced_LeadReleasedHungry>
+  <CaravansCriticallyEnhanced_LeadReleasedTired>{0} отпускает животное ({1}): оно слишком устало, чтобы идти следом.</CaravansCriticallyEnhanced_LeadReleasedTired>
+  <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0} отпускает животных. Поселенец держит животных на привязи, только пока он в режиме призыва или ведёт их к месту сбора каравана или к выходу.</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
+  <CaravansCriticallyEnhanced_LeadRecollecting>Животное ({0}) не может само дойти до точки выхода каравана, поэтому караван возвращается к сбору животных.</CaravansCriticallyEnhanced_LeadRecollecting>
+
 </LanguageData>

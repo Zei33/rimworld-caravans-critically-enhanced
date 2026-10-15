@@ -76,4 +76,16 @@
   <CaravansCriticallyEnhanced_LoadingGaveUp>編成中のキャラバン隊では{0}の間、何も積み込まれなかったため、次のアイテムを置いて出発します：{1}。</CaravansCriticallyEnhanced_LoadingGaveUp>
   <CaravansCriticallyEnhanced_SpotOutsideArea>キャラバンスポットが制限ゾーンの外にある</CaravansCriticallyEnhanced_SpotOutsideArea>
 
+  <!-- Leads -->
+  <CaravansCriticallyEnhanced_DropLead>誘導をやめる</CaravansCriticallyEnhanced_DropLead>
+  <CaravansCriticallyEnhanced_DropLeadDesc>この入植者が誘導している家畜を放します。複数を誘導している場合は、放す家畜を選ぶか、すべてを放せます。</CaravansCriticallyEnhanced_DropLeadDesc>
+  <CaravansCriticallyEnhanced_DropLeadOf>{1}が誘導している{0}</CaravansCriticallyEnhanced_DropLeadOf>
+  <CaravansCriticallyEnhanced_DropLeadAll>すべて</CaravansCriticallyEnhanced_DropLeadAll>
+  <CaravansCriticallyEnhanced_TakeLead>{0}を誘導する</CaravansCriticallyEnhanced_TakeLead>
+  <CaravansCriticallyEnhanced_TakeLeadNotMember>このキャラバン隊に参加していない</CaravansCriticallyEnhanced_TakeLeadNotMember>
+  <CaravansCriticallyEnhanced_LeadReleasedHungry>{1}は空腹でこれ以上ついて行けないため、{0}は誘導をやめました。</CaravansCriticallyEnhanced_LeadReleasedHungry>
+  <CaravansCriticallyEnhanced_LeadReleasedTired>{1}は疲れてこれ以上ついて行けないため、{0}は誘導をやめました。</CaravansCriticallyEnhanced_LeadReleasedTired>
+  <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0}は家畜の誘導をやめました。誘導が続くのは、徴兵中か、家畜をキャラバンスポットや出発地点へ誘導している間だけです。</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
+  <CaravansCriticallyEnhanced_LeadRecollecting>{0}は自力ではキャラバン隊の出発地点にたどり着けないため、キャラバン隊は再び家畜を集めています。</CaravansCriticallyEnhanced_LeadRecollecting>
+
 </LanguageData>

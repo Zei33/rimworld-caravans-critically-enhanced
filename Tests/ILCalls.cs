@@ -33,7 +33,7 @@ namespace CaravansCriticallyEnhanced.Tests
         /// <summary>
         /// Initializes an empty result, for a method with no body to read.
         /// </summary>
-        public WalkResult() : this(new List<MethodBase>(), new HashSet<ushort>(), new List<string>(), new List<FieldUse>(), new List<ushort>())
+        public WalkResult() : this(new List<MethodBase>(), new HashSet<ushort>(), new List<string>(), new List<FieldUse>(), new List<ushort>(), new List<int?>())
         {
         }
 
@@ -45,13 +45,15 @@ namespace CaravansCriticallyEnhanced.Tests
         /// <param name="strings">The string literals loaded, in IL order.</param>
         /// <param name="fields">The fields read and written, in IL order.</param>
         /// <param name="opcodeBeforeCall">For each entry of <paramref name="calls"/>, the opcode of the instruction just before it.</param>
-        public WalkResult(IList<MethodBase> calls, ISet<ushort> opcodes, IList<string> strings, IList<FieldUse> fields, IList<ushort> opcodeBeforeCall)
+        /// <param name="intBeforeCall">For each entry of <paramref name="calls"/>, the integer constant loaded just before it, if any.</param>
+        public WalkResult(IList<MethodBase> calls, ISet<ushort> opcodes, IList<string> strings, IList<FieldUse> fields, IList<ushort> opcodeBeforeCall, IList<int?> intBeforeCall)
         {
             Calls = calls;
             Opcodes = opcodes;
             Strings = strings;
             Fields = fields;
             OpcodeBeforeCall = opcodeBeforeCall;
+            IntBeforeCall = intBeforeCall;
         }
 
         /// <summary>
@@ -94,7 +96,7 @@ namespace CaravansCriticallyEnhanced.Tests
 
         /// <summary>
         /// Gets, for each call in <see cref="Calls"/>, the opcode of the instruction immediately before
-        /// it, or <c>0xFFFF</c> when the call is the first instruction.
+        /// it, or <c>0xFFFF</c> when the call is the first instruction or where a branch lands.
         /// </summary>
         /// <remarks>
         /// The one argument this walker can pin: the last value pushed before a call is its last
@@ -102,6 +104,18 @@ namespace CaravansCriticallyEnhanced.Tests
         /// <c>false</c> or <c>0</c>. Anything computed is invisible, as before.
         /// </remarks>
         public IList<ushort> OpcodeBeforeCall { get; }
+
+        /// <summary>
+        /// Gets, for each call in <see cref="Calls"/>, the integer the instruction immediately before
+        /// it loaded, or <c>null</c> when that instruction was not an integer constant or the call is
+        /// where a branch lands.
+        /// </summary>
+        /// <remarks>
+        /// <see cref="OpcodeBeforeCall"/> with the operand read too, so a literal above 8 can be pinned:
+        /// <c>ldc.i4.s</c> and <c>ldc.i4</c> share an opcode across every value they load. A
+        /// <c>const int</c> is inlined, so this is how a call is held to passing the constant.
+        /// </remarks>
+        public IList<int?> IntBeforeCall { get; }
     }
 
     /// <summary>
@@ -114,10 +128,12 @@ namespace CaravansCriticallyEnhanced.Tests
         /// </summary>
         /// <param name="field">The field.</param>
         /// <param name="isStore">Whether the instruction writes the field rather than reading it or its address.</param>
-        public FieldUse(FieldInfo field, bool isStore)
+        /// <param name="intBefore">The integer constant loaded by the instruction just before, if any.</param>
+        public FieldUse(FieldInfo field, bool isStore, int? intBefore)
         {
             Field = field;
             IsStore = isStore;
+            IntBefore = intBefore;
         }
 
         /// <summary>Gets the field.</summary>
@@ -125,6 +141,13 @@ namespace CaravansCriticallyEnhanced.Tests
 
         /// <summary>Gets whether the instruction writes the field.</summary>
         public bool IsStore { get; }
+
+        /// <summary>
+        /// Gets the integer the instruction just before loaded, or <c>null</c> when it was not an
+        /// integer constant or this instruction is where a branch lands. For a store this is the value
+        /// written when the value is a literal; a <c>bool</c> literal is 0 or 1.
+        /// </summary>
+        public int? IntBefore { get; }
     }
 
     /// <summary>
@@ -173,6 +196,11 @@ namespace CaravansCriticallyEnhanced.Tests
         private const ushort LoadFunction = 0xFE06;
         private const ushort LoadVirtualFunction = 0xFE07;
         private const ushort LoadString = 0x72;
+        private const ushort LoadIntMinusOne = 0x15;
+        private const ushort LoadIntZero = 0x16;
+        private const ushort LoadIntEight = 0x1E;
+        private const ushort LoadIntShort = 0x1F;
+        private const ushort LoadInt = 0x20;
         private const ushort LoadField = 0x7B;
         private const ushort LoadFieldAddress = 0x7C;
         private const ushort StoreField = 0x7D;
@@ -254,7 +282,11 @@ namespace CaravansCriticallyEnhanced.Tests
             var strings = new List<string>();
             var fields = new List<FieldUse>();
             var opcodeBeforeCall = new List<ushort>();
+            var intBeforeCall = new List<int?>();
+            var callStarts = new List<int>();
+            var fieldStarts = new List<int>();
             ushort previousOpcode = 0xFFFF;
+            int? previousInt = null;
 
             Type[] typeArguments = method.DeclaringType != null && method.DeclaringType.IsGenericType
                 ? method.DeclaringType.GetGenericArguments()
@@ -313,6 +345,8 @@ namespace CaravansCriticallyEnhanced.Tests
                     int token = BitConverter.ToInt32(il, position);
                     calls.Add(Resolve(method, token, typeArguments, methodArguments, instructionStart));
                     opcodeBeforeCall.Add(previousOpcode);
+                    intBeforeCall.Add(previousInt);
+                    callStarts.Add(instructionStart);
                 }
 
                 if (opcode == LoadString)
@@ -335,11 +369,13 @@ namespace CaravansCriticallyEnhanced.Tests
                     }
 
                     FieldInfo field = ResolveField(method, BitConverter.ToInt32(il, position), typeArguments, methodArguments, instructionStart);
-                    fields.Add(new FieldUse(field, opcode == StoreField || opcode == StoreStaticField));
+                    fields.Add(new FieldUse(field, opcode == StoreField || opcode == StoreStaticField, previousInt));
+                    fieldStarts.Add(instructionStart);
                 }
 
                 int operandLength = OperandLength(operandType, il, position, method, instructionStart);
                 CollectBranchTargets(operandType, il, position, operandLength, branchTargets);
+                previousInt = IntLoadedBy(opcode, il, position);
                 position += operandLength;
                 previousOpcode = opcode;
             }
@@ -362,7 +398,55 @@ namespace CaravansCriticallyEnhanced.Tests
                 }
             }
 
-            return new WalkResult(calls, opcodes, strings, fields, opcodeBeforeCall);
+            // An instruction a branch lands on has more than one instruction before it, so the one
+            // before it in byte order says nothing about its argument: `x = cond ? 140 : 0` puts
+            // `ldc.i4 140` straight before the store. Those read as unknown.
+            var targets = new HashSet<int>(branchTargets);
+            for (int i = 0; i < calls.Count; i++)
+            {
+                if (targets.Contains(callStarts[i]))
+                {
+                    opcodeBeforeCall[i] = 0xFFFF;
+                    intBeforeCall[i] = null;
+                }
+            }
+
+            for (int i = 0; i < fields.Count; i++)
+            {
+                if (targets.Contains(fieldStarts[i]))
+                {
+                    fields[i] = new FieldUse(fields[i].Field, fields[i].IsStore, null);
+                }
+            }
+
+            return new WalkResult(calls, opcodes, strings, fields, opcodeBeforeCall, intBeforeCall);
+        }
+
+        /// <summary>
+        /// Reads the integer an instruction pushes, when it is one of the integer constant loads.
+        /// </summary>
+        /// <param name="opcode">The instruction's opcode.</param>
+        /// <param name="il">The instruction bytes.</param>
+        /// <param name="operandStart">Where its operand begins.</param>
+        /// <returns>The value, or <c>null</c> for any other instruction.</returns>
+        private static int? IntLoadedBy(ushort opcode, byte[] il, int operandStart)
+        {
+            if (opcode >= LoadIntMinusOne && opcode <= LoadIntEight)
+            {
+                return opcode - LoadIntZero;
+            }
+
+            if (opcode == LoadIntShort)
+            {
+                return (sbyte)il[operandStart];
+            }
+
+            if (opcode == LoadInt)
+            {
+                return BitConverter.ToInt32(il, operandStart);
+            }
+
+            return null;
         }
 
         /// <summary>

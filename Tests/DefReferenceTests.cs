@@ -62,7 +62,7 @@ namespace CaravansCriticallyEnhanced.Tests
                 .SelectMany(t => t.GetFields(BindingFlags.Public | BindingFlags.Static))
                 .ToList();
 
-            Assert.That(fields.Count, Is.EqualTo(2), "Fields on the mod's [DefOf] classes.");
+            Assert.That(fields.Count, Is.EqualTo(3), "Fields on the mod's [DefOf] classes.");
 
             List<string> unbound = fields
                 .Where(f => !DefXml.DefNamesOfType(f.FieldType.Name).Contains(f.Name))

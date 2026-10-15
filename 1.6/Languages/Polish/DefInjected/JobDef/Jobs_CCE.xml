@@ -2,5 +2,6 @@
 <LanguageData>
 
   <CCE_RopeAnimalToCaravan.reportString>prowadzi TargetA do miejsca karawany.</CCE_RopeAnimalToCaravan.reportString>
+  <CCE_TakeLead.reportString>zaczyna prowadzić: TargetA.</CCE_TakeLead.reportString>
 
 </LanguageData>

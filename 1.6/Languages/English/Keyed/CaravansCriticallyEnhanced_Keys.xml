@@ -76,4 +76,16 @@
   <CaravansCriticallyEnhanced_LoadingGaveUp>The forming caravan loaded nothing for {0}, so it will leave without: {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
   <CaravansCriticallyEnhanced_SpotOutsideArea>the caravan's spot is outside the allowed area</CaravansCriticallyEnhanced_SpotOutsideArea>
 
+  <!-- Leads -->
+  <CaravansCriticallyEnhanced_DropLead>Drop lead</CaravansCriticallyEnhanced_DropLead>
+  <CaravansCriticallyEnhanced_DropLeadDesc>Let go of an animal this colonist is leading. With several held, choose which, or let go of them all.</CaravansCriticallyEnhanced_DropLeadDesc>
+  <CaravansCriticallyEnhanced_DropLeadOf>{0}, led by {1}</CaravansCriticallyEnhanced_DropLeadOf>
+  <CaravansCriticallyEnhanced_DropLeadAll>All of them</CaravansCriticallyEnhanced_DropLeadAll>
+  <CaravansCriticallyEnhanced_TakeLead>Take the lead of {0}</CaravansCriticallyEnhanced_TakeLead>
+  <CaravansCriticallyEnhanced_TakeLeadNotMember>not going with this caravan</CaravansCriticallyEnhanced_TakeLeadNotMember>
+  <CaravansCriticallyEnhanced_LeadReleasedHungry>{0} let go of {1}, which is too hungry to keep following.</CaravansCriticallyEnhanced_LeadReleasedHungry>
+  <CaravansCriticallyEnhanced_LeadReleasedTired>{0} let go of {1}, which is too tired to keep following.</CaravansCriticallyEnhanced_LeadReleasedTired>
+  <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0} let go of the animals. Leads are kept only while drafted, or while leading animals to the caravan's spot or its exit.</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
+  <CaravansCriticallyEnhanced_LeadRecollecting>{0} cannot reach the caravan's exit by itself, so the caravan is collecting its animals again.</CaravansCriticallyEnhanced_LeadRecollecting>
+
 </LanguageData>

@@ -76,4 +76,16 @@
   <CaravansCriticallyEnhanced_LoadingGaveUp>Die sich formierende Karawane hat {0} lang nichts geladen und reist daher ohne Folgendes ab: {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
   <CaravansCriticallyEnhanced_SpotOutsideArea>der Karawanensammelplatz liegt außerhalb des erlaubten Gebiets</CaravansCriticallyEnhanced_SpotOutsideArea>
 
+  <!-- Leads -->
+  <CaravansCriticallyEnhanced_DropLead>Leine loslassen</CaravansCriticallyEnhanced_DropLead>
+  <CaravansCriticallyEnhanced_DropLeadDesc>Lass ein Tier los, das dieser Kolonist an der Leine führt. Führt er mehrere, wähle eines aus oder lass alle los.</CaravansCriticallyEnhanced_DropLeadDesc>
+  <CaravansCriticallyEnhanced_DropLeadOf>{0}, geführt von {1}</CaravansCriticallyEnhanced_DropLeadOf>
+  <CaravansCriticallyEnhanced_DropLeadAll>Alle Tiere</CaravansCriticallyEnhanced_DropLeadAll>
+  <CaravansCriticallyEnhanced_TakeLead>Nimm {0} an die Leine</CaravansCriticallyEnhanced_TakeLead>
+  <CaravansCriticallyEnhanced_TakeLeadNotMember>reist nicht mit dieser Karawane</CaravansCriticallyEnhanced_TakeLeadNotMember>
+  <CaravansCriticallyEnhanced_LeadReleasedHungry>{0} hat {1} losgelassen, weil das Tier zu hungrig ist, um weiter zu folgen.</CaravansCriticallyEnhanced_LeadReleasedHungry>
+  <CaravansCriticallyEnhanced_LeadReleasedTired>{0} hat {1} losgelassen, weil das Tier zu müde ist, um weiter zu folgen.</CaravansCriticallyEnhanced_LeadReleasedTired>
+  <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0} hat die Tiere losgelassen. Leinen werden nur im Kampfmodus behalten oder solange Tiere zum Karawanensammelplatz oder zum Ausgang der Karawane geführt werden.</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
+  <CaravansCriticallyEnhanced_LeadRecollecting>{0} kann den Ausgang der Karawane nicht allein erreichen, daher sammelt die Karawane ihre Tiere erneut ein.</CaravansCriticallyEnhanced_LeadRecollecting>
+
 </LanguageData>

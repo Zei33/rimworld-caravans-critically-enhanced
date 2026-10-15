@@ -23,10 +23,10 @@ Four sliders:
 
 "Reset to defaults" puts every switch and slider back.
 
-As of Slice 2 the Loading switches "Load work type", "Load into colonists", "Load while animals
-gather" and "Helpers bring pen animals", "Keep leads when drafted" (for the drafted-member exemption
-only) and "Wait for every item" take effect, as does the grace period, and the watchdog of twice the
-grace period. The others do nothing yet.
+As of Slice 3 these switches take effect: the four Loading ones ("Load work type", "Load into
+colonists", "Load while animals gather" and "Helpers bring pen animals"), "Keep leads when drafted" in
+the Leads section, and "Wait for every item" among the stuck caravan fixes, together with its grace
+period and the watchdog of twice the grace period. The others do nothing yet.
 
 ## The Load column
 
@@ -73,6 +73,51 @@ gathers its animals, as its own members do. In vanilla only the members fetch th
 - can be given the job by hand: right-click a caravan animal, "Prioritize roping".
 
 Colony mechs never do this, as in vanilla, where only colonists rope animals.
+
+## Keeping leads when drafted
+
+With "Keep leads when drafted" on, a colonist going with a forming caravan keeps hold of the animals
+it is leading when you draft it, and you can walk them anywhere. In vanilla drafting drops every lead
+at once. While drafted:
+
+- the animals follow at the pace of the slowest of them, so the colonist does not keep stopping to
+  wait for them;
+- an animal that becomes urgently hungry or exhausted is let go, with a message, since an animal on a
+  lead never stops to eat or sleep. Once the caravan is leaving it is kept instead: the colonist is
+  walking it out, and you can drop it yourself;
+- while the caravan waits for items, downed colonists or sleepers, and in any pause before it
+  leaves, the colonist is not undrafted automatically after a while, as vanilla otherwise does. While
+  animals are gathered or collected, and while leaving, it still is, so a colonist you forgot about
+  cannot hold the caravan up for good;
+- a "Drop lead" button lets go of one animal, or opens a menu over every animal the selected
+  colonists hold, with "All of them" at the bottom;
+- right-clicking a caravan's pen animal that nobody is leading offers "Take the lead of" to the
+  nearest selected drafted colonist going with that caravan. Animals that walk by themselves, such
+  as dogs, are never offered, and neither is one that is downed or broken. One that is starving or
+  exhausted is offered only once the caravan is leaving, where held animals are not let go for
+  hunger or tiredness;
+- the caravan moving on a stage no longer cancels a drafted colonist's orders.
+
+Undrafted in the stage where animals are gathered, or where they are collected before leaving, the
+colonist carries on leading them as the caravan's own job. Undrafted anywhere else, it lets go, with
+a message. A colonist that dies, is downed, catches fire, has a mental break or collapses asleep lets
+go, as it would in vanilla. Handlers and other colonists not going with a forming caravan drop their
+leads when drafted, as in vanilla.
+
+Once the caravan is leaving, an animal let go by the button or by an automatic undraft walks to the
+exit by itself if it can. One that cannot, shut in behind a door or a fence gate, or still tied up
+somewhere, would leave vanilla's caravan waiting at the exit for good. Instead, as soon as the
+caravan's undrafted colonists could fetch it, and every other animal nobody is leading, the caravan
+goes back to collecting its animals, with a message, the same way vanilla does when a pen animal joins a leaving caravan: every undrafted
+colonist leading animals lets go, and they rope them all again on the way out.
+
+Two things follow from holding on. While animals are gathered, a drafted colonist's animals are not
+at the caravan's spot, so the caravan waits for them until you undraft it, or until it is undrafted
+automatically. And drafting the whole colony for a raid while a caravan forms takes the held pack
+animals along into the fight.
+
+The mod also fixes a vanilla slip that could let an animal fall off its new lead when it was roped by
+somebody new: its previous holder is now made to let go first. That fix is always on.
 
 ## Waiting for every item
 

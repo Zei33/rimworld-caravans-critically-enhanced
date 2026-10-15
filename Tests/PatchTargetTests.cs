@@ -42,6 +42,15 @@ namespace CaravansCriticallyEnhanced.Tests
         {
             "Patch_CaravanFormingUtility_AllItemsLoadedOntoCaravan",
             "Patch_CaravanFormingUtility_StopFormingCaravan",
+            "Patch_AutoUndrafter_ShouldAutoUndraft",
+            "Patch_JobGiver_FollowRoper_TryGiveJob",
+            "Patch_Pawn_DraftController_Drafted",
+            "Patch_Pawn_GetGizmos",
+            "Patch_Pawn_RopeTracker_CreateRope",
+            "Patch_Pawn_RopeTracker_DropRope",
+            "Patch_Pawn_RopeTracker_DropRopes",
+            "Patch_Pawn_RopeTracker_RopingTick",
+            "Patch_TransitionAction_EndAllJobs_DoAction",
             "Patch_JobDriver_PrepareCaravan_GatherItems_IsUsableCarrier",
             "Patch_JobDriver_PrepareCaravan_GatherItems_MakeNewToils",
             "Patch_LordJob_FormAndSendCaravan_LordJobTick",
@@ -105,16 +114,22 @@ namespace CaravansCriticallyEnhanced.Tests
             foreach (Type patchClass in PatchClasses())
             {
                 HarmonyMethod container = HarmonyMethod.Merge(HarmonyMethodExtensions.GetFromType(patchClass));
+                var stateTypes = new HashSet<Type>();
 
                 foreach (MethodInfo patch in PatchMethods(patchClass))
                 {
                     HarmonyMethod info = container.Merge(HarmonyMethodExtensions.GetMergedFromMethod(patch));
                     string where = patchClass.Name + "." + patch.Name;
+                    MethodType methodType = info.methodType ?? MethodType.Normal;
 
-                    Assert.That(info.methodType ?? MethodType.Normal, Is.EqualTo(MethodType.Normal),
-                        where + " targets a getter, setter, constructor or enumerator, which this test does not resolve yet.");
+                    Assert.That(methodType, Is.EqualTo(MethodType.Normal).Or.EqualTo(MethodType.Setter),
+                        where + " targets a getter, constructor or enumerator, which this test does not resolve yet.");
 
-                    MethodInfo target = AccessTools.DeclaredMethod(info.declaringType, info.methodName, info.argumentTypes);
+                    // A setter is resolved as Harmony resolves it: the declared property's set method,
+                    // whose one argument is named value.
+                    MethodInfo target = methodType == MethodType.Setter
+                        ? AccessTools.DeclaredProperty(info.declaringType, info.methodName)?.GetSetMethod(true)
+                        : AccessTools.DeclaredMethod(info.declaringType, info.methodName, info.argumentTypes);
 
                     Assert.That(target, Is.Not.Null,
                         where + " names " + info.declaringType?.Name + "." + info.methodName
@@ -122,12 +137,24 @@ namespace CaravansCriticallyEnhanced.Tests
 
                     foreach (ParameterInfo parameter in patch.GetParameters())
                     {
+                        if (parameter.Name == "__state")
+                        {
+                            // Shared between the class's patch methods: one type, written by the prefix.
+                            Type stateType = parameter.ParameterType.IsByRef ? parameter.ParameterType.GetElementType() : parameter.ParameterType;
+                            stateTypes.Add(stateType);
+                            Assert.That(patch.Name != "Prefix" || parameter.IsOut, Is.True, where + ": a prefix must write __state with out.");
+                            kinds.Add("__state");
+                            continue;
+                        }
+
                         kinds.Add(AssertBinds(where, target, parameter));
                     }
                 }
+
+                Assert.That(stateTypes.Count, Is.LessThanOrEqualTo(1), patchClass.Name + " uses __state with different types.");
             }
 
-            Assert.That(kinds, Is.EquivalentTo(new[] { "__instance", "__result", "___field", "argument" }),
+            Assert.That(kinds, Is.EquivalentTo(new[] { "__instance", "__result", "___field", "argument", "__state" }),
                 "The patches no longer use every kind of parameter this test checks, or one kind was never reached.");
         }
 

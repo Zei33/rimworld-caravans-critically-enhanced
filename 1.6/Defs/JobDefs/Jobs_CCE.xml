@@ -14,4 +14,15 @@
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
   </JobDef>
 
+  <!--
+    A drafted caravan colonist walks to an animal of its caravan that nobody is leading and takes its
+    lead, from the right-click menu. Not casually interruptible, like vanilla's rope jobs.
+  -->
+  <JobDef>
+    <defName>CCE_TakeLead</defName>
+    <driverClass>CaravansCriticallyEnhanced.Jobs.JobDriver_CCE_TakeLead</driverClass>
+    <reportString>taking the lead of TargetA.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+
 </Defs>

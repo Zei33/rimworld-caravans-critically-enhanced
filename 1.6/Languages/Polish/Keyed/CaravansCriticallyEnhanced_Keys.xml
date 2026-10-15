@@ -76,4 +76,16 @@
   <CaravansCriticallyEnhanced_LoadingGaveUp>Formowana karawana nic nie załadowała przez dłuższy czas ({0}), więc wyruszy bez tych przedmiotów: {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
   <CaravansCriticallyEnhanced_SpotOutsideArea>miejsce karawany znajduje się poza dozwolonym obszarem</CaravansCriticallyEnhanced_SpotOutsideArea>
 
+  <!-- Leads -->
+  <CaravansCriticallyEnhanced_DropLead>Puść zwierzę</CaravansCriticallyEnhanced_DropLead>
+  <CaravansCriticallyEnhanced_DropLeadDesc>Puść zwierzę prowadzone przez tego kolonistę. Jeśli prowadzi kilka, wybierz, które puścić, albo puść wszystkie.</CaravansCriticallyEnhanced_DropLeadDesc>
+  <CaravansCriticallyEnhanced_DropLeadOf>{0} (prowadzi {1})</CaravansCriticallyEnhanced_DropLeadOf>
+  <CaravansCriticallyEnhanced_DropLeadAll>Wszystkie zwierzęta</CaravansCriticallyEnhanced_DropLeadAll>
+  <CaravansCriticallyEnhanced_TakeLead>Poprowadź: {0}</CaravansCriticallyEnhanced_TakeLead>
+  <CaravansCriticallyEnhanced_TakeLeadNotMember>nie wyrusza z tą karawaną</CaravansCriticallyEnhanced_TakeLeadNotMember>
+  <CaravansCriticallyEnhanced_LeadReleasedHungry>{0} puszcza zwierzę ({1}), bo jest zbyt głodne, by iść dalej.</CaravansCriticallyEnhanced_LeadReleasedHungry>
+  <CaravansCriticallyEnhanced_LeadReleasedTired>{0} puszcza zwierzę ({1}), bo jest zbyt zmęczone, by iść dalej.</CaravansCriticallyEnhanced_LeadReleasedTired>
+  <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0} puszcza prowadzone zwierzęta. Zwierzęta zostają przy koloniście tylko w trybie bojowym albo wtedy, gdy prowadzi je do miejsca karawany lub do jej wyjścia.</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
+  <CaravansCriticallyEnhanced_LeadRecollecting>Zwierzę ({0}) nie może samo dotrzeć do wyjścia karawany, więc karawana znów zbiera swoje zwierzęta.</CaravansCriticallyEnhanced_LeadRecollecting>
+
 </LanguageData>

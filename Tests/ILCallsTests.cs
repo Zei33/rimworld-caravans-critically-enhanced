@@ -79,6 +79,55 @@ namespace CaravansCriticallyEnhanced.Tests
             Assert.That(() => ILCalls.Walk(landsOnRet, context), Throws.Nothing);
         }
 
+        [Test]
+        public void TheIntegerLoadedBeforeACallOrAStoreIsReadWhateverItsEncoding()
+        {
+            // ldc.i4.m1 to ldc.i4.8 carry the value in the opcode, ldc.i4.s in one signed byte and
+            // ldc.i4 in four, so each encoding is read here, and a non-constant reads as null.
+            WalkResult calls = ILCalls.Read(typeof(ILCallsTests).GetMethod(nameof(PassesConstants), BindingFlags.NonPublic | BindingFlags.Static));
+            List<int?> passed = calls.Calls.Select((c, i) => c.Name == nameof(Consume) ? calls.IntBeforeCall[i] : -999).Where(v => v != -999).ToList();
+            Assert.That(passed, Is.EqualTo(new int?[] { -1, 5, 100, -100, 250, 100000, null, null }), "The last is a conditional, so where a branch lands.");
+
+            WalkResult stores = ILCalls.Read(typeof(ILCallsTests).GetMethod(nameof(StoresConstants), BindingFlags.NonPublic | BindingFlags.Static));
+            Assert.That(
+                stores.Fields.Where(f => f.IsStore).Select(f => f.Field.Name + "=" + (f.IntBefore?.ToString() ?? "null")).ToList(),
+                Is.EqualTo(new[] { "Number=140", "Flag=0", "Flag=1", "Number=null", "Number=null" }),
+                "The last is a conditional: the store is where a branch lands, so no one constant is its value.");
+        }
+
+        private static void PassesConstants(int variable)
+        {
+            Consume(-1);
+            Consume(5);
+            Consume(100);
+            Consume(-100);
+            Consume(250);
+            Consume(100000);
+            Consume(variable);
+            Consume(variable > 0 ? 250 : 0);
+        }
+
+        private static void StoresConstants(Sample sample, int variable)
+        {
+            sample.Number = 140;
+            sample.Flag = false;
+            sample.Flag = true;
+            sample.Number = variable;
+            sample.Number = variable > 0 ? 140 : 0;
+        }
+
+        private static void Consume(int value)
+        {
+            GC.KeepAlive(value);
+        }
+
+        private sealed class Sample
+        {
+            public int Number;
+
+            public bool Flag;
+        }
+
         /// <summary>
         /// A method whose body contains a real IL <c>switch</c> instruction.
         /// </summary>

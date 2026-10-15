@@ -1,5 +1,6 @@
 using System;
 using CaravansCriticallyEnhanced.Core;
+using CaravansCriticallyEnhanced.Utils;
 using HarmonyLib;
 using RimWorld;
 using Verse;
@@ -30,6 +31,12 @@ namespace CaravansCriticallyEnhanced.Patches
         public const int ErrorKey = 0x43434501;
 
         /// <summary>
+        /// The <c>Log.ErrorOnce</c> key for an exception from the leads pass, so that one failing pass
+        /// does not hide the other's error.
+        /// </summary>
+        public const int LeadsErrorKey = 0x43434505;
+
+        /// <summary>
         /// Runs each feature's periodic pass.
         /// </summary>
         /// <param name="__instance">The lord job.</param>
@@ -48,6 +55,15 @@ namespace CaravansCriticallyEnhanced.Patches
             catch (Exception exception)
             {
                 Log.ErrorOnce("[CaravansCriticallyEnhanced] The forming caravan pass failed: " + exception, ErrorKey);
+            }
+
+            try
+            {
+                LeadUtility.RecollectStrandedAnimals(__instance, CaravansCriticallyEnhancedMod.Settings);
+            }
+            catch (Exception exception)
+            {
+                Log.ErrorOnce("[CaravansCriticallyEnhanced] Looking for animals stranded while leaving failed: " + exception, LeadsErrorKey);
             }
         }
     }

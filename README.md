@@ -8,9 +8,10 @@ A RimWorld 1.6 mod that fixes the slow and fragile parts of forming a caravan, i
 ## Status
 
 In development and not yet released. The mod is built in slices, and this file describes only what
-has landed. At the moment that is the settings window and the Load work type: colonists who are
-not going load a forming caravan and lead its pen animals to it, and the caravan keeps loading while
-any listed item can still be fetched. The features behind the other switches
+has landed. At the moment that is the settings window, the Load work type (colonists who are not
+going load a forming caravan and lead its pen animals to it, and the caravan keeps loading while any
+listed item can still be fetched), and drafted caravan colonists keeping their leads, with a button
+to drop a lead and a right-click option to take one. The features behind the other switches
 arrive one slice at a time.
 
 ## What it will do

@@ -290,7 +290,7 @@ namespace CaravansCriticallyEnhanced.Tests
             Dictionary<string, List<string>> english = InjectionsFor("English");
             List<string> injected = english.SelectMany(kv => kv.Value.Select(key => kv.Key + "/" + key)).ToList();
 
-            Assert.That(expected.Count, Is.EqualTo(12), "Translatable fields set by the mod's defs.");
+            Assert.That(expected.Count, Is.EqualTo(13), "Translatable fields set by the mod's defs.");
             Assert.That(injected, Is.EquivalentTo(expected));
         }
 

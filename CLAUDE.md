@@ -24,8 +24,8 @@ Fixes caravan forming. When finished it will:
 
 plus stuck-caravan fixes, loaded-cargo protection, unloading returning pack animals at a stockpile,
 and a better manual load. The work is in slices; `docs/ROADMAP.md` in the workspace says which have
-landed. **As of Slice 2 the Load work type, the completion guard and helpers leading pen animals
-are in; nothing else changes the game yet.**
+landed. **As of Slice 3 the Load work type, the completion guard, helpers leading pen animals, and
+drafted caravan colonists keeping their leads are in; nothing else changes the game yet.**
 
 ## Architecture
 
@@ -39,7 +39,14 @@ are in; nothing else changes the game yet.**
 | `CaravanLordAccess` | `1.6/Utils/CaravanLordAccess.cs` | `FieldRefAccess` to the lord job's `exitSpot` and `meetingPoint` and the toils' copies of the exit, each resolved lazily and on its own, null if its field has gone |
 | `CaravanMessages` | `1.6/Utils/CaravanMessages.cs` | The only caller of `Messages.Message`, always `historical: false` |
 | `JobMemo<TAsker, TSubject, TAnswer>` | `1.6/Core/JobMemo.cs` | Copied from Simple Improve: lets a work giver's `HasJobOnThing` and `JobOnThing` answer from one computation |
-| `CaravansCriticallyEnhancedDefOf` | `1.6/Core/CaravansCriticallyEnhancedDefOf.cs` | `CCE_Loading`, `CCE_RopeAnimalToCaravan` |
+| `CaravansCriticallyEnhancedDefOf` | `1.6/Core/CaravansCriticallyEnhancedDefOf.cs` | `CCE_Loading`, `CCE_RopeAnimalToCaravan`, `CCE_TakeLead` |
+| `LeadPolicy`, `LeadRelease`, `DropLeadAction`, `TakeLeadBlocker` | `1.6/Core/LeadPolicy.cs` | Who keeps leads while drafted (a drafted colonist of a vanilla forming caravan, not itself roped), the conditions that still make it let go, releasing a starving or exhausted animal (not while leaving), sparing a lead holder the auto-undraft (by stage: not while animals gather or are collected, nor while leaving), the stages where undrafting resumes, the drop button's action, which animals may be taken (only pen animals that could keep the lead; a needy one only while leaving), the take-lead checks, and which animals a leaving caravan goes back for. Pure |
+| `LeadKeepScope` | `1.6/Core/LeadKeepScope.cs` | The pawns being drafted whose ropes `DropRopes` must keep; nested, by reference |
+| `LeadUndraftNotices` | `1.6/Core/LeadUndraftNotices.cs` | The colonists just undrafted whose leads drop on their next rope tick, kept for ten ticks so that tick can tell the player, and stay quiet for a mental break, which the draft setter cannot yet see |
+| `LeadUtility` | `1.6/Utils/LeadUtility.cs` | Reads a roper for `LeadPolicy` and acts: needy releases with a message, speed matched to the slowest animal, whether the drop button shows, the undraft message, and sending a leaving caravan back to collect a pen animal stranded behind a door |
+| `Command_DropLead : Command` | `1.6/Jobs/Command_DropLead.cs` | The drop-lead button: one group across every selected holder, one menu or a direct drop |
+| `FloatMenuOptionProvider_TakeLead` | `1.6/Jobs/FloatMenuOptionProvider_TakeLead.cs` | Right-click "Take the lead of" on a caravan animal nobody leads, ordered to the nearest selected drafted member that can |
+| `JobDriver_CCE_TakeLead` | `1.6/Jobs/JobDriver_CCE_TakeLead.cs` | Vanilla's roping toils behind three fail conditions: undrafted, the animal out of the caravan, somebody else leading it |
 | `WorkGiver_CCE_LoadCaravan : WorkGiver_Scanner` | `1.6/Jobs/WorkGiver_CCE_LoadCaravan.cs` | The Load giver. No thing request; `ShouldSkip` skips any pawn in a lord and is free when nothing is forming, and then forgets what it held; the search set from `LoadingIndex`; one memoised `BuildJob` behind both scan entry points, carrier first; hands out vanilla's own `PrepareCaravan_GatherItems` job with `job.lord` set |
 | `LoadingIndex`, `LoadingClaim` | `1.6/Core/LoadingIndex.cs` | Per map, rebuilt at most once per tick and frame: which listed items helpers may fetch (not in a closed haul source) and which caravan and row each belongs to |
 | `LoadingCandidates` | `1.6/Core/LoadingCandidates.cs` | The search set's rules: no nulls, first caravan to list a thing owns it, a `List`. Pure |
@@ -68,8 +75,17 @@ Harmony surface, one class per vanilla target in `1.6/Patches/`, each applied on
 | `Patch_JobDriver_PrepareCaravan_GatherItems_IsUsableCarrier` | `JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier` | Postfix | `CarrierRule` for helpers only; hot path, early exits first |
 | `Patch_JobDriver_PrepareCaravan_GatherItems_MakeNewToils` | `JobDriver_PrepareCaravan_GatherItems.MakeNewToils` | Postfix | A helper's job fails once the caravan leaves the gathering stages |
 | `Patch_CaravanFormingUtility_AllItemsLoadedOntoCaravan` | `CaravanFormingUtility.AllItemsLoadedOntoCaravan` | Postfix, last | The single owner of the answer, in the item-gathering stage only: drafted-member exemption, then the completion guard |
-| `Patch_LordJob_FormAndSendCaravan_LordJobTick` | `LordJob_FormAndSendCaravan.LordJobTick` | Postfix | Every 250 ticks per lord, staggered: the progress clock and letting expired items go |
-| `Patch_CaravanFormingUtility_StopFormingCaravan` | `CaravanFormingUtility.StopFormingCaravan` | Prefix | Ends the animal helpers' rope jobs, current and queued, before vanilla cancels, so vanilla's `LeadAnimalsToPen`, which skips any roped animal, leads their animals home too, and no queued job's reservation breaks the pen lord's rope jobs |
+| `Patch_LordJob_FormAndSendCaravan_LordJobTick` | `LordJob_FormAndSendCaravan.LordJobTick` | Postfix | Every 250 ticks per lord, staggered: the progress clock and letting expired items go; then, with its own error key, going back for animals stranded while leaving |
+| `Patch_CaravanFormingUtility_StopFormingCaravan` | `CaravanFormingUtility.StopFormingCaravan` | Prefix | Ends the animal helpers' rope jobs, current and queued, and has drafted members let go, before vanilla cancels, so vanilla's `LeadAnimalsToPen`, which skips any roped animal, leads their animals home too, and no queued job's reservation breaks the pen lord's rope jobs |
+| `Patch_Pawn_RopeTracker_RopingTick` | `Pawn_RopeTracker.RopingTick` | Prefix | For a roper `LeadUtility.KeepsLeads` accepts: vanilla's breaking checks less being drafted and not being in a rope job, needy releases every 250 ticks, speed matching. Hottest patch: leaves at once for a pawn leading nothing. For a roper it does not hold, tells the player about an undraft notice waiting for it |
+| `Patch_Pawn_DraftController_Drafted` | `Pawn_DraftController.Drafted` setter | Prefix and finalizer | Opens a `LeadKeepScope` across drafting a roper the mod will hold; the finalizer closes it and, on an undraft that will drop the leads, leaves a `LeadUndraftNotices` entry for the rope tick |
+| `Patch_Pawn_RopeTracker_DropRopes` | `Pawn_RopeTracker.DropRopes` | Prefix | Refuses inside the scope while spawned, so the rope job's finish action keeps the leads |
+| `Patch_Pawn_RopeTracker_DropRope` | `Pawn_RopeTracker.DropRope` | Postfix | Ends the let-go animal's follow job and clears the roper's speed match on it |
+| `Patch_Pawn_RopeTracker_CreateRope` | `Pawn_RopeTracker.CreateRope` (private static) | Prefix | Always on: lets the previous roper go first, which vanilla forgets |
+| `Patch_JobGiver_FollowRoper_TryGiveJob` | `JobGiver_FollowRoper.TryGiveJob` | Postfix | Vanilla's follow job, for a roper the mod holds |
+| `Patch_AutoUndrafter_ShouldAutoUndraft` | `AutoUndrafter.ShouldAutoUndraft` (private) | Postfix | Spares a lead holder in a vanilla forming caravan while items, downed pawns or sleepers are waited for and in the pauses before leaving; not while animals gather or are collected, where undrafting resumes leading, nor while leaving |
+| `Patch_TransitionAction_EndAllJobs_DoAction` | `TransitionAction_EndAllJobs.DoAction` | Prefix | For a vanilla forming caravan, ends every undrafted member's job and leaves the drafted to their orders |
+| `Patch_Pawn_GetGizmos` | `Pawn.GetGizmos` | Postfix, pass-through | Adds the drop-lead button |
 | `Patch_Pawn_WorkSettings_ExposeData` | `Pawn_WorkSettings.ExposeData` | Postfix | Saves `cceLoadingInit`; on the first load without it, realigns later work types' priorities and copies the helper's work type priority into Load |
 
 ## Invariants and traps
@@ -147,6 +163,37 @@ The plan's architecture rules are binding on every slice; the short form:
   so gathering waits for the helper, as it would for a slow member. Nothing can stick.
 - **The rope driver ties at target B, not at the animal's duty.** It carries on through the pause
   for a mental break, where every duty is the pause duty, which has no spot.
+- **Leads are kept only for a drafted colonist of a vanilla forming caravan.** A handler drafted while
+  leading animals to a pen, or a Load helper, drops them as in vanilla; the setting's tooltip says
+  "for a forming caravan". Vanilla cuts a drafted roper's leads in four places (the draft ending the
+  rope job and its finish action, `RopingTick`'s drafted check, its not-in-a-rope-job check, and
+  `JobGiver_FollowRoper`'s rope-job check), and all four are covered together.
+- **Undrafting resumes leading only in the gather and collect stages,** whose duties give a rope job
+  that reuses the held animals. Anywhere else the next rope tick drops them and a message says so,
+  from the rope tick rather than the draft setter: `MentalStateHandler.TryStartMentalState` undrafts
+  before it records the break, so inside the setter a break looks like any other undraft.
+- **Vanilla's leaving stage waits for every member at the exit, with no timeout, and a dropped lead
+  sends no signal.** A pen animal let go there (the drop button, or the automatic undraft, which is not
+  suppressed while leaving) walks out by itself if it can, but one behind a door it cannot open never
+  would. So every 250 ticks a leaving caravan with such an animal is sent vanilla's own
+  `AddedRopeAnimal` memo, back to collecting, but only when every pen animal no member leads passes
+  vanilla's collecting test (`JobGiver_PrepareCaravan_CollectPawns.DoesAnimalNeedGathering`) for some
+  undrafted colonist member: collecting finishes only once every pen animal is led, so otherwise
+  going back would only move the wait from the exit to collecting. That memo's
+  transition ends every undrafted member's job, so their ropes drop and are retied; vanilla does the
+  same when a pen animal joins.
+- **Two vanilla behaviours stay as they are.** Drafting a member still drops the caravan items it
+  hauled into its own inventory (`DropAllPackingCaravanThings`, in the draft setter); the plan
+  considered covering that with the lead scope and decided against it: while items are gathered,
+  vanilla's drop puts each item back on the caravan's list (`TryAddItemBackToTransferables`), so
+  somebody fetches it again. And adding a led animal to a caravan by hand (`Notify_PawnAdded`) breaks
+  its lead, as in vanilla.
+- **Only a pen animal can be taken.** An animal that walks by itself, tied at the spot by an undrafted
+  holder while animals gather, would never be untied, and the caravan would wait for it at the exit
+  for good. `LeadPolicy.CanBeTaken` asks `NeedsToBeManagedByRope` first.
+- **`Pawn` implements `IEquatable<Pawn>` by comparing def names as strings, then thing ids.** So
+  `List<Pawn>.Contains` is a string compare per element, and it throws on a bare `new Pawn()` in the
+  harness. Compare by reference where reference is meant (`LeadKeepScope`).
 - **A pawn in any lord is never a helper.** `ThinkNode_Duty` overwrites a job's lord with the pawn's
   own, and a forming caravan's pause duty, Defend, Follow and Build all run `JobGiver_Work`; the
   gather driver then works the wrong caravan or throws casting the wrong lord job.
@@ -161,9 +208,9 @@ The plan's architecture rules are binding on every slice; the short form:
   grace period would never have let a blocked item go. A
   thing in a pawn's hands is blocked, never gone. The drafted-member exemption needs one undrafted
   colonist member waiting, so an all-drafted caravan waits as vanilla does and never reaches the
-  watchdog. Until Slice 3 patches `TransitionAction_EndAllJobs`, the AllItemsGathered transition the
-  exemption lets through still ends a drafted member's current order once. The hold state is not
-  saved: after a load the clocks restart, which can only lengthen a wait.
+  watchdog. With "Keep leads when drafted" on, the AllItemsGathered transition it lets through no
+  longer ends a drafted member's current order (`Patch_TransitionAction_EndAllJobs_DoAction`). The
+  hold state is not saved: after a load the clocks restart, which can only lengthen a wait.
 - **A list row can be left with a count and no things.** `TransferableOneWay.ExposeData` drops
   destroyed things on every save, and `Label` reads the first thing, so it throws on such a row,
   inside vanilla's Force-depart confirmation too. With the guard on, those rows are cleared on every completion test and every lord tick pass, and

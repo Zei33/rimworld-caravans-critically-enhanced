@@ -21,6 +21,9 @@ namespace CaravansCriticallyEnhanced.Core
         /// <summary>A helper leading a caravan's animal to the gathering spot.</summary>
         public static JobDef CCE_RopeAnimalToCaravan;
 
+        /// <summary>A drafted caravan colonist taking the lead of one of its caravan's animals.</summary>
+        public static JobDef CCE_TakeLead;
+
         /// <summary>
         /// Ensures the fields are bound, as every <c>[DefOf]</c> class does.
         /// </summary>

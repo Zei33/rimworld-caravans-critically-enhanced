@@ -76,4 +76,16 @@
   <CaravansCriticallyEnhanced_LoadingGaveUp>La caravana en formación no cargó nada durante {0}, así que saldrá sin lo siguiente: {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
   <CaravansCriticallyEnhanced_SpotOutsideArea>el punto de caravana está fuera del área permitida</CaravansCriticallyEnhanced_SpotOutsideArea>
 
+  <!-- Leads -->
+  <CaravansCriticallyEnhanced_DropLead>Soltar soga</CaravansCriticallyEnhanced_DropLead>
+  <CaravansCriticallyEnhanced_DropLeadDesc>Suelta a un animal que este colono lleva con soga. Si lleva varios, elige cuál o suéltalos todos.</CaravansCriticallyEnhanced_DropLeadDesc>
+  <CaravansCriticallyEnhanced_DropLeadOf>{0}, en la soga de {1}</CaravansCriticallyEnhanced_DropLeadOf>
+  <CaravansCriticallyEnhanced_DropLeadAll>Todos los animales</CaravansCriticallyEnhanced_DropLeadAll>
+  <CaravansCriticallyEnhanced_TakeLead>Tomar la soga de {0}</CaravansCriticallyEnhanced_TakeLead>
+  <CaravansCriticallyEnhanced_TakeLeadNotMember>no va con esta caravana</CaravansCriticallyEnhanced_TakeLeadNotMember>
+  <CaravansCriticallyEnhanced_LeadReleasedHungry>{0} soltó a {1}: el animal está demasiado hambriento para seguir caminando.</CaravansCriticallyEnhanced_LeadReleasedHungry>
+  <CaravansCriticallyEnhanced_LeadReleasedTired>{0} soltó a {1}: el animal está demasiado cansado para seguir caminando.</CaravansCriticallyEnhanced_LeadReleasedTired>
+  <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0} soltó a los animales. Las sogas solo se mantienen mientras el colono está reclutado o lleva animales al punto de caravana o a su salida.</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
+  <CaravansCriticallyEnhanced_LeadRecollecting>{0} no puede llegar a la salida de la caravana por su cuenta, así que la caravana vuelve a reunir a sus animales.</CaravansCriticallyEnhanced_LeadRecollecting>
+
 </LanguageData>

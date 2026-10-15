@@ -76,4 +76,16 @@
   <CaravansCriticallyEnhanced_LoadingGaveUp>La caravane en formation n'a rien chargé pendant {0}, elle partira donc sans les objets suivants : {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
   <CaravansCriticallyEnhanced_SpotOutsideArea>l'emplacement de la caravane est en dehors de la zone autorisée</CaravansCriticallyEnhanced_SpotOutsideArea>
 
+  <!-- Leads -->
+  <CaravansCriticallyEnhanced_DropLead>Lâcher la corde</CaravansCriticallyEnhanced_DropLead>
+  <CaravansCriticallyEnhanced_DropLeadDesc>Lâchez un animal que ce colon mène à la corde. S'il en tient plusieurs, choisissez lequel, ou lâchez-les tous.</CaravansCriticallyEnhanced_DropLeadDesc>
+  <CaravansCriticallyEnhanced_DropLeadOf>{0} (corde tenue par {1})</CaravansCriticallyEnhanced_DropLeadOf>
+  <CaravansCriticallyEnhanced_DropLeadAll>Tous les animaux</CaravansCriticallyEnhanced_DropLeadAll>
+  <CaravansCriticallyEnhanced_TakeLead>Prendre la corde de {0}</CaravansCriticallyEnhanced_TakeLead>
+  <CaravansCriticallyEnhanced_TakeLeadNotMember>ne part pas avec cette caravane</CaravansCriticallyEnhanced_TakeLeadNotMember>
+  <CaravansCriticallyEnhanced_LeadReleasedHungry>{0} a lâché {1} : l'animal a trop faim pour continuer à suivre.</CaravansCriticallyEnhanced_LeadReleasedHungry>
+  <CaravansCriticallyEnhanced_LeadReleasedTired>{0} a lâché {1} : l'animal est trop fatigué pour continuer à suivre.</CaravansCriticallyEnhanced_LeadReleasedTired>
+  <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0} a lâché les animaux. Un colon ne garde les cordes que lorsqu'il est mobilisé, ou lorsqu'il mène des animaux à l'emplacement de la caravane ou à son point de sortie.</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
+  <CaravansCriticallyEnhanced_LeadRecollecting>{0} ne peut pas atteindre le point de sortie de la caravane sans aide : la caravane reprend donc le rassemblement des animaux.</CaravansCriticallyEnhanced_LeadRecollecting>
+
 </LanguageData>
