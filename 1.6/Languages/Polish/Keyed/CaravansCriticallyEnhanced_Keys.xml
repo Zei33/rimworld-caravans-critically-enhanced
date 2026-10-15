@@ -53,7 +53,7 @@
   <CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>Ładunek, który nie wyrusza, zostaje od razu położony obok zwierzęcia, zamiast być rozładowywany stos po stosie. Gdy aktywny jest Bulk Load For Transporters, dzieje się tak zawsze, ponieważ ten mod zastępuje rozładunek.</CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>
 
   <CaravansCriticallyEnhanced_SettingCompletionGuard>Czekaj na każdy przedmiot</CaravansCriticallyEnhanced_SettingCompletionGuard>
-  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>Załadunek nie kończy się, dopóki przedmioty z listy leżą jeszcze na ziemi. Przedmioty, do których nikt nie może dotrzeć, są usuwane z listy po upływie czasu oczekiwania ustawionego poniżej.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
+  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>Załadunek nie kończy się, dopóki przedmioty z listy leżą jeszcze na ziemi. Przedmioty, do których nikt nie może dotrzeć, są usuwane z listy po upływie czasu oczekiwania ustawionego poniżej. Jeśli przez dwa razy dłuższy czas nie zostanie załadowane zupełnie nic, z listy zostanie usunięte wszystko, co jeszcze na niej pozostało.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
   <CaravansCriticallyEnhanced_SettingManifestReconcile>Naprawiaj listę przedmiotów</CaravansCriticallyEnhanced_SettingManifestReconcile>
   <CaravansCriticallyEnhanced_SettingManifestReconcileTip>Gdy przedmiot z listy zostanie zjedzony, zniszczony lub połączony z innym stosem, karawana bierze w zamian identyczny stos. To, czego nie da się zastąpić, zostaje usunięte z listy wraz z komunikatem.</CaravansCriticallyEnhanced_SettingManifestReconcileTip>
   <CaravansCriticallyEnhanced_SettingStallReadout>Wyjaśniaj opóźnienia</CaravansCriticallyEnhanced_SettingStallReadout>
@@ -69,5 +69,10 @@
   <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>Ręczne załadowanie przedmiotu do formowanej karawany najpierw zapełnia zwierzęta juczne, które mają miejsce, potem kolonistę, który ładuje, a potem pozostałych wyruszających kolonistów.</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>
   <CaravansCriticallyEnhanced_SettingManualLoadsCount>Wliczaj przedmioty ładowane ręcznie</CaravansCriticallyEnhanced_SettingManualLoadsCount>
   <CaravansCriticallyEnhanced_SettingManualLoadsCountTip>Przedmioty załadowane ręcznie wliczają się do listy karawany, więc nie są ładowane drugi raz.</CaravansCriticallyEnhanced_SettingManualLoadsCountTip>
+
+  <!-- Loading -->
+  <CaravansCriticallyEnhanced_NoCarrier>nikt w karawanie nie może tego zabrać</CaravansCriticallyEnhanced_NoCarrier>
+  <CaravansCriticallyEnhanced_LoadingSkippedBlocked>Nikt w formowanej karawanie nie mógł zabrać niektórych przedmiotów przez dłuższy czas ({0}), więc karawana wyruszy bez nich: {1}.</CaravansCriticallyEnhanced_LoadingSkippedBlocked>
+  <CaravansCriticallyEnhanced_LoadingGaveUp>Formowana karawana nic nie załadowała przez dłuższy czas ({0}), więc wyruszy bez tych przedmiotów: {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
 
 </LanguageData>

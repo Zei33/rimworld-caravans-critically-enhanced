@@ -5,7 +5,7 @@
   <modVersion>0.1.0</modVersion>
   <packageId>Zei33.CaravansCriticallyEnhanced</packageId>
   <url>https://github.com/Zei33/rimworld-caravans-critically-enhanced</url>
-  <description>In development, and not yet released. This build changes nothing in the game apart from adding its settings to the mod options. When finished it will fix the slow and fragile parts of forming a caravan: colonists who are not going will help load it, drafting will no longer drop a lead, cargo already on pack animals will stay listed, and the caravan will leave by an edge your allowed areas permit.</description>
+  <description>In development, and not yet released. So far it adds a Load work type next to Haul: colonists who are not going with a forming caravan help load it, and loading carries on while any listed item can still be fetched. When finished it will fix the other slow and fragile parts of forming a caravan as well: drafting will no longer drop a lead, cargo already on pack animals will stay listed, and the caravan will leave by an edge your allowed areas permit.</description>
   <supportedVersions>
     <li>1.6</li>
   </supportedVersions>

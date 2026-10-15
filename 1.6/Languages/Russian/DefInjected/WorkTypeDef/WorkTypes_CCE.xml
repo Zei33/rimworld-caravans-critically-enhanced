@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- The Work tab column header is labelShort, capitalised by the game. -->
+  <CCE_Loading.labelShort>грузчик</CCE_Loading.labelShort>
+  <CCE_Loading.pawnLabel>Грузчик</CCE_Loading.pawnLabel>
+  <CCE_Loading.gerundLabel>Грузить</CCE_Loading.gerundLabel>
+  <CCE_Loading.description>Грузчики помогают грузить собирающиеся караваны, даже если сами не уходят с ними.</CCE_Loading.description>
+  <CCE_Loading.verb>Загрузить</CCE_Loading.verb>
+
+</LanguageData>

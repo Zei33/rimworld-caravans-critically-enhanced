@@ -80,6 +80,20 @@ namespace CaravansCriticallyEnhanced.Tests
         }
 
         [Test]
+        public void PatchesIsStagedAsItsXmlAlone()
+        {
+            // 1.6/Patches holds the C# Harmony patch classes as well as the XML PatchOperations, so
+            // naming the folder is not enough: a cp -r of it would pass the folder check above and ship
+            // every patch's source.
+            string script = Commands();
+
+            Assert.That(script, Does.Contain("cp 1.6/Patches/*.xml"));
+            Assert.That(script, Does.Not.Contain("cp -r 1.6/Patches"));
+            Assert.That(System.IO.Directory.GetFiles(Repo.PathOf("1.6", "Patches"), "*.cs"), Is.Not.Empty,
+                "The premise: Patches holds C# as well as XML.");
+        }
+
+        [Test]
         public void TheWorkshopFolderNeverShips()
         {
             // Workshop/ holds the store copy and its sources. Nothing in it is read by the game, and the

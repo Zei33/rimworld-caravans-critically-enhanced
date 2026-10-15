@@ -1,3 +1,4 @@
+using System;
 using CaravansCriticallyEnhanced.Core;
 using HarmonyLib;
 using UnityEngine;
@@ -21,21 +22,58 @@ namespace CaravansCriticallyEnhanced
         /// <param name="pack">The mod's content pack.</param>
         /// <remarks>
         /// The settings are loaded before patching, so no patch can run before they exist.
-        /// <c>PatchAll</c> walks this assembly's types and applies every class carrying
-        /// <c>[HarmonyPatch]</c>; a class that throws at patch time stops every class after it, which
-        /// is why every patch target is resolved by a test the way Harmony will resolve it.
         /// </remarks>
         public CaravansCriticallyEnhancedMod(ModContentPack pack) : base(pack)
         {
             Settings = GetSettings<CaravansCriticallyEnhancedSettings>();
 
-            new Harmony(HarmonyId).PatchAll();
+            ApplyPatches(new Harmony(HarmonyId));
 
             // Read from the metadata rather than written out, so the version lives in About.xml alone.
             // Gated on dev mode: informational logging is for whoever is debugging.
             if (Prefs.DevMode)
             {
                 Log.Message($"[CaravansCriticallyEnhanced] Loaded version {pack.ModMetaData.ModVersion}.");
+            }
+        }
+
+        /// <summary>
+        /// Applies every patch class in this assembly, one class at a time.
+        /// </summary>
+        /// <param name="harmony">The mod's Harmony instance.</param>
+        /// <remarks>
+        /// <para>
+        /// <c>Harmony.PatchAll</c> walks the same classes with no catch, so the first class that throws
+        /// stops every class after it, and which ones those are depends on type order. After a game
+        /// update that renames one target, that would leave an arbitrary half of the mod applied.
+        /// Here each class stands or falls alone and says which one failed. Every target is also
+        /// resolved by <c>Tests/PatchTargetTests.cs</c> the way Harmony will resolve it, so a failure
+        /// here means the game changed under a released build.
+        /// </para>
+        /// <para>
+        /// Only classes carrying a Harmony attribute are processed, as <c>PatchAll</c> does in the
+        /// Harmony players run (2.4). Its class processor no longer stops early for a class without
+        /// one, so handing it every type would run any method that happened to be called
+        /// <c>Prepare</c>, <c>Cleanup</c> or <c>TargetMethods</c>, anywhere in the mod, at startup.
+        /// </para>
+        /// </remarks>
+        private static void ApplyPatches(Harmony harmony)
+        {
+            foreach (Type type in AccessTools.GetTypesFromAssembly(typeof(CaravansCriticallyEnhancedMod).Assembly))
+            {
+                if (!Attribute.IsDefined(type, typeof(HarmonyAttribute), true))
+                {
+                    continue;
+                }
+
+                try
+                {
+                    harmony.CreateClassProcessor(type).Patch();
+                }
+                catch (Exception exception)
+                {
+                    Log.Error("[CaravansCriticallyEnhanced] Could not apply " + type.FullName + ": " + exception);
+                }
             }
         }
 

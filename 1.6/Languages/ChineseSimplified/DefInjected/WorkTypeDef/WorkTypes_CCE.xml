@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- The Work tab column header is labelShort, capitalised by the game. -->
+  <CCE_Loading.labelShort>装载</CCE_Loading.labelShort>
+  <CCE_Loading.pawnLabel>装载工</CCE_Loading.pawnLabel>
+  <CCE_Loading.gerundLabel>装载</CCE_Loading.gerundLabel>
+  <CCE_Loading.description>装载工负责帮忙装载正在组建的远行队，即使自己不随队出发。</CCE_Loading.description>
+  <CCE_Loading.verb>装载</CCE_Loading.verb>
+
+</LanguageData>

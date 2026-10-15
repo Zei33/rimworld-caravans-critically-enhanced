@@ -53,7 +53,7 @@
   <CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>La carga que no va se deja junto al animal al momento, en lugar de descargarse pila a pila. Mientras Bulk Load For Transporters esté activo, esto ocurre siempre, porque ese mod sustituye la descarga.</CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>
 
   <CaravansCriticallyEnhanced_SettingCompletionGuard>Esperar a todos los objetos</CaravansCriticallyEnhanced_SettingCompletionGuard>
-  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>La caravana no termina de cargar mientras queden en el suelo objetos de la lista. Los objetos a los que nadie puede llegar se quitan de la lista tras el periodo de gracia de abajo.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
+  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>La caravana no termina de cargar mientras queden en el suelo objetos de la lista. Los objetos a los que nadie puede llegar se quitan de la lista tras el periodo de gracia de abajo. Si no se carga nada en absoluto durante el doble de ese tiempo, se quita todo lo que siga en la lista.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
   <CaravansCriticallyEnhanced_SettingManifestReconcile>Reparar la lista de objetos</CaravansCriticallyEnhanced_SettingManifestReconcile>
   <CaravansCriticallyEnhanced_SettingManifestReconcileTip>Cuando un objeto de la lista se come, se destruye o se combina con otra pila, la caravana toma en su lugar una pila idéntica. Lo que no puede sustituir se quita de la lista con un mensaje.</CaravansCriticallyEnhanced_SettingManifestReconcileTip>
   <CaravansCriticallyEnhanced_SettingStallReadout>Explicar los retrasos</CaravansCriticallyEnhanced_SettingStallReadout>
@@ -69,5 +69,10 @@
   <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>Cargar a mano un objeto en una caravana en formación llena primero los animales de carga con sitio, después al colono que lo carga y después a los demás colonos que van.</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>
   <CaravansCriticallyEnhanced_SettingManualLoadsCount>Contar los objetos cargados a mano</CaravansCriticallyEnhanced_SettingManualLoadsCount>
   <CaravansCriticallyEnhanced_SettingManualLoadsCountTip>Los objetos cargados a mano cuentan para la lista de la caravana, así que no se cargan una segunda vez.</CaravansCriticallyEnhanced_SettingManualLoadsCountTip>
+
+  <!-- Loading -->
+  <CaravansCriticallyEnhanced_NoCarrier>nadie en la caravana puede llevar eso</CaravansCriticallyEnhanced_NoCarrier>
+  <CaravansCriticallyEnhanced_LoadingSkippedBlocked>Nadie en la caravana en formación pudo recoger algunos objetos durante {0}, así que saldrá sin ellos: {1}.</CaravansCriticallyEnhanced_LoadingSkippedBlocked>
+  <CaravansCriticallyEnhanced_LoadingGaveUp>La caravana en formación no cargó nada durante {0}, así que saldrá sin lo siguiente: {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
 
 </LanguageData>

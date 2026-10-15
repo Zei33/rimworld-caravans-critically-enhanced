@@ -7,7 +7,7 @@ rule below, is `docs/caravans/PLAN.md` in the workspace that holds this reposito
 
 | Folder | Holds |
 |---|---|
-| `1.6/ModEntry.cs` | The `Mod` subclass: settings, `Harmony.PatchAll()`, the version log in dev mode |
+| `1.6/ModEntry.cs` | The `Mod` subclass: settings, each patch class applied on its own, so one failure cannot stop the rest, the version log in dev mode |
 | `1.6/Core/` | Decisions and state: the settings, the stage of a forming caravan, which lords the mod may act on |
 | `1.6/Utils/` | Thin access to vanilla: private field accessors, the message helper |
 | `1.6/Jobs/` | Work givers and job drivers, from Slice 1 |
@@ -38,6 +38,31 @@ calls each feature in turn and each feature checks its own switch.
 
 **Messages stay out of the History tab.** Every message goes through `CaravanMessages`, which always
 passes `historical: false`.
+
+## Loading
+
+The Load work giver is a scanner with no thing request, so no region search is built, and its
+`ShouldSkip` is one pass over the map's lords. It skips any pawn in a lord, since a duty rewrites a
+job's lord, and with nothing to load it drops what it remembered, because one instance lives all
+session and would otherwise hold the last save's map. Its search set comes from `LoadingIndex`, rebuilt at
+most once per tick and frame per map from every vanilla forming lord at a stage open to helpers:
+every listed thing on the map, the first caravan to list a thing owning it. The job it hands out is
+vanilla's own gather job pointed at that caravan, so vanilla's driver, its count of hauls in progress
+and its completion check all treat the helper as they would vanilla's helper. A prefix stands
+vanilla's helper down meanwhile.
+
+Three patches shape what a helper does once it has the job: a postfix on the driver's carrier test
+applies `CarrierRule`, a postfix on its `MakeNewToils` ends the job when the caravan moves past the
+gathering stages, and the completion guard, a postfix on `AllItemsLoadedOntoCaravan`, keeps loading
+open while listed items are still there to fetch. The guard acts only while items are being
+gathered. It decides in `CompletionGuard`, which is pure and also holds every rule its reader
+applies; `LoadingCompletion` reads the lord for it, asking vanilla's own `FindThingToHaul` whether
+any undrafted member would fetch something, and from the lord job's tick takes expired items off
+the list once a fresh look confirms nobody started hauling meanwhile.
+
+The first load of a save made without the mod also puts back the work priorities of mods loaded
+after it, which the inserted work type shifts along by one, and then copies each pawn's hauling
+priority into Load.
 
 ## Settings
 

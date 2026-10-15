@@ -159,5 +159,28 @@ namespace CaravansCriticallyEnhanced.Tests
             Assert.That(openWithoutEarly, Is.EqualTo(new[] { FormingStage.GatherItems }));
             Assert.That(openWithEarly, Is.EquivalentTo(new[] { FormingStage.GatherAnimals, FormingStage.GatherItems }));
         }
+
+        [Test]
+        public void HelpersCarryOnThroughBothGatheringStagesAndTheirPausesOnly()
+        {
+            // A helper already walking with a stack finishes it through a mental-break pause, and
+            // stops the moment the caravan moves on to its downed pawns or anything after.
+            var may = new List<FormingStage>();
+            foreach (FormingStage stage in Enum.GetValues(typeof(FormingStage)))
+            {
+                if (FormingStages.HelpersMayContinue(stage))
+                {
+                    may.Add(stage);
+                }
+            }
+
+            Assert.That(may, Is.EquivalentTo(new[]
+            {
+                FormingStage.GatherAnimals,
+                FormingStage.GatherAnimalsPause,
+                FormingStage.GatherItems,
+                FormingStage.GatherItemsPause,
+            }));
+        }
     }
 }

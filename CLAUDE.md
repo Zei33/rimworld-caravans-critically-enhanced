@@ -24,13 +24,14 @@ Fixes caravan forming. When finished it will:
 
 plus stuck-caravan fixes, loaded-cargo protection, unloading returning pack animals at a stockpile,
 and a better manual load. The work is in slices; `docs/ROADMAP.md` in the workspace says which have
-landed. **As of Slice 0 the mod does nothing in game except show its settings window.**
+landed. **As of Slice 1 the Load work type and the completion guard are in; nothing else changes
+the game yet.**
 
 ## Architecture
 
 | Type | File | Role |
 |---|---|---|
-| `CaravansCriticallyEnhancedMod : Mod` | `1.6/ModEntry.cs` | Loads the settings, `PatchAll()`, dev-mode version log |
+| `CaravansCriticallyEnhancedMod : Mod` | `1.6/ModEntry.cs` | Loads the settings, applies each patch class on its own with an error per failure, dev-mode version log |
 | `CaravansCriticallyEnhancedSettings : ModSettings` | `1.6/Core/CaravansCriticallyEnhancedSettings.cs` | The switches and four numbers, the scroll-view settings window |
 | `SettingToggles`, `ToggleSpec`, `Toggle`, `SettingGroup` | `1.6/Core/SettingToggles.cs` | One table holding every switch: section, scribe key, default, translation keys, parent |
 | `FormingStage`, `FormingStages` | `1.6/Core/FormingStages.cs` | The vanilla forming graph's toil index as a named stage. Pure |
@@ -38,8 +39,30 @@ landed. **As of Slice 0 the mod does nothing in game except show its settings wi
 | `CaravanLordAccess` | `1.6/Utils/CaravanLordAccess.cs` | `FieldRefAccess` to the lord job's `exitSpot` and `meetingPoint` and the toils' copies of the exit, each resolved lazily and on its own, null if its field has gone |
 | `CaravanMessages` | `1.6/Utils/CaravanMessages.cs` | The only caller of `Messages.Message`, always `historical: false` |
 | `JobMemo<TAsker, TSubject, TAnswer>` | `1.6/Core/JobMemo.cs` | Copied from Simple Improve: lets a work giver's `HasJobOnThing` and `JobOnThing` answer from one computation |
+| `CaravansCriticallyEnhancedDefOf` | `1.6/Core/CaravansCriticallyEnhancedDefOf.cs` | `CCE_Loading` |
+| `WorkGiver_CCE_LoadCaravan : WorkGiver_Scanner` | `1.6/Jobs/WorkGiver_CCE_LoadCaravan.cs` | The Load giver. No thing request; `ShouldSkip` skips any pawn in a lord and is free when nothing is forming, and then forgets what it held; the search set from `LoadingIndex`; one memoised `BuildJob` behind both scan entry points, carrier first; hands out vanilla's own `PrepareCaravan_GatherItems` job with `job.lord` set |
+| `LoadingIndex`, `LoadingClaim` | `1.6/Core/LoadingIndex.cs` | Per map, rebuilt at most once per tick and frame: which listed items helpers may fetch (not in a closed haul source) and which caravan and row each belongs to |
+| `LoadingCandidates` | `1.6/Core/LoadingCandidates.cs` | The search set's rules: no nulls, first caravan to list a thing owns it, a `List`. Pure |
+| `CarrierRule` | `1.6/Core/CarrierRule.cs` | Which member a helper may hand an item to: none drafted, in a mental state or outside the helper's area; no overloaded colonists, colonists only with the setting, none while animals gather, rope animals only once tied at their own spot. Pure |
+| `CompletionGuard`, `CompletionVerdict` | `1.6/Core/CompletionGuard.cs` | Whether a caravan vanilla calls loaded really is: hold while items are takeable, hold blocked items for the grace period, let go after the watchdog. Also every rule its reader applies: the stage it acts in, who counts as a waiting member and as a taker, how a listed thing counts, when an expiry is due and confirmed. Clocks travel as one `GuardClocks` value. Pure |
+| `LoadingCompletion` | `1.6/Core/LoadingCompletion.cs` | The guard's reader: asks vanilla's own `FindThingToHaul` for each undrafted member, counts live units, keeps the clocks per lord job, applies the drafted-member exemption, clears rows with no things left while holding, and lets expired items go with a message |
+| `LoadingMigration` | `1.6/Core/LoadingMigration.cs` | The one-time Load priority copy, and `MakeRoom`, which puts later work types' priorities back in their own slots on the first load. Pure |
 
-No defs and no Harmony patches yet. `PatchAll()` runs over an assembly with no `[HarmonyPatch]` class.
+Defs: `CCE_Loading` (WorkTypeDef, naturalPriority 310, the column directly left of Haul, Hauling's
+work tags) and `CCE_LoadCaravan` (WorkGiverDef, priorityInType 110). `1.6/Patches/MechWorkTypes.xml`
+adds `CCE_Loading` to every `mechEnabledWorkTypes` list that names Hauling, which in the shipped game
+is the Lifter alone.
+
+Harmony surface, one class per vanilla target in `1.6/Patches/`, each applied on its own by `ApplyPatches`:
+
+| Class | Target | Kind | Does |
+|---|---|---|---|
+| `Patch_WorkGiver_HelpGatheringItemsForCaravan_NonScanJob` | `WorkGiver_HelpGatheringItemsForCaravan.NonScanJob` | Prefix | Stands vanilla's helper down while Load is on, unless a subclass lord is forming on the map |
+| `Patch_JobDriver_PrepareCaravan_GatherItems_IsUsableCarrier` | `JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier` | Postfix | `CarrierRule` for helpers only; hot path, early exits first |
+| `Patch_JobDriver_PrepareCaravan_GatherItems_MakeNewToils` | `JobDriver_PrepareCaravan_GatherItems.MakeNewToils` | Postfix | A helper's job fails once the caravan leaves the gathering stages |
+| `Patch_CaravanFormingUtility_AllItemsLoadedOntoCaravan` | `CaravanFormingUtility.AllItemsLoadedOntoCaravan` | Postfix, last | The single owner of the answer, in the item-gathering stage only: drafted-member exemption, then the completion guard |
+| `Patch_LordJob_FormAndSendCaravan_LordJobTick` | `LordJob_FormAndSendCaravan.LordJobTick` | Postfix | Every 250 ticks per lord, staggered: the progress clock and letting expired items go |
+| `Patch_Pawn_WorkSettings_ExposeData` | `Pawn_WorkSettings.ExposeData` | Postfix | Saves `cceLoadingInit`; on the first load without it, realigns later work types' priorities and copies the helper's work type priority into Load |
 
 ## Invariants and traps
 
@@ -88,9 +111,52 @@ The plan's architecture rules are binding on every slice; the short form:
   `ToStringTicksToPeriod` rounds anything over an hour to whole hours, so a finer step would put two
   values under one label. A slider value is snapped only when the player moves it.
 
+- **Helpers run vanilla's job, unchanged, and that is load-bearing.** `TransferableCountHauledByOthers`
+  counts hauls in progress by job def equality and casts the driver, and `AllItemsLoadedOntoCaravan`
+  holds loading open while any pawn runs that driver for the lord. A job def of the mod's own would
+  silently stop both. `job.lord` must be set: the driver casts it.
+- **Helpers respect forbidden items and allowed areas; members still ignore both, as in vanilla.**
+  `JobGiver_Work`'s scan validator tests `IsForbidden` on the item, and the carrier postfix refuses a
+  member outside the helper's area, which vanilla's `FindBestCarrier` never asks. A changelog note,
+  not a bug.
+- **Helpers choose items at `NormalMaxDanger`, where vanilla's helper used `Danger.Deadly`.** The
+  scanner default, and it only filters which item is chosen (`JobGiver_Work` passes `MaxPathDanger`
+  to the search). The carrier test and the walk itself still use Deadly, as vanilla does. Also a
+  changelog note.
+- **A pawn in any lord is never a helper.** `ThinkNode_Duty` overwrites a job's lord with the pawn's
+  own, and a forming caravan's pause duty, Defend, Follow and Build all run `JobGiver_Work`; the
+  gather driver then works the wrong caravan or throws casting the wrong lord job.
+- **The completion guard only ever turns done into not done, and cannot hold forever.** It acts in
+  the item-gathering stage only, not its pause. It holds while any undrafted colonist member's own
+  `FindThingToHaul` finds something, which is exactly when a member would act; any test of its own
+  disagreed with that somewhere (closed outfit stands, haul sources beyond the search's region
+  budget). Once no member would, live units are blocked: they hold for the grace period and come
+  off the list. Held for twice the grace period with no loading progress, everything left comes off.
+  Both are counted in time spent holding (`GuardClocks`): a reading where vanilla says not done,
+  because a member went to eat or sleep, pauses them rather than restarting them, which with a long
+  grace period would never have let a blocked item go. A
+  thing in a pawn's hands is blocked, never gone. The drafted-member exemption needs one undrafted
+  colonist member waiting, so an all-drafted caravan waits as vanilla does and never reaches the
+  watchdog. Until Slice 3 patches `TransitionAction_EndAllJobs`, the AllItemsGathered transition the
+  exemption lets through still ends a drafted member's current order once. The hold state is not
+  saved: after a load the clocks restart, which can only lengthen a wait.
+- **A list row can be left with a count and no things.** `TransferableOneWay.ExposeData` drops
+  destroyed things on every save, and `Label` reads the first thing, so it throws on such a row,
+  inside vanilla's Force-depart confirmation too. With the guard on, those rows are cleared on every completion test and every lord tick pass, and
+  `LetGo` never reads a row's `Label`.
+- **`cceLoadingInit` must never be renamed.** A renamed flag reads as absent, realigns priorities
+  that were never shifted, and copies the hauling priority over every pawn's Load priority again.
+  `DefMap` is positional by def index, which follows mod load order, so adding this mod would shift
+  every later mod's saved work priorities one column along; the first load puts them back
+  (`LoadingMigration.MakeRoom`). Removing the mod shifts them the other way, as removing any work
+  type mod does, and that goes on the store page.
+
 ## Defect register
 
-Nothing shipped, nothing reported.
+Nothing shipped, nothing reported. One known gap, inherited from vanilla's helper: removing an item
+in the forming caravan tab ends the hauls of free colonists only
+(`ITab_Pawn_FormingCaravan.EndJobForEveryoneHauling`), so a Lifter already carrying it still delivers
+it.
 
 ## Open user reports
 

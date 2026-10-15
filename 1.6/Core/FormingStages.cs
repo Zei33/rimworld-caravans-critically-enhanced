@@ -140,5 +140,23 @@ namespace CaravansCriticallyEnhanced.Core
         {
             return stage == FormingStage.GatherItems || (earlyLoading && stage == FormingStage.GatherAnimals);
         }
+
+        /// <summary>
+        /// Determines whether a helper already carrying an item for the caravan should carry on.
+        /// </summary>
+        /// <param name="stage">The stage.</param>
+        /// <returns>
+        /// <c>true</c> while animals or items are being gathered, pauses included; <c>false</c> once the
+        /// caravan has moved on, by force depart or by finishing.
+        /// </returns>
+        /// <remarks>
+        /// Wider than <see cref="OpenForLoading"/> on purpose. A pause for a member's mental break
+        /// stops new help starting, as vanilla does, but a helper halfway to a carrier finishes the trip.
+        /// </remarks>
+        public static bool HelpersMayContinue(FormingStage stage)
+        {
+            FormingStage working = WorkingStageOf(stage);
+            return working == FormingStage.GatherAnimals || working == FormingStage.GatherItems;
+        }
     }
 }

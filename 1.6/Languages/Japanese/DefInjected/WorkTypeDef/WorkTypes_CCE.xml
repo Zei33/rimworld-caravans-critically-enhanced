@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- The Work tab column header is labelShort, capitalised by the game. -->
+  <CCE_Loading.labelShort>荷積み</CCE_Loading.labelShort>
+  <CCE_Loading.pawnLabel>荷積み係</CCE_Loading.pawnLabel>
+  <CCE_Loading.gerundLabel>荷積み</CCE_Loading.gerundLabel>
+  <CCE_Loading.description>編成中のキャラバン隊の荷積みを、同行しない場合でも手伝います。</CCE_Loading.description>
+  <CCE_Loading.verb>積み込む</CCE_Loading.verb>
+
+</LanguageData>

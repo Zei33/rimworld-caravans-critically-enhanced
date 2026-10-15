@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- The Work tab column header is labelShort, capitalised by the game. -->
+  <CCE_Loading.labelShort>Ładowacz</CCE_Loading.labelShort>
+  <CCE_Loading.pawnLabel>Ładowacz</CCE_Loading.pawnLabel>
+  <CCE_Loading.gerundLabel>Załadunek</CCE_Loading.gerundLabel>
+  <CCE_Loading.description>Pomaganie w załadunku formowanych karawan, nawet bez wyruszania z nimi.</CCE_Loading.description>
+  <CCE_Loading.verb>Ładuje</CCE_Loading.verb>
+
+</LanguageData>

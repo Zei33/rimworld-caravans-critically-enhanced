@@ -53,7 +53,7 @@
   <CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>Cargo that is not going is dropped beside the animal straight away, instead of being unloaded one stack at a time. While Bulk Load For Transporters is active this always happens, because that mod replaces unloading.</CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>
 
   <CaravansCriticallyEnhanced_SettingCompletionGuard>Wait for every item</CaravansCriticallyEnhanced_SettingCompletionGuard>
-  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>Loading does not finish while items on the list are still lying on the ground. Items nobody can reach are dropped from the list after the grace period below.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
+  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>Loading does not finish while items on the list are still lying on the ground. Items nobody can reach are dropped from the list after the grace period below. If nothing at all is loaded for twice that long, everything still on the list is dropped.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
   <CaravansCriticallyEnhanced_SettingManifestReconcile>Repair the item list</CaravansCriticallyEnhanced_SettingManifestReconcile>
   <CaravansCriticallyEnhanced_SettingManifestReconcileTip>When an item on the list is eaten, destroyed or merged into another stack, the caravan takes an identical stack instead. What it cannot replace is dropped from the list with a message.</CaravansCriticallyEnhanced_SettingManifestReconcileTip>
   <CaravansCriticallyEnhanced_SettingStallReadout>Explain delays</CaravansCriticallyEnhanced_SettingStallReadout>
@@ -69,5 +69,10 @@
   <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>Loading an item onto a forming caravan by hand fills pack animals that have room first, then the colonist doing it, then the other colonists going.</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>
   <CaravansCriticallyEnhanced_SettingManualLoadsCount>Count items loaded by hand</CaravansCriticallyEnhanced_SettingManualLoadsCount>
   <CaravansCriticallyEnhanced_SettingManualLoadsCountTip>Items loaded by hand count towards the caravan's list, so they are not loaded a second time.</CaravansCriticallyEnhanced_SettingManualLoadsCountTip>
+
+  <!-- Loading -->
+  <CaravansCriticallyEnhanced_NoCarrier>nobody in the caravan can take it</CaravansCriticallyEnhanced_NoCarrier>
+  <CaravansCriticallyEnhanced_LoadingSkippedBlocked>Nobody in the forming caravan could take some items for {0}, so it will leave without them: {1}.</CaravansCriticallyEnhanced_LoadingSkippedBlocked>
+  <CaravansCriticallyEnhanced_LoadingGaveUp>The forming caravan loaded nothing for {0}, so it will leave without: {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
 
 </LanguageData>

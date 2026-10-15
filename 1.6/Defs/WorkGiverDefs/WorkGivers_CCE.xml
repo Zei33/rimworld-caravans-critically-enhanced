@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Replaces vanilla's HelpGatheringItemsForCaravan, which a Harmony prefix stands down while the Load
+    setting is on. The vanilla def is left where it is, so other mods' patches to it still apply.
+    canBeDoneByMechs is left at its default, true: a Lifter hauls, and 1.6/Patches/MechWorkTypes.xml
+    gives it the Load work type.
+  -->
+  <WorkGiverDef>
+    <defName>CCE_LoadCaravan</defName>
+    <label>load caravans</label>
+    <giverClass>CaravansCriticallyEnhanced.Jobs.WorkGiver_CCE_LoadCaravan</giverClass>
+    <workType>CCE_Loading</workType>
+    <verb>load</verb>
+    <gerund>loading</gerund>
+    <priorityInType>110</priorityInType>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+</Defs>

@@ -53,7 +53,7 @@
   <CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>不随队出发的货物会立即放到动物旁边，而不是逐堆卸下。启用 Bulk Load For Transporters 时总会如此，因为该模组取代了卸货流程。</CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>
 
   <CaravansCriticallyEnhanced_SettingCompletionGuard>等待所有物品</CaravansCriticallyEnhanced_SettingCompletionGuard>
-  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>只要清单上的物品还留在地上，装载就不会结束。无人能到达的物品会在下方的宽限期过后从清单中移除。</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
+  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>只要清单上的物品还留在地上，装载就不会结束。无人能到达的物品会在下方的宽限期过后从清单中移除。如果在宽限期两倍的时间内没有装载任何物品，清单上剩余的所有物品都会被移除。</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
   <CaravansCriticallyEnhanced_SettingManifestReconcile>修复物品清单</CaravansCriticallyEnhanced_SettingManifestReconcile>
   <CaravansCriticallyEnhanced_SettingManifestReconcileTip>当清单上的物品被吃掉、摧毁或合并到其他堆叠中时，远行队会改为携带一堆相同的物品。无法替代的物品会从清单中移除，并显示一条消息。</CaravansCriticallyEnhanced_SettingManifestReconcileTip>
   <CaravansCriticallyEnhanced_SettingStallReadout>说明延误原因</CaravansCriticallyEnhanced_SettingStallReadout>
@@ -69,5 +69,10 @@
   <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>手动将物品装入组建中的远行队时，会先装到有空间的驮运动物身上，然后是执行装载的殖民者，最后是其他随队出发的殖民者。</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>
   <CaravansCriticallyEnhanced_SettingManualLoadsCount>计入手动装载的物品</CaravansCriticallyEnhanced_SettingManualLoadsCount>
   <CaravansCriticallyEnhanced_SettingManualLoadsCountTip>手动装载的物品会计入远行队清单，因此不会被重复装载。</CaravansCriticallyEnhanced_SettingManualLoadsCountTip>
+
+  <!-- Loading -->
+  <CaravansCriticallyEnhanced_NoCarrier>远行队中无人能携带</CaravansCriticallyEnhanced_NoCarrier>
+  <CaravansCriticallyEnhanced_LoadingSkippedBlocked>组建中的远行队在{0}内无人能够拿到部分物品，因此将不带这些物品出发：{1}。</CaravansCriticallyEnhanced_LoadingSkippedBlocked>
+  <CaravansCriticallyEnhanced_LoadingGaveUp>组建中的远行队在{0}内没有装载任何物品，因此将不带以下物品出发：{1}。</CaravansCriticallyEnhanced_LoadingGaveUp>
 
 </LanguageData>

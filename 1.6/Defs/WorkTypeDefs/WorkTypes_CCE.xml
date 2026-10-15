@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    The Load column. naturalPriority 310 puts it directly left of Haul: the Work tab draws columns in
+    descending naturalPriority, Hauling is 300, FSF Complex Jobs' Transport is 325 and Odyssey's
+    Fishing 350. At equal player priority a higher naturalPriority is also searched first, so a pawn
+    loads a forming caravan before it hauls.
+
+    workTags match Hauling's exactly, so the same backstories, traits and injuries that rule out
+    hauling rule out loading. requireCapableColonist is false, unlike Hauling: it is read only by the
+    scenario start page, where true would add a new reason the player cannot start.
+  -->
+  <WorkTypeDef>
+    <defName>CCE_Loading</defName>
+    <labelShort>load</labelShort>
+    <pawnLabel>Loader</pawnLabel>
+    <gerundLabel>loading</gerundLabel>
+    <description>Help load caravans that are forming, even when not going with them.</description>
+    <verb>Load</verb>
+    <naturalPriority>310</naturalPriority>
+    <alwaysStartActive>true</alwaysStartActive>
+    <requireCapableColonist>false</requireCapableColonist>
+    <workTags>
+      <li>ManualDumb</li>
+      <li>Hauling</li>
+      <li>Commoner</li>
+      <li>AllWork</li>
+    </workTags>
+  </WorkTypeDef>
+
+</Defs>

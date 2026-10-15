@@ -243,6 +243,116 @@ namespace CaravansCriticallyEnhanced.Tests
             }
         }
 
+        [Test]
+        public void EveryLanguageInjectsTheSameDefFields()
+        {
+            // The Keyed half alone is not enough: Simple Improve shipped every Keyed key in all nine and
+            // no DefInjected/WorkGiverDef at all, and the float menu rendered part English everywhere.
+            Dictionary<string, List<string>> english = InjectionsFor("English");
+            Assert.That(english.Keys, Is.Not.Empty, "English injects nothing at all.");
+
+            foreach (string language in Repo.Languages)
+            {
+                Dictionary<string, List<string>> injected = InjectionsFor(language);
+                Assert.That(injected.Keys, Is.EquivalentTo(english.Keys), language + " injects different def types.");
+
+                foreach (string defType in english.Keys.Where(injected.ContainsKey))
+                {
+                    Assert.That(injected[defType], Is.EquivalentTo(english[defType]), language + "/" + defType);
+                }
+            }
+        }
+
+        [Test]
+        public void EveryTranslatableFieldTheDefsSetIsInjected()
+        {
+            // The fields are [MustTranslate] on their def types. A def setting one that no injection
+            // covers renders English in the eight other languages, and nothing fails loudly.
+            var mustTranslate = new Dictionary<string, string[]>
+            {
+                { "WorkTypeDef", new[] { "labelShort", "pawnLabel", "gerundLabel", "description", "verb", "label" } },
+                { "WorkGiverDef", new[] { "label", "verb", "gerund", "description" } },
+                { "JobDef", new[] { "reportString", "label", "description" } },
+            };
+
+            var expected = new List<string>();
+            foreach (XElement def in DefXml.ModDefNodes)
+            {
+                if (!mustTranslate.TryGetValue(def.Name.LocalName, out string[] fields))
+                {
+                    continue;
+                }
+
+                string defName = def.Element("defName").Value;
+                expected.AddRange(fields.Where(f => def.Element(f) != null).Select(f => def.Name.LocalName + "/" + defName + "." + f));
+            }
+
+            Dictionary<string, List<string>> english = InjectionsFor("English");
+            List<string> injected = english.SelectMany(kv => kv.Value.Select(key => kv.Key + "/" + key)).ToList();
+
+            Assert.That(expected.Count, Is.EqualTo(8), "Translatable fields set by the mod's defs.");
+            Assert.That(injected, Is.EquivalentTo(expected));
+        }
+
+        [Test]
+        public void NoInjectionIsLeftInEnglish()
+        {
+            Dictionary<string, string> english = InjectedValues("English");
+            int compared = 0;
+            var same = new List<string>();
+
+            foreach (string language in Repo.Languages.Where(l => l != "English"))
+            {
+                foreach (KeyValuePair<string, string> entry in InjectedValues(language))
+                {
+                    compared++;
+                    if (english.TryGetValue(entry.Key, out string source) && entry.Value == source)
+                    {
+                        same.Add(language + "/" + entry.Key);
+                    }
+                }
+            }
+
+            Assert.That(compared, Is.EqualTo(8 * english.Count));
+            Assert.That(same, Is.Empty);
+        }
+
+        private static Dictionary<string, List<string>> InjectionsFor(string language)
+        {
+            string root = Repo.PathOf("1.6", "Languages", language, "DefInjected");
+            var found = new Dictionary<string, List<string>>();
+            if (!Directory.Exists(root))
+            {
+                return found;
+            }
+
+            foreach (string directory in Directory.GetDirectories(root))
+            {
+                found[Path.GetFileName(directory)] = Directory.GetFiles(directory, "*.xml", SearchOption.AllDirectories)
+                    .SelectMany(f => XDocument.Load(f).Root.Elements().Select(e => e.Name.LocalName))
+                    .ToList();
+            }
+
+            return found;
+        }
+
+        private static Dictionary<string, string> InjectedValues(string language)
+        {
+            var values = new Dictionary<string, string>();
+            foreach (KeyValuePair<string, List<string>> kv in InjectionsFor(language))
+            {
+                foreach (string file in Directory.GetFiles(Repo.PathOf("1.6", "Languages", language, "DefInjected", kv.Key), "*.xml"))
+                {
+                    foreach (XElement element in XDocument.Load(file).Root.Elements())
+                    {
+                        values[kv.Key + "/" + element.Name.LocalName] = element.Value;
+                    }
+                }
+            }
+
+            return values;
+        }
+
         /// <summary>
         /// Finds every key the mod's C# passes to <c>Translate</c> directly.
         /// </summary>

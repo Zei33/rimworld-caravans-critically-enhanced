@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- The Work tab column header is labelShort, capitalised by the game. -->
+  <CCE_Loading.labelShort>chargeur</CCE_Loading.labelShort>
+  <CCE_Loading.pawnLabel>Chargeur</CCE_Loading.pawnLabel>
+  <CCE_Loading.gerundLabel>chargement</CCE_Loading.gerundLabel>
+  <CCE_Loading.description>Aider à charger les caravanes en formation, même sans partir avec elles.</CCE_Loading.description>
+  <CCE_Loading.verb>Charger</CCE_Loading.verb>
+
+</LanguageData>

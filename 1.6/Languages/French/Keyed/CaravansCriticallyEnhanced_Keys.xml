@@ -53,7 +53,7 @@
   <CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>La cargaison qui ne part pas est posée aussitôt à côté de l'animal, au lieu d'être déchargée pile par pile. Quand Bulk Load For Transporters est activé, c'est toujours le cas, car ce mod remplace le déchargement.</CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>
 
   <CaravansCriticallyEnhanced_SettingCompletionGuard>Attendre chaque objet</CaravansCriticallyEnhanced_SettingCompletionGuard>
-  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>Le chargement ne se termine pas tant que des objets de la liste sont encore au sol. Les objets que personne ne peut atteindre sont retirés de la liste après le délai de grâce ci-dessous.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
+  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>Le chargement ne se termine pas tant que des objets de la liste sont encore au sol. Les objets que personne ne peut atteindre sont retirés de la liste après le délai de grâce ci-dessous. Si rien du tout n'est chargé pendant le double de ce délai, tout ce qui reste sur la liste en est retiré.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
   <CaravansCriticallyEnhanced_SettingManifestReconcile>Réparer la liste des objets</CaravansCriticallyEnhanced_SettingManifestReconcile>
   <CaravansCriticallyEnhanced_SettingManifestReconcileTip>Quand un objet de la liste est mangé, détruit ou fusionné dans une autre pile, la caravane prend une pile identique à la place. Ce qu'elle ne peut pas remplacer est retiré de la liste, avec un message.</CaravansCriticallyEnhanced_SettingManifestReconcileTip>
   <CaravansCriticallyEnhanced_SettingStallReadout>Expliquer les retards</CaravansCriticallyEnhanced_SettingStallReadout>
@@ -69,5 +69,10 @@
   <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>Charger à la main un objet sur une caravane en formation remplit d'abord les bêtes de somme qui ont de la place, puis le colon qui s'en occupe, puis les autres colons qui partent.</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>
   <CaravansCriticallyEnhanced_SettingManualLoadsCount>Compter les objets chargés à la main</CaravansCriticallyEnhanced_SettingManualLoadsCount>
   <CaravansCriticallyEnhanced_SettingManualLoadsCountTip>Les objets chargés à la main comptent dans la liste de la caravane, pour ne pas être chargés une seconde fois.</CaravansCriticallyEnhanced_SettingManualLoadsCountTip>
+
+  <!-- Loading -->
+  <CaravansCriticallyEnhanced_NoCarrier>personne dans la caravane ne peut l'emporter</CaravansCriticallyEnhanced_NoCarrier>
+  <CaravansCriticallyEnhanced_LoadingSkippedBlocked>Personne dans la caravane en formation n'a pu récupérer certains objets pendant {0}, elle partira donc sans eux : {1}.</CaravansCriticallyEnhanced_LoadingSkippedBlocked>
+  <CaravansCriticallyEnhanced_LoadingGaveUp>La caravane en formation n'a rien chargé pendant {0}, elle partira donc sans les objets suivants : {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
 
 </LanguageData>

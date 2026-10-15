@@ -53,7 +53,7 @@
   <CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>Груз, который не уходит, сразу кладётся рядом с животным, а не выгружается по одной стопке. Пока активен Bulk Load For Transporters, так происходит всегда, потому что этот мод заменяет разгрузку.</CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>
 
   <CaravansCriticallyEnhanced_SettingCompletionGuard>Ждать все вещи</CaravansCriticallyEnhanced_SettingCompletionGuard>
-  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>Погрузка не завершается, пока вещи из списка ещё лежат на земле. Вещи, до которых никто не может добраться, убираются из списка после отсрочки, заданной ниже.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
+  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>Погрузка не завершается, пока вещи из списка ещё лежат на земле. Вещи, до которых никто не может добраться, убираются из списка после отсрочки, заданной ниже. Если в течение вдвое большего срока не погружено вообще ничего, из списка убирается всё, что в нём ещё осталось.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
   <CaravansCriticallyEnhanced_SettingManifestReconcile>Исправлять список вещей</CaravansCriticallyEnhanced_SettingManifestReconcile>
   <CaravansCriticallyEnhanced_SettingManifestReconcileTip>Если вещь из списка съели, уничтожили или объединили с другой стопкой, караван берёт вместо неё такую же стопку. То, что заменить нельзя, убирается из списка с сообщением.</CaravansCriticallyEnhanced_SettingManifestReconcileTip>
   <CaravansCriticallyEnhanced_SettingStallReadout>Объяснять задержки</CaravansCriticallyEnhanced_SettingStallReadout>
@@ -69,5 +69,10 @@
   <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>При ручной погрузке вещи в собирающийся караван сначала заполняются вьючные животные, у которых есть место, затем поселенец, который грузит, затем остальные уходящие поселенцы.</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>
   <CaravansCriticallyEnhanced_SettingManualLoadsCount>Учитывать вещи, погруженные вручную</CaravansCriticallyEnhanced_SettingManualLoadsCount>
   <CaravansCriticallyEnhanced_SettingManualLoadsCountTip>Вещи, погруженные вручную, засчитываются в список каравана, чтобы их не грузили второй раз.</CaravansCriticallyEnhanced_SettingManualLoadsCountTip>
+
+  <!-- Loading -->
+  <CaravansCriticallyEnhanced_NoCarrier>никто в караване не может это взять</CaravansCriticallyEnhanced_NoCarrier>
+  <CaravansCriticallyEnhanced_LoadingSkippedBlocked>Никто в собирающемся караване не смог забрать некоторые вещи (время ожидания: {0}), поэтому караван уйдёт без них: {1}.</CaravansCriticallyEnhanced_LoadingSkippedBlocked>
+  <CaravansCriticallyEnhanced_LoadingGaveUp>Собирающийся караван ничего не погрузил (время ожидания: {0}), поэтому уйдёт без этих вещей: {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
 
 </LanguageData>

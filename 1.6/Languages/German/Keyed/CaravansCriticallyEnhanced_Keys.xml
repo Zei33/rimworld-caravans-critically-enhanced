@@ -53,7 +53,7 @@
   <CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>Ladung, die nicht mitreist, wird sofort neben dem Tier abgelegt, statt Stapel für Stapel abgeladen zu werden. Solange Bulk Load For Transporters aktiv ist, geschieht das immer, weil diese Mod das Abladen ersetzt.</CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>
 
   <CaravansCriticallyEnhanced_SettingCompletionGuard>Auf jede Ware warten</CaravansCriticallyEnhanced_SettingCompletionGuard>
-  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>Das Beladen endet nicht, solange Waren von der Liste noch am Boden liegen. Waren, die niemand erreichen kann, werden nach der Schonfrist unten von der Liste gestrichen.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
+  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>Das Beladen endet nicht, solange Waren von der Liste noch am Boden liegen. Waren, die niemand erreichen kann, werden nach der Schonfrist unten von der Liste gestrichen. Wird doppelt so lange gar nichts geladen, wird alles von der Liste gestrichen, was noch darauf steht.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
   <CaravansCriticallyEnhanced_SettingManifestReconcile>Warenliste reparieren</CaravansCriticallyEnhanced_SettingManifestReconcile>
   <CaravansCriticallyEnhanced_SettingManifestReconcileTip>Wird eine Ware auf der Liste gegessen, zerstört oder mit einem anderen Stapel zusammengelegt, nimmt die Karawane stattdessen einen gleichen Stapel. Was sich nicht ersetzen lässt, wird mit einer Nachricht von der Liste gestrichen.</CaravansCriticallyEnhanced_SettingManifestReconcileTip>
   <CaravansCriticallyEnhanced_SettingStallReadout>Verzögerungen erklären</CaravansCriticallyEnhanced_SettingStallReadout>
@@ -69,5 +69,10 @@
   <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>Wird eine Ware von Hand in eine sich formierende Karawane geladen, kommt sie zuerst auf Lasttiere mit freiem Platz, dann auf den Kolonisten, der lädt, und dann auf die anderen Mitreisenden.</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>
   <CaravansCriticallyEnhanced_SettingManualLoadsCount>Von Hand geladene Waren mitzählen</CaravansCriticallyEnhanced_SettingManualLoadsCount>
   <CaravansCriticallyEnhanced_SettingManualLoadsCountTip>Von Hand geladene Waren zählen zur Liste der Karawane, damit sie nicht ein zweites Mal geladen werden.</CaravansCriticallyEnhanced_SettingManualLoadsCountTip>
+
+  <!-- Loading -->
+  <CaravansCriticallyEnhanced_NoCarrier>niemand in der Karawane kann das mitnehmen</CaravansCriticallyEnhanced_NoCarrier>
+  <CaravansCriticallyEnhanced_LoadingSkippedBlocked>Niemand in der sich formierenden Karawane konnte {0} lang einige Waren holen, daher reist sie ohne diese ab: {1}.</CaravansCriticallyEnhanced_LoadingSkippedBlocked>
+  <CaravansCriticallyEnhanced_LoadingGaveUp>Die sich formierende Karawane hat {0} lang nichts geladen und reist daher ohne Folgendes ab: {1}.</CaravansCriticallyEnhanced_LoadingGaveUp>
 
 </LanguageData>

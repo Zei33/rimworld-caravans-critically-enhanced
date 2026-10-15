@@ -27,7 +27,13 @@ mkdir -p release/1.6/Assemblies/net472
 # 0Harmony.dll under Libraries/ is reference-only and is never staged.
 cp 1.6/Assemblies/net472/CaravansCriticallyEnhanced.dll release/1.6/Assemblies/net472/
 
+cp -r 1.6/Defs release/1.6/Defs
 cp -r 1.6/Languages release/1.6/Languages
+
+# 1.6/Patches holds the XML PatchOperations the game reads beside the C# Harmony patches it does not.
+# RimWorld globs *.xml from a folder named exactly Patches, so only the XML is staged.
+mkdir -p release/1.6/Patches
+cp 1.6/Patches/*.xml release/1.6/Patches/
 
 # Languages carries a developer README. Keep only what the game loads.
 find release/1.6/Languages -type f ! -name '*.xml' -delete

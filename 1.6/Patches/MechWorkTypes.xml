@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!--
+    Colony mechs are gated by a whitelist: Verse.Pawn.GetDisabledWorkTypes disables, for a colony
+    mech under Biotech, every work type not in RaceProps.mechEnabledWorkTypes. So a mech that hauls
+    would lose the caravan help it got from vanilla's Hauling giver once that giver stands down. This
+    adds Load to every list that names Hauling: the Lifter in the shipped game, and any modded mech
+    that declares Hauling directly. Patches run before XmlInheritance.Resolve, so a mech that inherits
+    its list from a parent is not matched.
+
+    success is a child element, Always, so a game without Biotech, where no list matches, logs
+    nothing. MayRequire on an Operation is read by nothing, so it is not used.
+  -->
+  <Operation Class="PatchOperationAdd">
+    <success>Always</success>
+    <xpath>Defs/ThingDef/race/mechEnabledWorkTypes[li="Hauling"]</xpath>
+    <value>
+      <li>CCE_Loading</li>
+    </value>
+  </Operation>
+
+</Patch>

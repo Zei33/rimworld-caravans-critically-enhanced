@@ -8,8 +8,9 @@ A RimWorld 1.6 mod that fixes the slow and fragile parts of forming a caravan, i
 ## Status
 
 In development and not yet released. The mod is built in slices, and this file describes only what
-has landed. At the moment that is the settings window: the features behind its switches arrive one
-slice at a time.
+has landed. At the moment that is the settings window and the Load work type, with the check that
+keeps a caravan loading while any listed item can still be fetched. The features behind the other switches
+arrive one slice at a time.
 
 ## What it will do
 
