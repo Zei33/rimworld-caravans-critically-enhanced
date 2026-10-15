@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Settings window -->
+  <CaravansCriticallyEnhanced_SettingsCategory>Caravans Critically Enhanced</CaravansCriticallyEnhanced_SettingsCategory>
+  <CaravansCriticallyEnhanced_ResetToDefaults>Auf Standard zurücksetzen</CaravansCriticallyEnhanced_ResetToDefaults>
+
+  <CaravansCriticallyEnhanced_GroupLoading>Beladen</CaravansCriticallyEnhanced_GroupLoading>
+  <CaravansCriticallyEnhanced_GroupLeads>Leinen</CaravansCriticallyEnhanced_GroupLeads>
+  <CaravansCriticallyEnhanced_GroupExits>Verlassen der Karte</CaravansCriticallyEnhanced_GroupExits>
+  <CaravansCriticallyEnhanced_GroupCargo>Ladung, die Tiere schon tragen</CaravansCriticallyEnhanced_GroupCargo>
+  <CaravansCriticallyEnhanced_GroupStuckCaravans>Festgefahrene Karawanen</CaravansCriticallyEnhanced_GroupStuckCaravans>
+  <CaravansCriticallyEnhanced_GroupReturnAndManualLoading>Heimkehr und Beladen von Hand</CaravansCriticallyEnhanced_GroupReturnAndManualLoading>
+
+  <CaravansCriticallyEnhanced_SettingLoadingWorkType>Arbeitstyp Beladen</CaravansCriticallyEnhanced_SettingLoadingWorkType>
+  <CaravansCriticallyEnhanced_SettingLoadingWorkTypeTip>Kolonisten, die nicht mit einer Karawane reisen, helfen beim Beladen, über die Spalte Beladen im Tab ARBEIT. Schalte dies aus, um zum Grundspiel zurückzukehren: Dort beladen nur die Mitreisenden die Karawane, mit etwas Hilfe von Trägern, wenn sie ein Lasttier oder einen Gefangenen mit freiem Platz hat.</CaravansCriticallyEnhanced_SettingLoadingWorkTypeTip>
+  <CaravansCriticallyEnhanced_SettingColonistCarriers>Auf Kolonisten laden</CaravansCriticallyEnhanced_SettingColonistCarriers>
+  <CaravansCriticallyEnhanced_SettingColonistCarriersTip>Helfer dürfen Waren ins Inventar mitreisender Kolonisten legen, wenn kein Lasttier und kein Gefangener der Karawane mehr Platz hat. Ohne diese Option bekommt eine Karawane, die nur aus Kolonisten besteht, keine Hilfe.</CaravansCriticallyEnhanced_SettingColonistCarriersTip>
+  <CaravansCriticallyEnhanced_SettingEarlyLoading>Beladen, während Tiere eingesammelt werden</CaravansCriticallyEnhanced_SettingEarlyLoading>
+  <CaravansCriticallyEnhanced_SettingEarlyLoadingTip>Helfer beginnen mit dem Beladen der Tiere, die schon am Karawanensammelplatz angebunden sind, während die übrigen noch hergeführt werden.</CaravansCriticallyEnhanced_SettingEarlyLoadingTip>
+  <CaravansCriticallyEnhanced_SettingHelpersRopeAnimals>Helfer holen Gehegetiere</CaravansCriticallyEnhanced_SettingHelpersRopeAnimals>
+  <CaravansCriticallyEnhanced_SettingHelpersRopeAnimalsTip>Kolonisten, bei denen Beladen aktiviert ist, führen Gehegetiere, die mit der Karawane reisen, zum Karawanensammelplatz.</CaravansCriticallyEnhanced_SettingHelpersRopeAnimalsTip>
+
+  <CaravansCriticallyEnhanced_SettingLeadsSurviveDrafting>Leinen im Kampfmodus behalten</CaravansCriticallyEnhanced_SettingLeadsSurviveDrafting>
+  <CaravansCriticallyEnhanced_SettingLeadsSurviveDraftingTip>Ein Kolonist, der Tiere für eine sich formierende Karawane führt, behält sie an der Leine, wenn er in den Kampfmodus wechselt. Kolonisten im Kampfmodus können außerdem eine Leine loslassen oder die Leine eines Karawanentiers übernehmen, das niemand hält.</CaravansCriticallyEnhanced_SettingLeadsSurviveDraftingTip>
+
+  <CaravansCriticallyEnhanced_SettingAreaAwareExit>Innerhalb erlaubter Gebiete abreisen</CaravansCriticallyEnhanced_SettingAreaAwareExit>
+  <CaravansCriticallyEnhanced_SettingAreaAwareExitTip>Die Karawane reist über einen Kartenrand ab, der im erlaubten Gebiet jedes Mitglieds liegt, das auf ein solches beschränkt ist. Gibt es keinen solchen Rand, packt die Karawane und wartet dann mit einer Warnmeldung dort, wo sie sich gesammelt hat, bis es einen gibt.</CaravansCriticallyEnhanced_SettingAreaAwareExitTip>
+  <CaravansCriticallyEnhanced_SettingThreatAwareExit>Beim Abreisen Gefahren meiden</CaravansCriticallyEnhanced_SettingThreatAwareExit>
+  <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>Die Karawane bevorzugt einen Ausgang abseits von Feinden und wählt beim Formieren einen anderen, wenn nahe dem gewählten eine Gefahr auftaucht.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHere>Von hier abreisen</CaravansCriticallyEnhanced_SettingLeaveFromHere>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Gibt einem Kolonisten im Kampfmodus, der zu einer sich formierenden Karawane gehört und nahe am Kartenrand steht, eine Schaltfläche, mit der die Karawane über diesen Rand abreist.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
+  <CaravansCriticallyEnhanced_SettingDepartureWarnings>Vor Zurückgelassenen warnen</CaravansCriticallyEnhanced_SettingDepartureWarnings>
+  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Wird die Abreise einer Karawane erzwungen, werden am Boden liegende Personen und Babys aufgelistet, die niemand trägt und die zurückgelassen würden.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
+  <CaravansCriticallyEnhanced_SettingThreatRadius>Gefahrenabstand zum Ausgang: {0}</CaravansCriticallyEnhanced_SettingThreatRadius>
+  <CaravansCriticallyEnhanced_SettingThreatRadiusTip>Wie nah ein Feind einem Ausgang in Zellen kommen muss, damit der Ausgang als bedroht gilt.</CaravansCriticallyEnhanced_SettingThreatRadiusTip>
+  <CaravansCriticallyEnhanced_SettingRouteThreatRadius>Gefahrenabstand zum Weg: {0}</CaravansCriticallyEnhanced_SettingRouteThreatRadius>
+  <CaravansCriticallyEnhanced_SettingRouteThreatRadiusTip>Wie nah ein Feind dem Weg nach draußen in Zellen kommen muss, damit dieser Weg als bedroht gilt.</CaravansCriticallyEnhanced_SettingRouteThreatRadiusTip>
+
+  <CaravansCriticallyEnhanced_SettingListAnimalCargo>Ladung auf Tieren auflisten</CaravansCriticallyEnhanced_SettingListAnimalCargo>
+  <CaravansCriticallyEnhanced_SettingListAnimalCargoTip>Das Fenster zum Formieren einer Karawane listet Waren auf, die deine Tiere bereits tragen, damit sie mit der Karawane reisen können, statt abgeladen zu werden. Die anderen Ladungsoptionen setzen diese voraus.</CaravansCriticallyEnhanced_SettingListAnimalCargoTip>
+  <CaravansCriticallyEnhanced_SettingCargoIcon>Ladungssymbol</CaravansCriticallyEnhanced_SettingCargoIcon>
+  <CaravansCriticallyEnhanced_SettingCargoIconTip>Markiert im Fenster zum Formieren einer Karawane Tiere, die bereits Ladung tragen. Der Tooltip listet auf, was sie tragen.</CaravansCriticallyEnhanced_SettingCargoIconTip>
+  <CaravansCriticallyEnhanced_SettingAutoAdjustCargo>Ladung folgt ihrem Tier</CaravansCriticallyEnhanced_SettingAutoAdjustCargo>
+  <CaravansCriticallyEnhanced_SettingAutoAdjustCargoTip>Wählst du ein Tier mit Ladung aus, kommt seine Ladung zur Karawane hinzu. Wählst du es wieder ab, wird die Ladung wieder entfernt.</CaravansCriticallyEnhanced_SettingAutoAdjustCargoTip>
+  <CaravansCriticallyEnhanced_SettingKeepLoadedCargo>Geladene Waren behalten</CaravansCriticallyEnhanced_SettingKeepLoadedCargo>
+  <CaravansCriticallyEnhanced_SettingKeepLoadedCargoTip>Tiere, die mit der Karawane reisen, behalten die Ladung, die ebenfalls mitreist, und laden nur den Rest ab.</CaravansCriticallyEnhanced_SettingKeepLoadedCargoTip>
+  <CaravansCriticallyEnhanced_SettingTransferCargo>Ladung zwischen Tieren umladen</CaravansCriticallyEnhanced_SettingTransferCargo>
+  <CaravansCriticallyEnhanced_SettingTransferCargoTip>Kolonisten laden Ladung von Tieren, die bleiben, auf Tiere um, die mitreisen.</CaravansCriticallyEnhanced_SettingTransferCargoTip>
+  <CaravansCriticallyEnhanced_SettingProtectCargo>Geladene Waren schützen</CaravansCriticallyEnhanced_SettingProtectCargo>
+  <CaravansCriticallyEnhanced_SettingProtectCargoTip>Die Ladung bleibt auf der Liste der Karawane, wenn das Tier, das sie trägt, aus der Karawane entfernt wird oder zu Boden geht, und Personen außerhalb der Karawane essen ihre Nahrung nicht.</CaravansCriticallyEnhanced_SettingProtectCargoTip>
+  <CaravansCriticallyEnhanced_SettingInstantSurplusUnload>Unerwünschte Ladung sofort ablegen</CaravansCriticallyEnhanced_SettingInstantSurplusUnload>
+  <CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>Ladung, die nicht mitreist, wird sofort neben dem Tier abgelegt, statt Stapel für Stapel abgeladen zu werden. Solange Bulk Load For Transporters aktiv ist, geschieht das immer, weil diese Mod das Abladen ersetzt.</CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>
+
+  <CaravansCriticallyEnhanced_SettingCompletionGuard>Auf jede Ware warten</CaravansCriticallyEnhanced_SettingCompletionGuard>
+  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>Das Beladen endet nicht, solange Waren von der Liste noch am Boden liegen. Waren, die niemand erreichen kann, werden nach der Schonfrist unten von der Liste gestrichen.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
+  <CaravansCriticallyEnhanced_SettingManifestReconcile>Warenliste reparieren</CaravansCriticallyEnhanced_SettingManifestReconcile>
+  <CaravansCriticallyEnhanced_SettingManifestReconcileTip>Wird eine Ware auf der Liste gegessen, zerstört oder mit einem anderen Stapel zusammengelegt, nimmt die Karawane stattdessen einen gleichen Stapel. Was sich nicht ersetzen lässt, wird mit einer Nachricht von der Liste gestrichen.</CaravansCriticallyEnhanced_SettingManifestReconcileTip>
+  <CaravansCriticallyEnhanced_SettingStallReadout>Verzögerungen erklären</CaravansCriticallyEnhanced_SettingStallReadout>
+  <CaravansCriticallyEnhanced_SettingStallReadoutTip>Zeigt im Infobereich der Mitglieder und in einem Tab, worauf eine sich formierende Karawane wartet, und gibt eine Warnmeldung aus, wenn sie eine Weile keinen Fortschritt gemacht hat.</CaravansCriticallyEnhanced_SettingStallReadoutTip>
+  <CaravansCriticallyEnhanced_SettingCompletionGrace>Schonfrist für unerreichbare Waren: {0}</CaravansCriticallyEnhanced_SettingCompletionGrace>
+  <CaravansCriticallyEnhanced_SettingCompletionGraceTip>Wie lange eine Ware, die niemand erreichen kann, das Beladen aufhält, bevor sie von der Liste gestrichen wird.</CaravansCriticallyEnhanced_SettingCompletionGraceTip>
+  <CaravansCriticallyEnhanced_SettingStallAlert>Warnmeldung nach Stillstand von: {0}</CaravansCriticallyEnhanced_SettingStallAlert>
+  <CaravansCriticallyEnhanced_SettingStallAlertTip>Wie lange eine sich formierende Karawane ohne Fortschritt bleiben darf, bevor die Warnmeldung erscheint.</CaravansCriticallyEnhanced_SettingStallAlertTip>
+
+  <CaravansCriticallyEnhanced_SettingUnloadReturningAnimals>Heimkehrende Tiere entladen</CaravansCriticallyEnhanced_SettingUnloadReturningAnimals>
+  <CaravansCriticallyEnhanced_SettingUnloadReturningAnimalsTip>Lasttiere, die mit einer Karawane heimkehren, werden zu einer Lagerzone geführt, dort entladen und dann in ihr Gehege gebracht, statt im Gehege Stapel für Stapel entladen zu werden.</CaravansCriticallyEnhanced_SettingUnloadReturningAnimalsTip>
+  <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallback>Besseres Beladen von Hand</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallback>
+  <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>Wird eine Ware von Hand in eine sich formierende Karawane geladen, kommt sie zuerst auf Lasttiere mit freiem Platz, dann auf den Kolonisten, der lädt, und dann auf die anderen Mitreisenden.</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>
+  <CaravansCriticallyEnhanced_SettingManualLoadsCount>Von Hand geladene Waren mitzählen</CaravansCriticallyEnhanced_SettingManualLoadsCount>
+  <CaravansCriticallyEnhanced_SettingManualLoadsCountTip>Von Hand geladene Waren zählen zur Liste der Karawane, damit sie nicht ein zweites Mal geladen werden.</CaravansCriticallyEnhanced_SettingManualLoadsCountTip>
+
+</LanguageData>

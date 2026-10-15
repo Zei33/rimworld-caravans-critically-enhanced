@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Settings window -->
+  <CaravansCriticallyEnhanced_SettingsCategory>Caravans Critically Enhanced</CaravansCriticallyEnhanced_SettingsCategory>
+  <CaravansCriticallyEnhanced_ResetToDefaults>Przywróć domyślne</CaravansCriticallyEnhanced_ResetToDefaults>
+
+  <CaravansCriticallyEnhanced_GroupLoading>Załadunek</CaravansCriticallyEnhanced_GroupLoading>
+  <CaravansCriticallyEnhanced_GroupLeads>Prowadzenie zwierząt</CaravansCriticallyEnhanced_GroupLeads>
+  <CaravansCriticallyEnhanced_GroupExits>Opuszczanie mapy</CaravansCriticallyEnhanced_GroupExits>
+  <CaravansCriticallyEnhanced_GroupCargo>Ładunek już na zwierzętach</CaravansCriticallyEnhanced_GroupCargo>
+  <CaravansCriticallyEnhanced_GroupStuckCaravans>Utknięte karawany</CaravansCriticallyEnhanced_GroupStuckCaravans>
+  <CaravansCriticallyEnhanced_GroupReturnAndManualLoading>Powrót do domu i ręczny załadunek</CaravansCriticallyEnhanced_GroupReturnAndManualLoading>
+
+  <CaravansCriticallyEnhanced_SettingLoadingWorkType>Rodzaj pracy Ładowacz</CaravansCriticallyEnhanced_SettingLoadingWorkType>
+  <CaravansCriticallyEnhanced_SettingLoadingWorkTypeTip>Koloniści, którzy nie wyruszają z karawaną, pomagają ją załadować dzięki kolumnie Ładowacz na karcie Praca. Wyłącz, aby wrócić do podstawowej gry, w której karawanę ładują tylko wyruszający, z niewielką pomocą tragarzy, jeśli karawana ma zwierzę juczne lub więźnia z wolnym miejscem.</CaravansCriticallyEnhanced_SettingLoadingWorkTypeTip>
+  <CaravansCriticallyEnhanced_SettingColonistCarriers>Ładuj na kolonistów</CaravansCriticallyEnhanced_SettingColonistCarriers>
+  <CaravansCriticallyEnhanced_SettingColonistCarriersTip>Pomocnicy mogą wkładać przedmioty do ekwipunku wyruszających kolonistów, gdy żadne zwierzę juczne ani więzień w karawanie nie ma już miejsca. Bez tego karawana złożona wyłącznie z kolonistów nie dostaje pomocy.</CaravansCriticallyEnhanced_SettingColonistCarriersTip>
+  <CaravansCriticallyEnhanced_SettingEarlyLoading>Ładuj podczas zbierania zwierząt</CaravansCriticallyEnhanced_SettingEarlyLoading>
+  <CaravansCriticallyEnhanced_SettingEarlyLoadingTip>Pomocnicy zaczynają ładować zwierzęta już uwiązane w miejscu tworzenia karawany, gdy reszta jest jeszcze prowadzona.</CaravansCriticallyEnhanced_SettingEarlyLoadingTip>
+  <CaravansCriticallyEnhanced_SettingHelpersRopeAnimals>Pomocnicy przyprowadzają zwierzęta z zagród</CaravansCriticallyEnhanced_SettingHelpersRopeAnimals>
+  <CaravansCriticallyEnhanced_SettingHelpersRopeAnimalsTip>Koloniści z włączoną pracą Ładowacz prowadzą do miejsca tworzenia karawany zwierzęta z zagród, które wyruszają z karawaną.</CaravansCriticallyEnhanced_SettingHelpersRopeAnimalsTip>
+
+  <CaravansCriticallyEnhanced_SettingLeadsSurviveDrafting>Nie puszczaj zwierząt w trybie bojowym</CaravansCriticallyEnhanced_SettingLeadsSurviveDrafting>
+  <CaravansCriticallyEnhanced_SettingLeadsSurviveDraftingTip>Kolonista prowadzący zwierzęta dla formowanej karawany nie puszcza ich po przejściu w tryb bojowy. Koloniści w trybie bojowym mogą też puścić prowadzone zwierzę albo przejąć zwierzę karawany, którego nikt nie trzyma.</CaravansCriticallyEnhanced_SettingLeadsSurviveDraftingTip>
+
+  <CaravansCriticallyEnhanced_SettingAreaAwareExit>Wyruszaj w dozwolonych obszarach</CaravansCriticallyEnhanced_SettingAreaAwareExit>
+  <CaravansCriticallyEnhanced_SettingAreaAwareExitTip>Karawana opuszcza mapę przez krawędź leżącą w dozwolonym obszarze każdego członka, który ma taki obszar przypisany. Jeśli takiej krawędzi nie ma, karawana pakuje się, a potem czeka w miejscu, w którym się zebrała, i włącza alarm, dopóki taka krawędź się nie pojawi.</CaravansCriticallyEnhanced_SettingAreaAwareExitTip>
+  <CaravansCriticallyEnhanced_SettingThreatAwareExit>Unikaj zagrożeń przy wyruszaniu</CaravansCriticallyEnhanced_SettingThreatAwareExit>
+  <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>Karawana wybiera wyjście z dala od wrogów, a podczas formowania wybiera inne, jeśli w pobliżu wybranego pojawi się zagrożenie.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHere>Wyrusz stąd</CaravansCriticallyEnhanced_SettingLeaveFromHere>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Daje koloniście w trybie bojowym, który należy do formowanej karawany i stoi blisko krawędzi mapy, przycisk wysyłający karawanę przez tę krawędź.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
+  <CaravansCriticallyEnhanced_SettingDepartureWarnings>Ostrzegaj o pozostawionych</CaravansCriticallyEnhanced_SettingDepartureWarnings>
+  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Przy wymuszonym wyruszeniu karawany wyświetlana jest lista znokautowanych osób i niemowląt, których nikt nie niesie i które zostałyby pozostawione.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
+  <CaravansCriticallyEnhanced_SettingThreatRadius>Odległość zagrożenia od wyjścia: {0}</CaravansCriticallyEnhanced_SettingThreatRadius>
+  <CaravansCriticallyEnhanced_SettingThreatRadiusTip>Jak blisko wyjścia, w polach, musi być wróg, aby wyjście uznać za zagrożone.</CaravansCriticallyEnhanced_SettingThreatRadiusTip>
+  <CaravansCriticallyEnhanced_SettingRouteThreatRadius>Odległość zagrożenia od trasy: {0}</CaravansCriticallyEnhanced_SettingRouteThreatRadius>
+  <CaravansCriticallyEnhanced_SettingRouteThreatRadiusTip>Jak blisko drogi do wyjścia, w polach, musi być wróg, aby tę drogę uznać za zagrożoną.</CaravansCriticallyEnhanced_SettingRouteThreatRadiusTip>
+
+  <CaravansCriticallyEnhanced_SettingListAnimalCargo>Pokazuj ładunek na zwierzętach</CaravansCriticallyEnhanced_SettingListAnimalCargo>
+  <CaravansCriticallyEnhanced_SettingListAnimalCargoTip>Okno formowania karawany wyświetla przedmioty, które twoje zwierzęta już niosą, aby mogły wyruszyć z karawaną zamiast zostać rozładowane. Pozostałe opcje ładunku wymagają tej.</CaravansCriticallyEnhanced_SettingListAnimalCargoTip>
+  <CaravansCriticallyEnhanced_SettingCargoIcon>Ikona ładunku</CaravansCriticallyEnhanced_SettingCargoIcon>
+  <CaravansCriticallyEnhanced_SettingCargoIconTip>Oznacza w oknie formowania karawany zwierzęta, które już niosą ładunek. Po najechaniu kursorem widać, co niosą.</CaravansCriticallyEnhanced_SettingCargoIconTip>
+  <CaravansCriticallyEnhanced_SettingAutoAdjustCargo>Ładunek idzie za zwierzęciem</CaravansCriticallyEnhanced_SettingAutoAdjustCargo>
+  <CaravansCriticallyEnhanced_SettingAutoAdjustCargoTip>Zaznaczenie zwierzęcia z ładunkiem dodaje jego ładunek do karawany, a odznaczenie znów go usuwa.</CaravansCriticallyEnhanced_SettingAutoAdjustCargoTip>
+  <CaravansCriticallyEnhanced_SettingKeepLoadedCargo>Zachowaj załadowany ładunek</CaravansCriticallyEnhanced_SettingKeepLoadedCargo>
+  <CaravansCriticallyEnhanced_SettingKeepLoadedCargoTip>Zwierzęta wyruszające z karawaną zachowują ładunek, który też wyrusza, i rozładowują tylko resztę.</CaravansCriticallyEnhanced_SettingKeepLoadedCargoTip>
+  <CaravansCriticallyEnhanced_SettingTransferCargo>Przenoś ładunek między zwierzętami</CaravansCriticallyEnhanced_SettingTransferCargo>
+  <CaravansCriticallyEnhanced_SettingTransferCargoTip>Koloniści przenoszą ładunek ze zwierząt, które zostają, na zwierzęta, które wyruszają.</CaravansCriticallyEnhanced_SettingTransferCargoTip>
+  <CaravansCriticallyEnhanced_SettingProtectCargo>Chroń załadowany ładunek</CaravansCriticallyEnhanced_SettingProtectCargo>
+  <CaravansCriticallyEnhanced_SettingProtectCargoTip>Ładunek pozostaje na liście karawany, gdy niosące go zwierzę zostanie usunięte z karawany albo znokautowane, a osoby spoza karawany nie jedzą jej żywności.</CaravansCriticallyEnhanced_SettingProtectCargoTip>
+  <CaravansCriticallyEnhanced_SettingInstantSurplusUnload>Od razu zrzucaj zbędny ładunek</CaravansCriticallyEnhanced_SettingInstantSurplusUnload>
+  <CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>Ładunek, który nie wyrusza, zostaje od razu położony obok zwierzęcia, zamiast być rozładowywany stos po stosie. Gdy aktywny jest Bulk Load For Transporters, dzieje się tak zawsze, ponieważ ten mod zastępuje rozładunek.</CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>
+
+  <CaravansCriticallyEnhanced_SettingCompletionGuard>Czekaj na każdy przedmiot</CaravansCriticallyEnhanced_SettingCompletionGuard>
+  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>Załadunek nie kończy się, dopóki przedmioty z listy leżą jeszcze na ziemi. Przedmioty, do których nikt nie może dotrzeć, są usuwane z listy po upływie czasu oczekiwania ustawionego poniżej.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
+  <CaravansCriticallyEnhanced_SettingManifestReconcile>Naprawiaj listę przedmiotów</CaravansCriticallyEnhanced_SettingManifestReconcile>
+  <CaravansCriticallyEnhanced_SettingManifestReconcileTip>Gdy przedmiot z listy zostanie zjedzony, zniszczony lub połączony z innym stosem, karawana bierze w zamian identyczny stos. To, czego nie da się zastąpić, zostaje usunięte z listy wraz z komunikatem.</CaravansCriticallyEnhanced_SettingManifestReconcileTip>
+  <CaravansCriticallyEnhanced_SettingStallReadout>Wyjaśniaj opóźnienia</CaravansCriticallyEnhanced_SettingStallReadout>
+  <CaravansCriticallyEnhanced_SettingStallReadoutTip>Pokazuje, na co czeka formowana karawana, w panelu podglądu jej członków i w osobnej zakładce, a gdy przez dłuższy czas nie robi postępów, włącza alarm.</CaravansCriticallyEnhanced_SettingStallReadoutTip>
+  <CaravansCriticallyEnhanced_SettingCompletionGrace>Czas oczekiwania na nieosiągalne przedmioty: {0}</CaravansCriticallyEnhanced_SettingCompletionGrace>
+  <CaravansCriticallyEnhanced_SettingCompletionGraceTip>Jak długo przedmiot, do którego nikt nie może dotrzeć, wstrzymuje załadunek, zanim zostanie usunięty z listy.</CaravansCriticallyEnhanced_SettingCompletionGraceTip>
+  <CaravansCriticallyEnhanced_SettingStallAlert>Alarm po braku postępów przez: {0}</CaravansCriticallyEnhanced_SettingStallAlert>
+  <CaravansCriticallyEnhanced_SettingStallAlertTip>Jak długo formowana karawana może nie robić postępów, zanim pojawi się alarm.</CaravansCriticallyEnhanced_SettingStallAlertTip>
+
+  <CaravansCriticallyEnhanced_SettingUnloadReturningAnimals>Rozładowuj powracające zwierzęta</CaravansCriticallyEnhanced_SettingUnloadReturningAnimals>
+  <CaravansCriticallyEnhanced_SettingUnloadReturningAnimalsTip>Zwierzęta juczne powracające z karawaną są prowadzone na składowisko, tam rozładowywane, a potem zabierane do zagrody, zamiast być rozładowywane w zagrodzie stos po stosie.</CaravansCriticallyEnhanced_SettingUnloadReturningAnimalsTip>
+  <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallback>Lepszy ręczny załadunek</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallback>
+  <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>Ręczne załadowanie przedmiotu do formowanej karawany najpierw zapełnia zwierzęta juczne, które mają miejsce, potem kolonistę, który ładuje, a potem pozostałych wyruszających kolonistów.</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>
+  <CaravansCriticallyEnhanced_SettingManualLoadsCount>Wliczaj przedmioty ładowane ręcznie</CaravansCriticallyEnhanced_SettingManualLoadsCount>
+  <CaravansCriticallyEnhanced_SettingManualLoadsCountTip>Przedmioty załadowane ręcznie wliczają się do listy karawany, więc nie są ładowane drugi raz.</CaravansCriticallyEnhanced_SettingManualLoadsCountTip>
+
+</LanguageData>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Settings window -->
+  <CaravansCriticallyEnhanced_SettingsCategory>Caravans Critically Enhanced</CaravansCriticallyEnhanced_SettingsCategory>
+  <CaravansCriticallyEnhanced_ResetToDefaults>Restaurar padrões</CaravansCriticallyEnhanced_ResetToDefaults>
+
+  <CaravansCriticallyEnhanced_GroupLoading>Carregamento</CaravansCriticallyEnhanced_GroupLoading>
+  <CaravansCriticallyEnhanced_GroupLeads>Animais amarrados</CaravansCriticallyEnhanced_GroupLeads>
+  <CaravansCriticallyEnhanced_GroupExits>Saída do mapa</CaravansCriticallyEnhanced_GroupExits>
+  <CaravansCriticallyEnhanced_GroupCargo>Carga que os animais já levam</CaravansCriticallyEnhanced_GroupCargo>
+  <CaravansCriticallyEnhanced_GroupStuckCaravans>Caravanas travadas</CaravansCriticallyEnhanced_GroupStuckCaravans>
+  <CaravansCriticallyEnhanced_GroupReturnAndManualLoading>Retorno para casa e carregamento manual</CaravansCriticallyEnhanced_GroupReturnAndManualLoading>
+
+  <CaravansCriticallyEnhanced_SettingLoadingWorkType>Tipo de trabalho Carregamento</CaravansCriticallyEnhanced_SettingLoadingWorkType>
+  <CaravansCriticallyEnhanced_SettingLoadingWorkTypeTip>Colonos que não vão com a caravana ajudam a carregá-la, pela coluna Carregamento da aba TRABALHO. Desative para voltar ao jogo base, em que só quem vai carrega a caravana, com alguma ajuda dos auxiliadores quando ela tem um animal de carga ou prisioneiro com espaço.</CaravansCriticallyEnhanced_SettingLoadingWorkTypeTip>
+  <CaravansCriticallyEnhanced_SettingColonistCarriers>Carregar nos colonos</CaravansCriticallyEnhanced_SettingColonistCarriers>
+  <CaravansCriticallyEnhanced_SettingColonistCarriersTip>Os ajudantes podem colocar itens no inventário dos colonos que vão quando nenhum animal de carga ou prisioneiro da caravana tem espaço. Sem isso, uma caravana só de colonos não recebe ajuda.</CaravansCriticallyEnhanced_SettingColonistCarriersTip>
+  <CaravansCriticallyEnhanced_SettingEarlyLoading>Carregar durante a coleta de animais</CaravansCriticallyEnhanced_SettingEarlyLoading>
+  <CaravansCriticallyEnhanced_SettingEarlyLoadingTip>Os ajudantes começam a carregar os animais já amarrados no ponto de formação de caravana enquanto o resto ainda está sendo trazido.</CaravansCriticallyEnhanced_SettingEarlyLoadingTip>
+  <CaravansCriticallyEnhanced_SettingHelpersRopeAnimals>Ajudantes trazem animais do curral</CaravansCriticallyEnhanced_SettingHelpersRopeAnimals>
+  <CaravansCriticallyEnhanced_SettingHelpersRopeAnimalsTip>Colonos com Carregamento ativado levam até o ponto de formação de caravana os animais de curral que vão com a caravana.</CaravansCriticallyEnhanced_SettingHelpersRopeAnimalsTip>
+
+  <CaravansCriticallyEnhanced_SettingLeadsSurviveDrafting>Não soltar os animais ao alistar</CaravansCriticallyEnhanced_SettingLeadsSurviveDrafting>
+  <CaravansCriticallyEnhanced_SettingLeadsSurviveDraftingTip>Um colono que conduz animais para uma caravana em formação continua segurando-os quando é alistado. Colonos alistados também podem soltar um animal ou pegar a corda de um animal da caravana que ninguém está segurando.</CaravansCriticallyEnhanced_SettingLeadsSurviveDraftingTip>
+
+  <CaravansCriticallyEnhanced_SettingAreaAwareExit>Sair dentro das áreas permitidas</CaravansCriticallyEnhanced_SettingAreaAwareExit>
+  <CaravansCriticallyEnhanced_SettingAreaAwareExitTip>A caravana sai por um limite do mapa dentro da área permitida de cada membro restrito a uma. Se não houver um limite assim, a caravana se prepara e depois espera onde se reuniu, com um alerta, até que haja um.</CaravansCriticallyEnhanced_SettingAreaAwareExitTip>
+  <CaravansCriticallyEnhanced_SettingThreatAwareExit>Evitar ameaças ao sair</CaravansCriticallyEnhanced_SettingThreatAwareExit>
+  <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>A caravana prefere uma saída longe de hostis e, durante a formação, escolhe outra se uma ameaça aparecer perto da que ela escolheu.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHere>Sair daqui</CaravansCriticallyEnhanced_SettingLeaveFromHere>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Dá a um colono alistado de uma caravana em formação, que esteja perto do limite do mapa, um botão que faz a caravana partir por esse limite.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
+  <CaravansCriticallyEnhanced_SettingDepartureWarnings>Avisar sobre quem fica para trás</CaravansCriticallyEnhanced_SettingDepartureWarnings>
+  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Forçar a partida de uma caravana lista as pessoas abatidas e os bebês que ninguém está carregando e que seriam deixados para trás.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
+  <CaravansCriticallyEnhanced_SettingThreatRadius>Distância de ameaça da saída: {0}</CaravansCriticallyEnhanced_SettingThreatRadius>
+  <CaravansCriticallyEnhanced_SettingThreatRadiusTip>Quão perto, em células, um hostil precisa estar de uma saída para que ela seja considerada ameaçada.</CaravansCriticallyEnhanced_SettingThreatRadiusTip>
+  <CaravansCriticallyEnhanced_SettingRouteThreatRadius>Distância de ameaça do caminho: {0}</CaravansCriticallyEnhanced_SettingRouteThreatRadius>
+  <CaravansCriticallyEnhanced_SettingRouteThreatRadiusTip>Quão perto, em células, um hostil precisa estar do caminho de saída para que esse caminho seja considerado ameaçado.</CaravansCriticallyEnhanced_SettingRouteThreatRadiusTip>
+
+  <CaravansCriticallyEnhanced_SettingListAnimalCargo>Listar a carga nos animais</CaravansCriticallyEnhanced_SettingListAnimalCargo>
+  <CaravansCriticallyEnhanced_SettingListAnimalCargoTip>A janela de formação da caravana lista os itens que seus animais já levam, para que possam ir com a caravana em vez de serem descarregados. As outras opções de carga dependem desta.</CaravansCriticallyEnhanced_SettingListAnimalCargoTip>
+  <CaravansCriticallyEnhanced_SettingCargoIcon>Ícone de carga</CaravansCriticallyEnhanced_SettingCargoIcon>
+  <CaravansCriticallyEnhanced_SettingCargoIconTip>Marca na janela de formação da caravana os animais que já levam carga. A dica de contexto lista o que eles levam.</CaravansCriticallyEnhanced_SettingCargoIconTip>
+  <CaravansCriticallyEnhanced_SettingAutoAdjustCargo>A carga acompanha o animal</CaravansCriticallyEnhanced_SettingAutoAdjustCargo>
+  <CaravansCriticallyEnhanced_SettingAutoAdjustCargoTip>Selecionar um animal com carga adiciona a carga dele à caravana, e desmarcá-lo a retira de novo.</CaravansCriticallyEnhanced_SettingAutoAdjustCargoTip>
+  <CaravansCriticallyEnhanced_SettingKeepLoadedCargo>Manter a carga já colocada</CaravansCriticallyEnhanced_SettingKeepLoadedCargo>
+  <CaravansCriticallyEnhanced_SettingKeepLoadedCargoTip>Os animais que vão com a caravana mantêm a carga que também vai e descarregam só o resto.</CaravansCriticallyEnhanced_SettingKeepLoadedCargoTip>
+  <CaravansCriticallyEnhanced_SettingTransferCargo>Passar carga entre animais</CaravansCriticallyEnhanced_SettingTransferCargo>
+  <CaravansCriticallyEnhanced_SettingTransferCargoTip>Os colonos passam a carga dos animais que ficam para os animais que vão.</CaravansCriticallyEnhanced_SettingTransferCargoTip>
+  <CaravansCriticallyEnhanced_SettingProtectCargo>Proteger a carga já colocada</CaravansCriticallyEnhanced_SettingProtectCargo>
+  <CaravansCriticallyEnhanced_SettingProtectCargoTip>A carga continua na lista da caravana quando o animal que a leva é removido da caravana ou fica abatido, e quem está fora da caravana não come a comida dela.</CaravansCriticallyEnhanced_SettingProtectCargoTip>
+  <CaravansCriticallyEnhanced_SettingInstantSurplusUnload>Largar na hora a carga indesejada</CaravansCriticallyEnhanced_SettingInstantSurplusUnload>
+  <CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>A carga que não vai é deixada ao lado do animal na hora, em vez de ser descarregada uma pilha por vez. Enquanto Bulk Load For Transporters estiver ativo, isso sempre acontece, porque esse mod substitui o descarregamento.</CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>
+
+  <CaravansCriticallyEnhanced_SettingCompletionGuard>Esperar por todos os itens</CaravansCriticallyEnhanced_SettingCompletionGuard>
+  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>O carregamento não termina enquanto itens da lista ainda estiverem no chão. Itens que ninguém consegue alcançar saem da lista após o período de tolerância abaixo.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
+  <CaravansCriticallyEnhanced_SettingManifestReconcile>Corrigir a lista de itens</CaravansCriticallyEnhanced_SettingManifestReconcile>
+  <CaravansCriticallyEnhanced_SettingManifestReconcileTip>Quando um item da lista é comido, destruído ou juntado a outra pilha, a caravana pega uma pilha idêntica no lugar. O que ela não consegue substituir sai da lista, com uma mensagem.</CaravansCriticallyEnhanced_SettingManifestReconcileTip>
+  <CaravansCriticallyEnhanced_SettingStallReadout>Explicar atrasos</CaravansCriticallyEnhanced_SettingStallReadout>
+  <CaravansCriticallyEnhanced_SettingStallReadoutTip>Mostra o que uma caravana em formação está esperando, no painel de inspeção dos membros e em uma aba, e emite um alerta quando ela passa um tempo sem progresso.</CaravansCriticallyEnhanced_SettingStallReadoutTip>
+  <CaravansCriticallyEnhanced_SettingCompletionGrace>Tolerância para itens inalcançáveis: {0}</CaravansCriticallyEnhanced_SettingCompletionGrace>
+  <CaravansCriticallyEnhanced_SettingCompletionGraceTip>Por quanto tempo um item que ninguém consegue alcançar segura o carregamento antes de sair da lista.</CaravansCriticallyEnhanced_SettingCompletionGraceTip>
+  <CaravansCriticallyEnhanced_SettingStallAlert>Alerta após ficar sem progresso por: {0}</CaravansCriticallyEnhanced_SettingStallAlert>
+  <CaravansCriticallyEnhanced_SettingStallAlertTip>Por quanto tempo uma caravana em formação pode ficar sem progresso antes de o alerta aparecer.</CaravansCriticallyEnhanced_SettingStallAlertTip>
+
+  <CaravansCriticallyEnhanced_SettingUnloadReturningAnimals>Descarregar animais que voltam</CaravansCriticallyEnhanced_SettingUnloadReturningAnimals>
+  <CaravansCriticallyEnhanced_SettingUnloadReturningAnimalsTip>Animais de carga que voltam com uma caravana são levados a uma zona de estoque, descarregados lá e depois levados ao curral, em vez de serem descarregados dentro do curral uma pilha por vez.</CaravansCriticallyEnhanced_SettingUnloadReturningAnimalsTip>
+  <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallback>Carregamento manual melhorado</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallback>
+  <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>Carregar à mão um item numa caravana em formação enche primeiro os animais de carga com espaço, depois o colono que está carregando e depois os outros colonos que vão.</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>
+  <CaravansCriticallyEnhanced_SettingManualLoadsCount>Contar itens carregados à mão</CaravansCriticallyEnhanced_SettingManualLoadsCount>
+  <CaravansCriticallyEnhanced_SettingManualLoadsCountTip>Itens carregados à mão contam para a lista da caravana, para não serem carregados uma segunda vez.</CaravansCriticallyEnhanced_SettingManualLoadsCountTip>
+
+</LanguageData>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Settings window -->
+  <CaravansCriticallyEnhanced_SettingsCategory>Caravans Critically Enhanced</CaravansCriticallyEnhanced_SettingsCategory>
+  <CaravansCriticallyEnhanced_ResetToDefaults>Сбросить настройки</CaravansCriticallyEnhanced_ResetToDefaults>
+
+  <CaravansCriticallyEnhanced_GroupLoading>Погрузка</CaravansCriticallyEnhanced_GroupLoading>
+  <CaravansCriticallyEnhanced_GroupLeads>Животные на привязи</CaravansCriticallyEnhanced_GroupLeads>
+  <CaravansCriticallyEnhanced_GroupExits>Уход с карты</CaravansCriticallyEnhanced_GroupExits>
+  <CaravansCriticallyEnhanced_GroupCargo>Груз, который уже несут животные</CaravansCriticallyEnhanced_GroupCargo>
+  <CaravansCriticallyEnhanced_GroupStuckCaravans>Застрявшие караваны</CaravansCriticallyEnhanced_GroupStuckCaravans>
+  <CaravansCriticallyEnhanced_GroupReturnAndManualLoading>Возвращение домой и ручная погрузка</CaravansCriticallyEnhanced_GroupReturnAndManualLoading>
+
+  <CaravansCriticallyEnhanced_SettingLoadingWorkType>Вид работы: грузчик</CaravansCriticallyEnhanced_SettingLoadingWorkType>
+  <CaravansCriticallyEnhanced_SettingLoadingWorkTypeTip>Поселенцы, которые не уходят с караваном, помогают его грузить: за это отвечает столбец Грузчик на вкладке Работа. Отключите, чтобы вернуться к поведению оригинальной игры, где караван грузят только те, кто уходит, а носильщики немного помогают, если в караване есть вьючное животное или пленник со свободным местом.</CaravansCriticallyEnhanced_SettingLoadingWorkTypeTip>
+  <CaravansCriticallyEnhanced_SettingColonistCarriers>Грузить на поселенцев</CaravansCriticallyEnhanced_SettingColonistCarriers>
+  <CaravansCriticallyEnhanced_SettingColonistCarriersTip>Помощники могут отдавать вещи уходящим поселенцам, если ни у вьючных животных, ни у пленников в караване не осталось места. Без этого караван из одних поселенцев не получает помощи.</CaravansCriticallyEnhanced_SettingColonistCarriersTip>
+  <CaravansCriticallyEnhanced_SettingEarlyLoading>Грузить во время сбора животных</CaravansCriticallyEnhanced_SettingEarlyLoading>
+  <CaravansCriticallyEnhanced_SettingEarlyLoadingTip>Помощники начинают грузить животных, которые уже стоят на месте привязи каравана, пока остальных ещё ведут.</CaravansCriticallyEnhanced_SettingEarlyLoadingTip>
+  <CaravansCriticallyEnhanced_SettingHelpersRopeAnimals>Помощники приводят животных из загонов</CaravansCriticallyEnhanced_SettingHelpersRopeAnimals>
+  <CaravansCriticallyEnhanced_SettingHelpersRopeAnimalsTip>Поселенцы с включённой работой грузчика ведут к месту привязи каравана животных из загонов, которые уходят с караваном.</CaravansCriticallyEnhanced_SettingHelpersRopeAnimalsTip>
+
+  <CaravansCriticallyEnhanced_SettingLeadsSurviveDrafting>Не отпускать животных в режиме призыва</CaravansCriticallyEnhanced_SettingLeadsSurviveDrafting>
+  <CaravansCriticallyEnhanced_SettingLeadsSurviveDraftingTip>Поселенец, который ведёт животных для собирающегося каравана, не отпускает их при переходе в режим призыва. Поселенцы в режиме призыва также могут отпустить животное или взять на привязь животное каравана, которое никто не держит.</CaravansCriticallyEnhanced_SettingLeadsSurviveDraftingTip>
+
+  <CaravansCriticallyEnhanced_SettingAreaAwareExit>Уходить в пределах доступных областей</CaravansCriticallyEnhanced_SettingAreaAwareExit>
+  <CaravansCriticallyEnhanced_SettingAreaAwareExitTip>Караван уходит через край карты, который лежит в доступной области каждого участника, ограниченного такой областью. Если такого края нет, караван завершает погрузку, а затем ждёт на месте сбора с оповещением, пока край не появится.</CaravansCriticallyEnhanced_SettingAreaAwareExitTip>
+  <CaravansCriticallyEnhanced_SettingThreatAwareExit>Избегать угроз при уходе</CaravansCriticallyEnhanced_SettingThreatAwareExit>
+  <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>Караван предпочитает точку выхода подальше от врагов, а во время сборов выбирает другую, если рядом с выбранной появляется угроза.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHere>Уйти отсюда</CaravansCriticallyEnhanced_SettingLeaveFromHere>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Даёт поселенцу в режиме призыва, который входит в собирающийся караван и стоит у края карты, кнопку, отправляющую караван через этот край.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
+  <CaravansCriticallyEnhanced_SettingDepartureWarnings>Предупреждать об оставленных</CaravansCriticallyEnhanced_SettingDepartureWarnings>
+  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>При немедленной отправке каравана выводится список обездвиженных и младенцев, которых никто не несёт и которые останутся.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
+  <CaravansCriticallyEnhanced_SettingThreatRadius>Дистанция угрозы от выхода: {0}</CaravansCriticallyEnhanced_SettingThreatRadius>
+  <CaravansCriticallyEnhanced_SettingThreatRadiusTip>Насколько близко к точке выхода, в клетках, должен оказаться враг, чтобы выход считался под угрозой.</CaravansCriticallyEnhanced_SettingThreatRadiusTip>
+  <CaravansCriticallyEnhanced_SettingRouteThreatRadius>Дистанция угрозы от пути: {0}</CaravansCriticallyEnhanced_SettingRouteThreatRadius>
+  <CaravansCriticallyEnhanced_SettingRouteThreatRadiusTip>Насколько близко к пути выхода, в клетках, должен оказаться враг, чтобы этот путь считался под угрозой.</CaravansCriticallyEnhanced_SettingRouteThreatRadiusTip>
+
+  <CaravansCriticallyEnhanced_SettingListAnimalCargo>Показывать груз на животных</CaravansCriticallyEnhanced_SettingListAnimalCargo>
+  <CaravansCriticallyEnhanced_SettingListAnimalCargoTip>Окно формирования каравана показывает вещи, которые ваши животные уже несут, чтобы они ушли с караваном, а не выгружались. Остальные настройки груза зависят от этой.</CaravansCriticallyEnhanced_SettingListAnimalCargoTip>
+  <CaravansCriticallyEnhanced_SettingCargoIcon>Значок груза</CaravansCriticallyEnhanced_SettingCargoIcon>
+  <CaravansCriticallyEnhanced_SettingCargoIconTip>Отмечает в окне формирования каравана животных, которые уже несут груз. Всплывающая подсказка показывает, что они несут.</CaravansCriticallyEnhanced_SettingCargoIconTip>
+  <CaravansCriticallyEnhanced_SettingAutoAdjustCargo>Груз следует за животным</CaravansCriticallyEnhanced_SettingAutoAdjustCargo>
+  <CaravansCriticallyEnhanced_SettingAutoAdjustCargoTip>Если выбрать животное с грузом, его груз добавляется в караван, а если снять выбор, груз снова убирается.</CaravansCriticallyEnhanced_SettingAutoAdjustCargoTip>
+  <CaravansCriticallyEnhanced_SettingKeepLoadedCargo>Сохранять навьюченный груз</CaravansCriticallyEnhanced_SettingKeepLoadedCargo>
+  <CaravansCriticallyEnhanced_SettingKeepLoadedCargoTip>Животные, которые уходят с караваном, оставляют на себе груз, который тоже уходит, и выгружают только остальное.</CaravansCriticallyEnhanced_SettingKeepLoadedCargoTip>
+  <CaravansCriticallyEnhanced_SettingTransferCargo>Перекладывать груз между животными</CaravansCriticallyEnhanced_SettingTransferCargo>
+  <CaravansCriticallyEnhanced_SettingTransferCargoTip>Поселенцы перекладывают груз с остающихся животных на уходящих.</CaravansCriticallyEnhanced_SettingTransferCargoTip>
+  <CaravansCriticallyEnhanced_SettingProtectCargo>Защищать навьюченный груз</CaravansCriticallyEnhanced_SettingProtectCargo>
+  <CaravansCriticallyEnhanced_SettingProtectCargoTip>Груз остаётся в списке каравана, если несущее его животное убрали из каравана или оно обездвижено, а те, кто не в караване, не едят его еду.</CaravansCriticallyEnhanced_SettingProtectCargoTip>
+  <CaravansCriticallyEnhanced_SettingInstantSurplusUnload>Сразу сбрасывать лишний груз</CaravansCriticallyEnhanced_SettingInstantSurplusUnload>
+  <CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>Груз, который не уходит, сразу кладётся рядом с животным, а не выгружается по одной стопке. Пока активен Bulk Load For Transporters, так происходит всегда, потому что этот мод заменяет разгрузку.</CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>
+
+  <CaravansCriticallyEnhanced_SettingCompletionGuard>Ждать все вещи</CaravansCriticallyEnhanced_SettingCompletionGuard>
+  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>Погрузка не завершается, пока вещи из списка ещё лежат на земле. Вещи, до которых никто не может добраться, убираются из списка после отсрочки, заданной ниже.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
+  <CaravansCriticallyEnhanced_SettingManifestReconcile>Исправлять список вещей</CaravansCriticallyEnhanced_SettingManifestReconcile>
+  <CaravansCriticallyEnhanced_SettingManifestReconcileTip>Если вещь из списка съели, уничтожили или объединили с другой стопкой, караван берёт вместо неё такую же стопку. То, что заменить нельзя, убирается из списка с сообщением.</CaravansCriticallyEnhanced_SettingManifestReconcileTip>
+  <CaravansCriticallyEnhanced_SettingStallReadout>Объяснять задержки</CaravansCriticallyEnhanced_SettingStallReadout>
+  <CaravansCriticallyEnhanced_SettingStallReadoutTip>Показывает, чего ждёт собирающийся караван, на панели обзора его участников и на отдельной вкладке, а если он долго не продвигается, выводит оповещение.</CaravansCriticallyEnhanced_SettingStallReadoutTip>
+  <CaravansCriticallyEnhanced_SettingCompletionGrace>Отсрочка для недоступных вещей: {0}</CaravansCriticallyEnhanced_SettingCompletionGrace>
+  <CaravansCriticallyEnhanced_SettingCompletionGraceTip>Как долго вещь, до которой никто не может добраться, задерживает погрузку, прежде чем её уберут из списка.</CaravansCriticallyEnhanced_SettingCompletionGraceTip>
+  <CaravansCriticallyEnhanced_SettingStallAlert>Оповещение после простоя: {0}</CaravansCriticallyEnhanced_SettingStallAlert>
+  <CaravansCriticallyEnhanced_SettingStallAlertTip>Как долго собирающийся караван может стоять без продвижения, прежде чем появится оповещение.</CaravansCriticallyEnhanced_SettingStallAlertTip>
+
+  <CaravansCriticallyEnhanced_SettingUnloadReturningAnimals>Разгружать вернувшихся животных</CaravansCriticallyEnhanced_SettingUnloadReturningAnimals>
+  <CaravansCriticallyEnhanced_SettingUnloadReturningAnimalsTip>Вьючных животных, вернувшихся с караваном, отводят на склад, разгружают там и только потом отводят в загон, а не разгружают внутри загона по одной стопке.</CaravansCriticallyEnhanced_SettingUnloadReturningAnimalsTip>
+  <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallback>Улучшенная ручная погрузка</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallback>
+  <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>При ручной погрузке вещи в собирающийся караван сначала заполняются вьючные животные, у которых есть место, затем поселенец, который грузит, затем остальные уходящие поселенцы.</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>
+  <CaravansCriticallyEnhanced_SettingManualLoadsCount>Учитывать вещи, погруженные вручную</CaravansCriticallyEnhanced_SettingManualLoadsCount>
+  <CaravansCriticallyEnhanced_SettingManualLoadsCountTip>Вещи, погруженные вручную, засчитываются в список каравана, чтобы их не грузили второй раз.</CaravansCriticallyEnhanced_SettingManualLoadsCountTip>
+
+</LanguageData>

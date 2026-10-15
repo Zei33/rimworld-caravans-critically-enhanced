@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Settings window -->
+  <CaravansCriticallyEnhanced_SettingsCategory>Caravans Critically Enhanced</CaravansCriticallyEnhanced_SettingsCategory>
+  <CaravansCriticallyEnhanced_ResetToDefaults>Réinitialiser les valeurs par défaut</CaravansCriticallyEnhanced_ResetToDefaults>
+
+  <CaravansCriticallyEnhanced_GroupLoading>Chargement</CaravansCriticallyEnhanced_GroupLoading>
+  <CaravansCriticallyEnhanced_GroupLeads>Animaux menés à la corde</CaravansCriticallyEnhanced_GroupLeads>
+  <CaravansCriticallyEnhanced_GroupExits>Quitter la carte</CaravansCriticallyEnhanced_GroupExits>
+  <CaravansCriticallyEnhanced_GroupCargo>Cargaison déjà portée par les animaux</CaravansCriticallyEnhanced_GroupCargo>
+  <CaravansCriticallyEnhanced_GroupStuckCaravans>Caravanes bloquées</CaravansCriticallyEnhanced_GroupStuckCaravans>
+  <CaravansCriticallyEnhanced_GroupReturnAndManualLoading>Retour à la colonie et chargement manuel</CaravansCriticallyEnhanced_GroupReturnAndManualLoading>
+
+  <CaravansCriticallyEnhanced_SettingLoadingWorkType>Type de travail Chargeur</CaravansCriticallyEnhanced_SettingLoadingWorkType>
+  <CaravansCriticallyEnhanced_SettingLoadingWorkTypeTip>Les colons qui ne partent pas avec une caravane aident à la charger, via la colonne Chargeur de l'onglet TRAVAIL. Désactivez cette option pour revenir au comportement du jeu de base : seuls ceux qui partent chargent la caravane, avec un peu d'aide des transporteurs si elle compte une bête de somme ou un prisonnier qui a encore de la place.</CaravansCriticallyEnhanced_SettingLoadingWorkTypeTip>
+  <CaravansCriticallyEnhanced_SettingColonistCarriers>Charger sur les colons</CaravansCriticallyEnhanced_SettingColonistCarriers>
+  <CaravansCriticallyEnhanced_SettingColonistCarriersTip>Les colons qui aident peuvent placer des objets dans l'inventaire des colons qui partent, lorsqu'aucune bête de somme ni aucun prisonnier de la caravane n'a de place. Sans cette option, une caravane composée uniquement de colons ne reçoit aucune aide.</CaravansCriticallyEnhanced_SettingColonistCarriersTip>
+  <CaravansCriticallyEnhanced_SettingEarlyLoading>Charger pendant le rassemblement des animaux</CaravansCriticallyEnhanced_SettingEarlyLoading>
+  <CaravansCriticallyEnhanced_SettingEarlyLoadingTip>Les colons qui aident commencent à charger les animaux déjà attachés à la zone d'attelage pendant qu'on amène encore les autres.</CaravansCriticallyEnhanced_SettingEarlyLoadingTip>
+  <CaravansCriticallyEnhanced_SettingHelpersRopeAnimals>Amener les animaux d'enclos</CaravansCriticallyEnhanced_SettingHelpersRopeAnimals>
+  <CaravansCriticallyEnhanced_SettingHelpersRopeAnimalsTip>Les colons pour qui Chargeur est activé mènent à la zone d'attelage les animaux d'enclos qui partent avec la caravane.</CaravansCriticallyEnhanced_SettingHelpersRopeAnimalsTip>
+
+  <CaravansCriticallyEnhanced_SettingLeadsSurviveDrafting>Garder la corde une fois mobilisé</CaravansCriticallyEnhanced_SettingLeadsSurviveDrafting>
+  <CaravansCriticallyEnhanced_SettingLeadsSurviveDraftingTip>Un colon qui mène des animaux pour une caravane en formation ne les lâche pas lorsqu'il est mobilisé. Les colons mobilisés peuvent aussi lâcher une corde, ou prendre la corde d'un animal de la caravane que personne ne tient.</CaravansCriticallyEnhanced_SettingLeadsSurviveDraftingTip>
+
+  <CaravansCriticallyEnhanced_SettingAreaAwareExit>Partir depuis les zones autorisées</CaravansCriticallyEnhanced_SettingAreaAwareExit>
+  <CaravansCriticallyEnhanced_SettingAreaAwareExitTip>La caravane part par un bord de la carte situé dans la zone autorisée de chaque membre limité à une zone. S'il n'existe aucun bord de ce type, la caravane fait ses bagages puis attend là où elle s'est rassemblée, avec une alerte, jusqu'à ce qu'il y en ait un.</CaravansCriticallyEnhanced_SettingAreaAwareExitTip>
+  <CaravansCriticallyEnhanced_SettingThreatAwareExit>Éviter les menaces au départ</CaravansCriticallyEnhanced_SettingThreatAwareExit>
+  <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>La caravane préfère un point de sortie éloigné des hostiles, et en choisit un autre pendant la formation si une menace apparaît près de celui qu'elle avait choisi.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHere>Partir d'ici</CaravansCriticallyEnhanced_SettingLeaveFromHere>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Donne à un colon mobilisé d'une caravane en formation, qui se tient près du bord de la carte, un bouton qui fait partir la caravane par ce bord.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
+  <CaravansCriticallyEnhanced_SettingDepartureWarnings>Signaler qui sera laissé sur place</CaravansCriticallyEnhanced_SettingDepartureWarnings>
+  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Forcer le départ de la caravane affiche la liste des personnes à terre et des bébés que personne ne porte, et qui seraient laissés sur place.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
+  <CaravansCriticallyEnhanced_SettingThreatRadius>Distance de menace autour d'une sortie : {0}</CaravansCriticallyEnhanced_SettingThreatRadius>
+  <CaravansCriticallyEnhanced_SettingThreatRadiusTip>À combien de cases d'une sortie un hostile doit se trouver pour que cette sortie soit considérée comme menacée.</CaravansCriticallyEnhanced_SettingThreatRadiusTip>
+  <CaravansCriticallyEnhanced_SettingRouteThreatRadius>Distance de menace autour du trajet : {0}</CaravansCriticallyEnhanced_SettingRouteThreatRadius>
+  <CaravansCriticallyEnhanced_SettingRouteThreatRadiusTip>À combien de cases du chemin vers la sortie un hostile doit se trouver pour que ce chemin soit considéré comme menacé.</CaravansCriticallyEnhanced_SettingRouteThreatRadiusTip>
+
+  <CaravansCriticallyEnhanced_SettingListAnimalCargo>Lister la cargaison des animaux</CaravansCriticallyEnhanced_SettingListAnimalCargo>
+  <CaravansCriticallyEnhanced_SettingListAnimalCargoTip>La fenêtre de formation des caravanes liste les objets que vos animaux portent déjà, pour qu'ils puissent partir avec la caravane au lieu d'être déchargés. Les autres options de cargaison nécessitent celle-ci.</CaravansCriticallyEnhanced_SettingListAnimalCargoTip>
+  <CaravansCriticallyEnhanced_SettingCargoIcon>Icône de cargaison</CaravansCriticallyEnhanced_SettingCargoIcon>
+  <CaravansCriticallyEnhanced_SettingCargoIconTip>Signale, dans la fenêtre de formation des caravanes, les animaux qui portent déjà une cargaison. L'info-bulle liste ce qu'ils portent.</CaravansCriticallyEnhanced_SettingCargoIconTip>
+  <CaravansCriticallyEnhanced_SettingAutoAdjustCargo>La cargaison suit son animal</CaravansCriticallyEnhanced_SettingAutoAdjustCargo>
+  <CaravansCriticallyEnhanced_SettingAutoAdjustCargoTip>Sélectionner un animal qui porte une cargaison ajoute celle-ci à la caravane, et le désélectionner la retire à nouveau.</CaravansCriticallyEnhanced_SettingAutoAdjustCargoTip>
+  <CaravansCriticallyEnhanced_SettingKeepLoadedCargo>Garder la cargaison déjà chargée</CaravansCriticallyEnhanced_SettingKeepLoadedCargo>
+  <CaravansCriticallyEnhanced_SettingKeepLoadedCargoTip>Les animaux qui partent avec la caravane gardent la cargaison qui part aussi, et ne déchargent que le reste.</CaravansCriticallyEnhanced_SettingKeepLoadedCargoTip>
+  <CaravansCriticallyEnhanced_SettingTransferCargo>Transférer la cargaison entre animaux</CaravansCriticallyEnhanced_SettingTransferCargo>
+  <CaravansCriticallyEnhanced_SettingTransferCargoTip>Les colons transfèrent la cargaison des animaux qui restent vers ceux qui partent.</CaravansCriticallyEnhanced_SettingTransferCargoTip>
+  <CaravansCriticallyEnhanced_SettingProtectCargo>Protéger la cargaison chargée</CaravansCriticallyEnhanced_SettingProtectCargo>
+  <CaravansCriticallyEnhanced_SettingProtectCargoTip>La cargaison reste sur la liste de la caravane quand l'animal qui la porte est retiré de la caravane ou se retrouve à terre, et ceux qui ne font pas partie de la caravane ne mangent pas sa nourriture.</CaravansCriticallyEnhanced_SettingProtectCargoTip>
+  <CaravansCriticallyEnhanced_SettingInstantSurplusUnload>Déposer aussitôt la cargaison superflue</CaravansCriticallyEnhanced_SettingInstantSurplusUnload>
+  <CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>La cargaison qui ne part pas est posée aussitôt à côté de l'animal, au lieu d'être déchargée pile par pile. Quand Bulk Load For Transporters est activé, c'est toujours le cas, car ce mod remplace le déchargement.</CaravansCriticallyEnhanced_SettingInstantSurplusUnloadTip>
+
+  <CaravansCriticallyEnhanced_SettingCompletionGuard>Attendre chaque objet</CaravansCriticallyEnhanced_SettingCompletionGuard>
+  <CaravansCriticallyEnhanced_SettingCompletionGuardTip>Le chargement ne se termine pas tant que des objets de la liste sont encore au sol. Les objets que personne ne peut atteindre sont retirés de la liste après le délai de grâce ci-dessous.</CaravansCriticallyEnhanced_SettingCompletionGuardTip>
+  <CaravansCriticallyEnhanced_SettingManifestReconcile>Réparer la liste des objets</CaravansCriticallyEnhanced_SettingManifestReconcile>
+  <CaravansCriticallyEnhanced_SettingManifestReconcileTip>Quand un objet de la liste est mangé, détruit ou fusionné dans une autre pile, la caravane prend une pile identique à la place. Ce qu'elle ne peut pas remplacer est retiré de la liste, avec un message.</CaravansCriticallyEnhanced_SettingManifestReconcileTip>
+  <CaravansCriticallyEnhanced_SettingStallReadout>Expliquer les retards</CaravansCriticallyEnhanced_SettingStallReadout>
+  <CaravansCriticallyEnhanced_SettingStallReadoutTip>Affiche ce qu'attend une caravane en formation, dans le panneau d'inspection de ses membres et dans un onglet, et déclenche une alerte quand elle n'a pas progressé depuis un moment.</CaravansCriticallyEnhanced_SettingStallReadoutTip>
+  <CaravansCriticallyEnhanced_SettingCompletionGrace>Délai de grâce pour les objets inaccessibles : {0}</CaravansCriticallyEnhanced_SettingCompletionGrace>
+  <CaravansCriticallyEnhanced_SettingCompletionGraceTip>Combien de temps un objet que personne ne peut atteindre retarde le chargement avant d'être retiré de la liste.</CaravansCriticallyEnhanced_SettingCompletionGraceTip>
+  <CaravansCriticallyEnhanced_SettingStallAlert>Alerte sans progrès pendant : {0}</CaravansCriticallyEnhanced_SettingStallAlert>
+  <CaravansCriticallyEnhanced_SettingStallAlertTip>Combien de temps une caravane en formation peut rester sans progresser avant que l'alerte apparaisse.</CaravansCriticallyEnhanced_SettingStallAlertTip>
+
+  <CaravansCriticallyEnhanced_SettingUnloadReturningAnimals>Décharger les animaux au retour</CaravansCriticallyEnhanced_SettingUnloadReturningAnimals>
+  <CaravansCriticallyEnhanced_SettingUnloadReturningAnimalsTip>Les bêtes de somme qui rentrent avec une caravane sont menées vers une zone de stockage, déchargées sur place puis conduites à leur enclos, au lieu d'être déchargées dans l'enclos pile par pile.</CaravansCriticallyEnhanced_SettingUnloadReturningAnimalsTip>
+  <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallback>Chargement manuel amélioré</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallback>
+  <CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>Charger à la main un objet sur une caravane en formation remplit d'abord les bêtes de somme qui ont de la place, puis le colon qui s'en occupe, puis les autres colons qui partent.</CaravansCriticallyEnhanced_SettingLoadOntoCaravanFallbackTip>
+  <CaravansCriticallyEnhanced_SettingManualLoadsCount>Compter les objets chargés à la main</CaravansCriticallyEnhanced_SettingManualLoadsCount>
+  <CaravansCriticallyEnhanced_SettingManualLoadsCountTip>Les objets chargés à la main comptent dans la liste de la caravane, pour ne pas être chargés une seconde fois.</CaravansCriticallyEnhanced_SettingManualLoadsCountTip>
+
+</LanguageData>
