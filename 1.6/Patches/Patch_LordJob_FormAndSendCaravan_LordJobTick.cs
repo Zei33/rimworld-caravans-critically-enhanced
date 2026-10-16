@@ -12,9 +12,10 @@ namespace CaravansCriticallyEnhanced.Patches
     /// </summary>
     /// <remarks>
     /// <para>
-    /// Runs every tick for every forming lord, so the type test and the interval test come first and
-    /// are all most ticks cost. The interval is staggered by the lord's load id, so two caravans
-    /// forming at once do not do their work on the same tick.
+    /// Runs every tick for every forming lord, so the type test, one table lookup for a held caravan
+    /// just loaded, and the interval test come first and are all most ticks cost. The interval is
+    /// staggered by the lord's load id, so two caravans forming at once do not do their work on the
+    /// same tick.
     /// </para>
     /// <para>
     /// <c>LordManager.LordManagerTick</c> wraps each lord in a <c>try</c> that logs <c>Log.Error</c>
@@ -37,13 +38,32 @@ namespace CaravansCriticallyEnhanced.Patches
         public const int LeadsErrorKey = 0x43434505;
 
         /// <summary>
+        /// The <c>Log.ErrorOnce</c> key for an exception from the exit pass.
+        /// </summary>
+        public const int ExitErrorKey = 0x43434507;
+
+        /// <summary>
         /// Runs each feature's periodic pass.
         /// </summary>
         /// <param name="__instance">The lord job.</param>
         public static void Postfix(LordJob_FormAndSendCaravan __instance)
         {
-            if (!FormingLords.IsVanillaJob(__instance) || __instance.lord == null
-                || (Find.TickManager.TicksGame + __instance.lord.loadID) % LoadingCompletion.TickInterval != 0)
+            if (!FormingLords.IsVanillaJob(__instance) || __instance.lord == null)
+            {
+                return;
+            }
+
+            try
+            {
+                // Before the interval: a held caravan just loaded has its toils pointing at the fallback.
+                ExitDirector.FirstTickAfterLoad(__instance, CaravansCriticallyEnhancedMod.Settings);
+            }
+            catch (Exception exception)
+            {
+                Log.ErrorOnce("[CaravansCriticallyEnhanced] Keeping the caravan's exit inside allowed areas failed: " + exception, ExitErrorKey);
+            }
+
+            if ((Find.TickManager.TicksGame + __instance.lord.loadID) % LoadingCompletion.TickInterval != 0)
             {
                 return;
             }
@@ -64,6 +84,15 @@ namespace CaravansCriticallyEnhanced.Patches
             catch (Exception exception)
             {
                 Log.ErrorOnce("[CaravansCriticallyEnhanced] Looking for animals stranded while leaving failed: " + exception, LeadsErrorKey);
+            }
+
+            try
+            {
+                ExitDirector.Tick(__instance, CaravansCriticallyEnhancedMod.Settings);
+            }
+            catch (Exception exception)
+            {
+                Log.ErrorOnce("[CaravansCriticallyEnhanced] Keeping the caravan's exit inside allowed areas failed: " + exception, ExitErrorKey);
             }
         }
     }

@@ -88,4 +88,11 @@
   <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0} a lâché les animaux. Un colon ne garde les cordes que lorsqu'il est mobilisé, ou lorsqu'il mène des animaux à l'emplacement de la caravane ou à son point de sortie.</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
   <CaravansCriticallyEnhanced_LeadRecollecting>{0} ne peut pas atteindre le point de sortie de la caravane sans aide : la caravane reprend donc le rassemblement des animaux.</CaravansCriticallyEnhanced_LeadRecollecting>
 
+  <!-- Exits -->
+  <CaravansCriticallyEnhanced_ExitHeld>Aucun bord de la carte que la caravane puisse atteindre ne se trouve dans la zone autorisée de tous ceux qui partent avec elle : la caravane attend donc là où elle s'est rassemblée jusqu'à ce qu'il y en ait un.</CaravansCriticallyEnhanced_ExitHeld>
+  <CaravansCriticallyEnhanced_ExitReleased>La caravane peut désormais partir par un bord de la carte situé dans toutes les zones autorisées : elle cesse donc d'attendre.</CaravansCriticallyEnhanced_ExitReleased>
+  <CaravansCriticallyEnhanced_ExitMoved>Le point de sortie de la caravane a été déplacé pour rester dans la zone autorisée de tous ceux qui partent avec elle.</CaravansCriticallyEnhanced_ExitMoved>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExit>Caravane en attente d'une sortie</CaravansCriticallyEnhanced_AlertNoPermittedExit>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>Une caravane en formation attend là où elle s'est rassemblée, car aucun bord de la carte qu'elle puisse atteindre ne se trouve dans la zone autorisée de tous ceux qui partent avec elle. Retenue par :\n\n{0}\n\nPour la laisser partir, étendez leurs zones jusqu'à un bord de la carte que la caravane puisse atteindre, retirez leur restriction ou utilisez "Forcer le départ de la caravane". Désactiver "Partir depuis les zones autorisées" dans les options de mod permet aussi de la laisser partir.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+
 </LanguageData>

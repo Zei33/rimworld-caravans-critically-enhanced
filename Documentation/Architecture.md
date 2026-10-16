@@ -9,8 +9,8 @@ rule below, is `docs/caravans/PLAN.md` in the workspace that holds this reposito
 |---|---|
 | `1.6/ModEntry.cs` | The `Mod` subclass: settings, each patch class applied on its own, so one failure cannot stop the rest, the version log in dev mode |
 | `1.6/Core/` | Decisions and state: the settings, the stage of a forming caravan, which lords the mod may act on |
-| `1.6/Utils/` | Thin access to vanilla: private field accessors, the message helper |
-| `1.6/Jobs/` | Work givers and job drivers, from Slice 1 |
+| `1.6/Utils/` | The side that touches the game: private field accessors, the message helper, the readers that turn a lord or a map into plain values, and the code that acts on what the decisions say |
+| `1.6/Jobs/` | What the player meets: work givers, job drivers, the buttons, the menu options and the alerts |
 | `1.6/Patches/` | Harmony patch classes and XML PatchOperations, from Slice 1 |
 | `1.6/Languages/` | Nine languages; `README.md` there is the translators' note |
 | `Tests/` | NUnit against the real game assembly; not in the solution |
@@ -86,6 +86,57 @@ fetched, because vanilla's leaving stage has no timeout and nothing else would e
 The first load of a save made without the mod also puts back the work priorities of mods loaded
 after it, which the inserted work type shifts along by one, and then copies each pawn's hauling
 priority into Load.
+
+## Exits
+
+The exit is chosen at Send without changing vanilla's order of work. `Dialog_FormCaravan`'s send
+checks the caravan for errors, asks `RCellFinder.TryFindClosestEdgeCellTo` for an exit, picks the
+meeting point from that exit, checks every pen animal can be led to both, and starts the caravan.
+A prefix and finalizer on the send open and close `ExitHandoff`, which carries the window's pawns
+and route; a prefix on the exit search plans and answers, once per send; and the shared postfix on
+`StartFormingCaravan` sets up the new caravan's state from what the search left there. So vanilla's
+own meeting point choice and pen check run on the mod's exit.
+
+`ExitReadings` turns the map into plain values: every edge cell with its region, one region search
+per group of movers that start in the same region and pass the same doors and fences (a pen animal
+searched as led by a colonist, as vanilla's own pen check does), recording how many regions away
+each edge region is, an area mask per mover whose area the player can see and change, and the
+hostiles. `ExitPlanner` chooses from those, with no randomness: a cell every mover that reaches an
+edge at all can reach, inside every restricted mover's area, then the least threatened, fewest
+regions away, nearest, facing the world route. When areas leave nothing, it says which movers are to
+blame and gives the best cell ignoring areas.
+
+When areas leave nothing at Send, the search answers with that fallback and the caravan is held as
+it starts. Holding writes the fallback into the lord job's saved `exitSpot` and into the collecting
+and leaving toils' copies, so a save loaded without the mod, or anything that sends the caravan on
+regardless, leaves by it. Only the downed-pawn stage's copy takes the meeting point, because that
+stage's duty sends idle colonists to its copy. Four patches keep a held caravan where it is: the
+trigger out of the waiting stage says no, the downed-pawn stage never counts its pawns as gathered,
+its giver hands out no carry (its drop cell reads the lord job's exit), and colonists pick up no
+baby. On every held pass a pick-up still under way (vanilla rethinks every member's job as the
+caravan starts, before the mod has held it) is stopped, and an undrafted member already carrying one
+puts it down once it is only wandering at the meeting point, or at once, where it stands, when the
+hold starts with the send. Each pass also keeps the fallback current, and on the
+first tick after a load a held caravan gets a pass at once, before anything can send its members
+towards the fallback.
+
+`ExitDirector` runs from the shared lord tick postfix every 250 ticks per caravan. Areas change
+without any hook to catch (Invert, Clear and Delete mark nothing dirty), so it polls: it plans again
+while the area rule applies, which is until the caravan starts collecting its animals, and
+`ExitPolicy.Decide` says whether to hold, release or move the exit, and moves away from an exit
+nobody can reach any more without the message that blames the areas. Every move writes the lord
+job, the toils' copies and the members' duties together, and ends the stale carries and walks of
+the downed-pawn stage. Vanilla carries downed pawns only in that stage, so a caravan waiting for a
+sleeper whose downed pawns now lie away from its exit is sent back to it with `Lord.GotoToil`; the
+graph is not changed, only which of its toils is current. It is armed only by a pass that wrote the
+exit while the caravan waited and was not held, since going back ends in vanilla's step forward again, which can wake
+the sleeper; once armed, a saved flag has every pass try again until every such pawn can be reached,
+none is left away from the exit, or the caravan moves on. A downed pawn in a member's arms is not
+counted, since it leaves with its carrier. The exit last written is saved; if the lord job's exit is ever
+something else, another mod wrote it and owns it from then on. Force depart is a player override: it
+releases a held caravan by its fallback and the rule leaves that caravan alone.
+
+`Alert_CaravanNoPermittedExit` reads only the held state and the pawns the last pass blamed.
 
 ## Settings
 

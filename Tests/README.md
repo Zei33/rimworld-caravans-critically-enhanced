@@ -71,6 +71,9 @@ Measured, not assumed:
 | `PatchTargetTests` | Every patch class resolved the way Harmony will, every parameter bound by name, one class per target, the guard running last, the injected private fields |
 | `LoadingDefsTests` | The Load column directly left of Haul against every shipped work type; Hauling's tags; the mech patch matching the Lifter alone in the shipped game |
 | `DefReferenceTests`, `TypeReferenceTests` | Every defName and class the mod's XML names resolves to the right type; the DefOf field binds; every def carries the prefix |
+| `ExitPlannerTests` | Each ranking step settling the choice in turn (threatened, score, regions away, distance, then the route's side, which only settles an exact tie); an unusable or unreachable cell never chosen; a mover that reaches no edge reported and blocking nobody; each blocker with the movers it names and the fallback beside it; the area rule off; the threat radii exclusive at their edge and the distance to the route measured to its nearest point; the current exit judged by the same rules, valid and reachable apart; the same readings always giving the same exit; threats ignored with their switch off; an area whose only edges are out of reach blocking like one with none; regions away beating distance, and distance beating the route's side |
+| `ExitPolicyTests` | Who an area restricts, where either vanilla area control hides it or the area is empty; the stages the rule applies in; every row of what the pass does, held and not held, including a quiet move off an exit nobody reaches and a held caravan's fallback kept current; when a waiting caravan goes back for its downed pawns |
+| `ExitSurfaceTests` | Run on real toils: the copies written, held (the downed stage's copy at the meeting point, the others at the fallback) and released, and the meeting point never. Run directly: the starting tile accessor; the state made once per caravan, read without being made, and the first-pass flag; the handoff forgotten on close; the exit search answering only inside a send, on its map, once; both gate patches and the baby patch leaving vanilla's answer alone with no held caravan. Pinned by IL, so by which calls appear and in what order, never by branch: the saved node names as literals; the search planning from the window's pawns and storing the hold flag (1 on an area block, 0 in its catch); a new caravan's set-up behind `IsVanilla`; the pass reading the map only after `AreaRuleApplies` and deciding through the policy; which plan index each action takes; every write keeping the lord job, the copies, the duties and the stale walks in step, and recording what it wrote; the stale-walk stage test first; a hold putting carried pawns down; the waiting stage going back for downed pawns through the rule; the first-tick pass ahead of the interval; a foreign exit or an override never written over; a missing field clearing the hold; the readings' region search and area gate; the alert planning nothing and naming nobody dead or gone |
 
 Mutations measured on Slice 0, each made by hand, run, and reverted:
 
@@ -276,6 +279,57 @@ Not pinned, because the walker reads calls and not control flow, and so left to 
 `LetGo` skipping a row with no things (check 13), the lord tick's `finally` that clears a verdict
 even when letting go throws, and the refusal reasons being built only for a forced ask.
 
+Mutations measured on Slice 4a (`docs/caravans/wip/tools/muts-s4a*.json` in the workspace, logs
+beside the Slice 4 notes): 79 on the first draft, 63 caught once eight weak tests were strengthened;
+27 on the first round of review fixes, 22 caught; 9 on the second, 7 caught, and the two it missed
+caught after new pins; 5 on the third, 3 caught; then the go-back was narrowed to passes that moved
+the exit, and 4 more measured on that, 2 caught; then it was made a saved step retried every pass,
+and 6 more measured on that, 5 caught. The ones caught, in short:
+
+| Mutation | Caught by |
+|---|---|
+| Each ranking step reversed or reordered (threatened, score, regions away, distance, route side) | `AnUnthreatenedExitBeatsANearerThreatenedOne`, `WhenEveryExitIsThreatenedTheLeastThreatenedIsChosenAndSaidToBe`, `TheExitFewestRegionsAwayWinsAndTiesGoToTheNearest`, `TheWorldRouteSettlesOnlyAnOtherwiseExactTie` |
+| An unusable cell, a stranded mover, nobody reaching an edge, or no usable edge mishandled | `AnUnusableCellIsNeverChosen`, `AMoverThatReachesNoEdgeIsReportedAndBlocksNobody`, `NobodyReachingAnyEdgeIsUnreachableAndSoIsNoSharedEdge`, `NoUsableEdgeCellIsItsOwnBlocker` |
+| Areas applied with the rule off, threats with their switch off, the fallback taken from valid cells, the current exit judged valid when only reachable (or the reverse) | `AreasAreIgnoredWhenTheRuleIsOff`, `ThreatsAreIgnoredWhenTheSwitchIsOff`, `AnAreaWithNoReachableEdgeNamesItsPawnAndStillGivesAFallback`, `TheCurrentExitIsJudgedByTheSameRules` |
+| The blockers swapped, or an area cell out of reach counting | `AnAreaWithNoReachableEdgeNamesItsPawnAndStillGivesAFallback`, `AnAreaWhoseOnlyEdgesAreOutOfReachHoldsNoReachableEdge` |
+| The route term gone, or the distance to the route unclamped | `AThreatNearTheRouteAloneCounts`, `TheDistanceToARouteMeasuresToItsNearestPoint` |
+| Either area control's test, the empty area, a stage of the rule, any row of `Decide`, or the go-back rule changed | `ExitPolicyTests` (all seven) |
+| The foreign mark, the override, the record of what was written, or Begin's foreign test gone | `AForeignExitOrAPlayerOverrideIsNeverOverwritten`, `EveryExitWriteKeepsTheCopiesDutiesAndWalksInStep` |
+| The copies written before the duties, the stale walks or their stage test gone, the hold flag stored wrongly, a hold's copies all at the meeting point, the gathering toil's destination moved | `EveryExitWriteKeepsTheCopiesDutiesAndWalksInStep`, `HeldOnlyTheDownedStagesCopyPointsAtTheMeetingPoint`, `MovingTheExitWritesEveryToilCopyButNeverTheMeetingPoint` |
+| A plan index swapped, the quiet fallback update gone, a missing field leaving the hold on, the pass flag unset, a message added to a quiet move | `EachActionTakesTheCellItsPlanMeans` |
+| The search answering twice, on another map, without its hold flag or with the flag left set by its catch | `TheExitSearchIsVanillasOutsideASendOnAnotherMapAndAfterItsFirstAnswer`, `TheExitSearchPlansFromTheWindowsPawnsAndHoldsWhenOnlyAreasStandInTheWay` |
+| The send's finalizer not closing, or the threat switch not opening the handoff | `TheSendOpensTheHandoffOnlyForAnExitSwitchAndAlwaysClosesIt` |
+| A new caravan set up for a subclass lord, or held without the send's flag | `ANewCaravanIsSetUpOnlyWhenItIsANewVanillaLord` |
+| The pass or its first-tick run gone from the lord tick, the map read before the stage test | `ThePassReadsTheMapOnlyWhileTheRuleAppliesAndDecidesThroughThePolicy` |
+| A saved node renamed, or saved for a subclass lord | `TheSavedNodeNamesNeverChange` |
+| The first-pass test ignoring the hold or the pass | `ACaravansStateIsMadeOnceAndAskingWhetherItIsHeldMakesNone` |
+| The downed stage's gate inverted | `AHeldCaravanNeitherSetsOffNorCarriesItsDownedToTheEdge` |
+| A hold not putting carried pawns down, or putting down a drafted pawn's | `EveryExitWriteKeepsTheCopiesDutiesAndWalksInStep` |
+| The go-back without its reach test or its `GotoToil`, without its skip of a pawn in a member's arms, counting an unspawned pawn reachable, armed without a write, never armed, or forgotten while some still wait | `AWaitingCaravanGoesBackForDownedPawnsLeftAwayFromItsExit`, `AWaitingCaravanGoesBackForDownedPawnsAwayFromItsExitWhenItCanReachThemAll`, `EveryActionButNothingWritesTheExit` |
+| A hold not stopping a pick-up under way, or putting a carried pawn down away from the spot, or not on every held pass | `EveryExitWriteKeepsTheCopiesDutiesAndWalksInStep` |
+| The alert naming the dead or those gone from the caravan, leaving its named pawns out of the culprits (which silences it), or not reading the hold | `TheAlertReadsTheHeldStateAndPlansNothing` |
+| The region search ignoring doors or fences, pen animals searched as themselves, threats not filtered | `TheReadingsSearchRegionsAsVanillasSendCheckWouldAndAskTheAreaGate` |
+| The field check without the meeting point | `TheExitIsMovedOnlyWithEveryFieldItWrites` |
+
+Equivalent, five: the two threat radii at `<=` (a hostile exactly at the radius adds 0 either way);
+parking without the fallback guard (an area blocker always has a fallback); holding on any blocker in
+the search (the others never have one); and reading threats with their switch off (the planner then
+ignores them, so it costs time only).
+
+Not pinned, twenty-two, each control flow or an argument, with the in-game check that covers it:
+`Explain`'s tie between equally wide cells going to the last (check 40, the names); the held tail of
+the pass run when not held (40, 45); the old lord taken for the new one (39); the trigger postfix
+testing the hold before vanilla's answer (49, cost) or letting a held caravan through (40); the downed
+giver's and the baby postfix's results not withdrawn (43); the caravan's own movers counted as threats
+(48); the reader passing a constant for the host faction (none: guests do not join caravans here);
+fogged edge cells counted usable (40, fog); the roper being any first mover rather than a colonist
+(39, the pen); downed pawns counted as movers (43); the blame list cleared on a pass that cannot name
+anybody (40); regions ranked by discovery order rather than depth (39); the held-copies check given
+the wrong cells (45); the go-back taken from any stage, skipped from the waiting stage's pause, or
+sent from that pause straight to the gathering stage, its pending flag cleared on a retry, armed
+while held, or its early return inverted, which turns it off (44);
+and a carried pawn put down whatever its carrier is doing, feeding included (43).
+
 Not reachable here, and so left to in-game check 1: loading the settings file. The game's loader
 reaches a Unity logging call that does not exist outside the player, so the read half of
 `ExposeData` and the clamp after it run only in game. The saving half is tested.
@@ -424,3 +478,82 @@ looked. Dev mode on. Record the date, the build and what was seen beside each ch
 38. **A break while holding.** With dev mode, give a drafted lead holder a mental break while items
     are gathering: the break's own letter and vanilla's "caravan formation paused" message, but no
     "let go of the animals" message. Undraft one by hand in the same stage: that message, once.
+
+### Slice 4a
+
+The exit is not drawn anywhere; watch where the caravan walks once it collects its animals and
+leaves.
+
+39. **A restricted colonist steers the exit.** Restrict one caravan colonist to an area that takes in
+    a strip of a far map edge but not the edge nearest the caravan. Send: no message, and the caravan
+    leaves by that strip. Turn "Leave inside allowed areas" off and send again: it leaves by the
+    nearest edge, as in vanilla. A pen animal in a fenced pen with a gate does not change either
+    result.
+40. **Held for want of an exit.** Restrict every member to the home area, touching no edge. Send: a
+    message says the caravan waits where it gathered. It gathers animals and items, then waits there,
+    and "Caravan waiting for an exit" appears, naming every restricted member; clicking it jumps to
+    them. Nobody carries anything or anybody towards an edge. Paint a strip of edge into the home area:
+    within about 250 ticks a message says the caravan stops waiting, the alert goes, and it leaves by
+    that strip. Repeat, letting it go each of these ways instead: setting every member to
+    Unrestricted (one at a time: the alert drops each name, and the caravan goes with the last),
+    clearing the area, and an area that excluded the edges until it was inverted. Then restrict one
+    member to Home and another to an area with an edge strip: only the Home one is named. Paint the
+    strip behind a wall, or in fog: still held, and the message says an edge the caravan can reach.
+    Switch the game to Japanese and to Chinese: the alert and messages show no raw key.
+41. **An area changed while forming.** Send with an exit inside everyone's area, then while items
+    gather, change the area so the exit falls outside it and another edge stays inside: a message says
+    the exit moved, and the caravan leaves by the new one. Shrink it again so no edge is inside: it is
+    held, as in check 40. Build a wall over the exit instead (area untouched): the exit moves with no
+    message. Change the area once the caravan has started collecting its animals: nothing moves,
+    nothing is held, and it leaves by the exit it had.
+42. **Force depart while held.** Hold a caravan, then wall off the edge nearest its spot, the one it
+    would use ignoring areas, and wait 250 ticks. Force depart: the alert goes, and it leaves by
+    another edge it can reach. Edit the areas while it walks out: nothing changes for it.
+43. **Downed pawns and babies while held.** Hold a caravan at Send that includes a downed colonist in
+    a bed near the caravan's spot and a baby in a crib, with more colonists than there is work. It
+    waits in the stage that gathers downed pawns; nobody carries either towards an edge, any colonist
+    who set off for the baby as the caravan started turns back (one who had already picked it up puts
+    it down where it stands), and the stage does not end. Release it: colonists carry both to the new
+    exit, and the caravan leaves with them. Hold one while a colonist is already carrying a downed
+    pawn towards the edge (narrow an area mid-carry): the carrier walks back to the spot carrying it,
+    puts it down there, and after the release it is picked up again and carried to the new exit. A
+    colonist feeding the caravan's baby during a pause keeps it until done, and a drafted colonist
+    holding a baby keeps it. A baby can still be taken for safety towards the held caravan's fallback
+    edge after a feed; vanilla's baby-safety job reads the exit directly, and that is accepted.
+44. **Moved while waiting for a sleeper.** Let a caravan with a downed adult colonist reach the stage
+    where it waits for a very tired member to wake, with the downed one already put down at the exit.
+    Change the area so the exit falls outside it: the exit moves, the caravan goes back to gathering
+    downed pawns, the downed colonist is carried to the new exit, and the caravan leaves with it (the
+    sleeper may be woken early by the step forward again). If instead the downed one is still in its
+    carrier's arms when the area changes, there is no going back: it leaves with its carrier. Repeat
+    with no edge inside the area: held, still waiting, the downed colonist left where it lies; after
+    the release the caravan goes back and carries it to the new exit. Repeat with one colonist and two
+    babies, one in its arms: the other is carried to the new exit too. Hold a caravan waiting for a
+    sleeper, draft every member, then fix the area: the caravan goes back at once, and nobody carries
+    the downed colonist until the members are undrafted. With the area left alone, a caravan waiting
+    for a sleeper never goes back, whoever lies where. Change the area while a member has a mental
+    break in that stage: the caravan goes to the gathering stage's pause and gathers once the break
+    ends. Down an adult member while a caravan is held waiting for a sleeper: it too is carried once
+    released.
+45. **Save and reload while held.** Save a held caravan in each of its waiting stages (gathering items,
+    gathering downed pawns, waiting for sleepers) and reload: still held, the members stay at the spot
+    and walk to no edge in the first seconds, the alert names the same pawns from the first tick
+    after unpausing, and fixing an area still releases it.
+46. **Removing the mod while held.** Save a held caravan waiting for sleepers, remove the mod and load:
+    no red error, and the caravan collects its animals and leaves by the best edge ignoring areas.
+    Repeat held in the stage that gathers downed pawns, with the downed pawn far from the spot: it is
+    carried to that edge and the caravan leaves with it. With the downed pawn within 7 cells of the
+    spot, the caravan can stay in that stage until something refreshes its duties (a mental break's
+    pause, or the pawn getting up); the store page's removal note has to say so.
+47. **Another mod's exit.** With Enter Here (or any mod that sets the caravan's exit), send: the
+    caravan leaves where that mod says, is never held, and this mod posts no exit message, whatever
+    the areas are.
+48. **Threats.** With "Avoid threats when leaving" on, put hostiles near the nearest edge and send: the
+    caravan leaves by an edge away from them. Ring the map so every edge is near a hostile: it leaves
+    by the least threatened. Turn both exit switches off: vanilla's nearest edge. With hostiles near
+    the edge inside a restricted member's area and another in-area edge clear, an area change that
+    moves the exit picks the clear one.
+49. **Cost.** In the dev profiler on a large map, with a twenty-member caravan gathering items while its
+    members are spread across the map (each start region costs its own region search), the 250-tick
+    pass is not measurable against the tick; nor while twenty members are held together; with no
+    caravan forming, nothing at all.

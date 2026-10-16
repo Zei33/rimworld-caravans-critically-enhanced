@@ -1,6 +1,7 @@
 using System;
 using HarmonyLib;
 using RimWorld;
+using RimWorld.Planet;
 using Verse;
 
 namespace CaravansCriticallyEnhanced.Utils
@@ -54,11 +55,20 @@ namespace CaravansCriticallyEnhanced.Utils
         /// <summary>The name of the rope toils' destination field.</summary>
         public const string DestinationPointField = "destinationPoint";
 
+        /// <summary>
+        /// The name of the lord job's private first tile of the world route, which faces the edge the
+        /// caravan would rather leave by.
+        /// </summary>
+        public const string StartingTileField = "startingTile";
+
         /// <summary>The <c>Log.ErrorOnce</c> key base for an accessor that cannot be resolved.</summary>
         public const int ErrorKeyBase = 0x43434510;
 
         private static readonly Lazy<AccessTools.FieldRef<LordJob_FormAndSendCaravan, IntVec3>> jobExitSpot =
             Accessor<LordJob_FormAndSendCaravan>(ExitSpotField, 0);
+
+        private static readonly Lazy<AccessTools.FieldRef<LordJob_FormAndSendCaravan, PlanetTile>> jobStartingTile =
+            new Lazy<AccessTools.FieldRef<LordJob_FormAndSendCaravan, PlanetTile>>(() => Resolve<LordJob_FormAndSendCaravan, PlanetTile>(StartingTileField, 5));
 
         private static readonly Lazy<AccessTools.FieldRef<LordJob_FormAndSendCaravan, IntVec3>> jobMeetingPoint =
             Accessor<LordJob_FormAndSendCaravan>(MeetingPointField, 1);
@@ -84,6 +94,12 @@ namespace CaravansCriticallyEnhanced.Utils
         public static AccessTools.FieldRef<LordJob_FormAndSendCaravan, IntVec3> JobMeetingPoint => jobMeetingPoint.Value;
 
         /// <summary>
+        /// The lord job's first tile of the world route, or null if the field has gone. Read only, to
+        /// break ties between equally good exits.
+        /// </summary>
+        public static AccessTools.FieldRef<LordJob_FormAndSendCaravan, PlanetTile> JobStartingTile => jobStartingTile.Value;
+
+        /// <summary>
         /// The leave toil's copy of the exit cell, which it tests arrival against, or null.
         /// </summary>
         public static AccessTools.FieldRef<LordToil_PrepareCaravan_Leave, IntVec3> LeaveExitSpot => leaveExitSpot.Value;
@@ -104,20 +120,20 @@ namespace CaravansCriticallyEnhanced.Utils
         /// doing anything.
         /// </summary>
         public static bool AllExitFieldsAvailable =>
-            JobExitSpot != null && LeaveExitSpot != null && GatherDownedPawnsExitSpot != null && RopeDestinationPoint != null;
+            JobExitSpot != null && JobMeetingPoint != null && LeaveExitSpot != null && GatherDownedPawnsExitSpot != null && RopeDestinationPoint != null;
 
         private static Lazy<AccessTools.FieldRef<T, IntVec3>> Accessor<T>(string field, int index)
             where T : class
         {
-            return new Lazy<AccessTools.FieldRef<T, IntVec3>>(() => Resolve<T>(field, index));
+            return new Lazy<AccessTools.FieldRef<T, IntVec3>>(() => Resolve<T, IntVec3>(field, index));
         }
 
-        private static AccessTools.FieldRef<T, IntVec3> Resolve<T>(string field, int index)
+        private static AccessTools.FieldRef<T, TValue> Resolve<T, TValue>(string field, int index)
             where T : class
         {
             try
             {
-                return AccessTools.FieldRefAccess<T, IntVec3>(field);
+                return AccessTools.FieldRefAccess<T, TValue>(field);
             }
             catch (Exception exception)
             {

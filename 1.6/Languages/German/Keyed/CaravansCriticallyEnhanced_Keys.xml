@@ -88,4 +88,11 @@
   <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0} hat die Tiere losgelassen. Leinen werden nur im Kampfmodus behalten oder solange Tiere zum Karawanensammelplatz oder zum Ausgang der Karawane geführt werden.</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
   <CaravansCriticallyEnhanced_LeadRecollecting>{0} kann den Ausgang der Karawane nicht allein erreichen, daher sammelt die Karawane ihre Tiere erneut ein.</CaravansCriticallyEnhanced_LeadRecollecting>
 
+  <!-- Exits -->
+  <CaravansCriticallyEnhanced_ExitHeld>Kein für die Karawane erreichbarer Kartenrand liegt im erlaubten Gebiet aller, die mit ihr reisen, daher wartet sie dort, wo sie sich gesammelt hat, bis es einen gibt.</CaravansCriticallyEnhanced_ExitHeld>
+  <CaravansCriticallyEnhanced_ExitReleased>Die Karawane kann jetzt über einen Kartenrand innerhalb aller erlaubten Gebiete abreisen und wartet daher nicht mehr.</CaravansCriticallyEnhanced_ExitReleased>
+  <CaravansCriticallyEnhanced_ExitMoved>Der Ausgang der Karawane wurde verlegt, damit er im erlaubten Gebiet aller bleibt, die mit ihr reisen.</CaravansCriticallyEnhanced_ExitMoved>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExit>Karawane wartet auf Ausgang</CaravansCriticallyEnhanced_AlertNoPermittedExit>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>Eine sich formierende Karawane wartet dort, wo sie sich gesammelt hat, weil kein für sie erreichbarer Kartenrand im erlaubten Gebiet aller liegt, die mit ihr reisen. Festgehalten von:\n\n{0}\n\nUm sie abreisen zu lassen, erweitere deren Gebiete bis an einen für die Karawane erreichbaren Kartenrand, hebe deren Beschränkung auf oder nutze "Abreise der Karawane erzwingen". Wenn du "Innerhalb erlaubter Gebiete abreisen" in den Mod-Optionen ausschaltest, darf sie ebenfalls abreisen.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+
 </LanguageData>

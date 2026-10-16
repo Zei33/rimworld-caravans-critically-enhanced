@@ -88,4 +88,11 @@
   <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0} soltou os animais. As cordas só são mantidas enquanto o colono está alistado ou levando animais ao ponto de encontro da caravana ou à saída dela.</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
   <CaravansCriticallyEnhanced_LeadRecollecting>{0} não consegue chegar à saída da caravana por conta própria, então a caravana retomou a coleta de animais.</CaravansCriticallyEnhanced_LeadRecollecting>
 
+  <!-- Exits -->
+  <CaravansCriticallyEnhanced_ExitHeld>Nenhum limite do mapa que a caravana consiga alcançar está dentro da área permitida de todos que vão com ela, então ela espera onde se reuniu até que haja um.</CaravansCriticallyEnhanced_ExitHeld>
+  <CaravansCriticallyEnhanced_ExitReleased>A caravana agora pode sair por um limite do mapa dentro de todas as áreas permitidas, então deixa de esperar.</CaravansCriticallyEnhanced_ExitReleased>
+  <CaravansCriticallyEnhanced_ExitMoved>A saída da caravana foi movida para ficar dentro da área permitida de todos que vão com ela.</CaravansCriticallyEnhanced_ExitMoved>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExit>Caravana aguardando uma saída</CaravansCriticallyEnhanced_AlertNoPermittedExit>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>Uma caravana em formação está esperando onde se reuniu, porque nenhum limite do mapa que ela consiga alcançar está dentro da área permitida de todos que vão com ela. Retida por:\n\n{0}\n\nPara liberá-la, estenda as áreas deles até um limite do mapa que a caravana consiga alcançar, remova a restrição deles ou use "Forçar partida da caravana". Desativar "Sair dentro das áreas permitidas" nas opções de mods também a libera.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+
 </LanguageData>

@@ -88,4 +88,11 @@
   <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0} let go of the animals. Leads are kept only while drafted, or while leading animals to the caravan's spot or its exit.</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
   <CaravansCriticallyEnhanced_LeadRecollecting>{0} cannot reach the caravan's exit by itself, so the caravan is collecting its animals again.</CaravansCriticallyEnhanced_LeadRecollecting>
 
+  <!-- Exits -->
+  <CaravansCriticallyEnhanced_ExitHeld>No map edge the caravan can reach is inside the allowed area of every pawn going with it, so it waits where it gathered until there is one.</CaravansCriticallyEnhanced_ExitHeld>
+  <CaravansCriticallyEnhanced_ExitReleased>The caravan can now leave by a map edge inside every allowed area, so it stops waiting.</CaravansCriticallyEnhanced_ExitReleased>
+  <CaravansCriticallyEnhanced_ExitMoved>The caravan's exit moved to stay inside the allowed area of every pawn going with it.</CaravansCriticallyEnhanced_ExitMoved>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExit>Caravan waiting for an exit</CaravansCriticallyEnhanced_AlertNoPermittedExit>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>A forming caravan is waiting where it gathered, because no map edge it can reach is inside the allowed area of every pawn going with it. Kept in by:\n\n{0}\n\nTo let it go, extend their areas to a map edge the caravan can reach, remove their restriction, or use "Force caravan departure". Turning off "Leave inside allowed areas" in the mod's options also lets it go.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+
 </LanguageData>

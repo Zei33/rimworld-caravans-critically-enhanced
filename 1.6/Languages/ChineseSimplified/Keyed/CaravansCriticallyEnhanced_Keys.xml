@@ -88,4 +88,11 @@
   <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0}松开了牵引的动物。只有在被征召时，或正在将动物引导至远行点或出口时，才会保持牵引。</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
   <CaravansCriticallyEnhanced_LeadRecollecting>{0}无法自行到达远行队的出口，因此远行队重新开始召集动物。</CaravansCriticallyEnhanced_LeadRecollecting>
 
+  <!-- Exits -->
+  <CaravansCriticallyEnhanced_ExitHeld>没有任何一处远行队能到达的地图边缘同时位于所有随队出发者的允许活动区域之内，因此远行队将在集合的地方等待，直到出现这样的边缘。</CaravansCriticallyEnhanced_ExitHeld>
+  <CaravansCriticallyEnhanced_ExitReleased>远行队现在可以从一处位于所有允许活动区域之内的地图边缘离开，因此不再等待。</CaravansCriticallyEnhanced_ExitReleased>
+  <CaravansCriticallyEnhanced_ExitMoved>远行队的出口已移动，以保持在所有随队出发者的允许活动区域之内。</CaravansCriticallyEnhanced_ExitMoved>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExit>远行队等待出口</CaravansCriticallyEnhanced_AlertNoPermittedExit>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>一支组建中的远行队正在集合的地方等待，因为没有任何一处它能到达的地图边缘同时位于所有随队出发者的允许活动区域之内。受以下成员的区域限制：\n\n{0}\n\n要让它出发，可以将这些成员的允许活动区域扩展到一处远行队能到达的地图边缘、取消他们的区域限制，或使用「强制远行队离开」。在mod选项中关闭「在允许活动区域内离开」也能让它出发。</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+
 </LanguageData>

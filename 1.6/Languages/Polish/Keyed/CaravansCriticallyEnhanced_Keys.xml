@@ -88,4 +88,11 @@
   <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0} puszcza prowadzone zwierzęta. Zwierzęta zostają przy koloniście tylko w trybie bojowym albo wtedy, gdy prowadzi je do miejsca karawany lub do jej wyjścia.</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
   <CaravansCriticallyEnhanced_LeadRecollecting>Zwierzę ({0}) nie może samo dotrzeć do wyjścia karawany, więc karawana znów zbiera swoje zwierzęta.</CaravansCriticallyEnhanced_LeadRecollecting>
 
+  <!-- Exits -->
+  <CaravansCriticallyEnhanced_ExitHeld>Żadna krawędź mapy, do której karawana może dotrzeć, nie leży w dozwolonym obszarze wszystkich, którzy z nią wyruszają, więc karawana czeka w miejscu, w którym się zebrała, aż taka krawędź się pojawi.</CaravansCriticallyEnhanced_ExitHeld>
+  <CaravansCriticallyEnhanced_ExitReleased>Karawana może teraz opuścić mapę przez krawędź leżącą we wszystkich dozwolonych obszarach, więc przestaje czekać.</CaravansCriticallyEnhanced_ExitReleased>
+  <CaravansCriticallyEnhanced_ExitMoved>Wyjście karawany zostało przeniesione, aby leżało w dozwolonym obszarze wszystkich, którzy z nią wyruszają.</CaravansCriticallyEnhanced_ExitMoved>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExit>Karawana czeka na wyjście</CaravansCriticallyEnhanced_AlertNoPermittedExit>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>Formowana karawana czeka w miejscu, w którym się zebrała, ponieważ żadna krawędź mapy, do której może dotrzeć, nie leży w dozwolonym obszarze wszystkich, którzy z nią wyruszają. Zatrzymują ją:\n\n{0}\n\nAby ją wypuścić, rozszerz ich obszary do krawędzi mapy, do której karawana może dotrzeć, usuń ich ograniczenie lub użyj przycisku "Force caravan departure". Wyłączenie opcji "Wyruszaj w dozwolonych obszarach" w ustawieniach modyfikacji również ją wypuści.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+
 </LanguageData>

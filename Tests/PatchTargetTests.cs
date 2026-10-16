@@ -56,6 +56,15 @@ namespace CaravansCriticallyEnhanced.Tests
             "Patch_LordJob_FormAndSendCaravan_LordJobTick",
             "Patch_Pawn_WorkSettings_ExposeData",
             "Patch_WorkGiver_HelpGatheringItemsForCaravan_NonScanJob",
+            "Patch_CaravanFormingUtility_ForceCaravanDepart",
+            "Patch_CaravanFormingUtility_StartFormingCaravan",
+            "Patch_Dialog_FormCaravan_TryFormAndSendCaravan",
+            "Patch_JobGiver_PrepareCaravan_GatherDownedPawns_TryGiveJob",
+            "Patch_LordJob_FormAndSendCaravan_ExposeData",
+            "Patch_RCellFinder_TryFindClosestEdgeCellTo",
+            "Patch_Trigger_NoPawnsVeryTiredAndSleeping_ActivateOn",
+            "Patch_LordToil_PrepareCaravan_GatherDownedPawns_CheckAllPawnsArrived",
+            "Patch_JobGiver_GotoTravelDestination_CaravanBabyToCarry",
         };
 
         [Test]

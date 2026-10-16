@@ -24,8 +24,9 @@ Fixes caravan forming. When finished it will:
 
 plus stuck-caravan fixes, loaded-cargo protection, unloading returning pack animals at a stockpile,
 and a better manual load. The work is in slices; `docs/ROADMAP.md` in the workspace says which have
-landed. **As of Slice 3 the Load work type, the completion guard, helpers leading pen animals, and
-drafted caravan colonists keeping their leads are in; nothing else changes the game yet.**
+landed. **As of Slice 4a the Load work type, the completion guard, helpers leading pen animals, drafted
+caravan colonists keeping their leads, and the exit chosen at Send with the area hold are in; nothing
+else changes the game yet.**
 
 ## Architecture
 
@@ -58,6 +59,13 @@ drafted caravan colonists keeping their leads are in; nothing else changes the g
 | `AnimalGatherIndex` | `1.6/Core/AnimalGatherIndex.cs` | Per map, per tick and frame: the rope animals of vanilla lords gathering animals that nobody is leading, and each one's spot, read from its own duty |
 | `RopeCandidates` | `1.6/Core/RopeCandidates.cs` | Which animals wait to be led: rope-managed, not on a rope, not tied at the spot, with the gather duty, in the gathering stage itself. Pure |
 | `LoadingMigration` | `1.6/Core/LoadingMigration.cs` | The one-time Load priority copy, and `MakeRoom`, which puts later work types' priorities back in their own slots on the first load. Pure |
+| `ExitPlanner`, `ExitPlanInput`, `ExitPlan`, `ExitBlocker`, `EdgeCandidate`, `MoverReading`, `ThreatReading`, `ThreatGeometry` | `1.6/Core/ExitPlanner.cs` | Chooses the exit cell from plain readings: reachable by every mover that reaches an edge at all, inside every restricted mover's area, then least threatened, fewest regions away, nearest, facing the world route; or a typed blocker, the movers to blame, and the best cell ignoring areas. Also whether the current exit is still valid, and still reachable. No randomness. Pure |
+| `ExitPolicy`, `ExitAction` | `1.6/Core/ExitPolicy.cs` | Which pawns an area restricts (both vanilla area controls must show it), the stages the area rule applies in (before collecting), what the exit pass does (park, keep the fallback current, release, move with or without the area message, or nothing), and when a waiting caravan goes back for its downed pawns. Pure |
+| `CaravanExitState`, `CaravanExitStates` | `1.6/Core/CaravanExitState.cs` | Per caravan, in a `ConditionalWeakTable` on the lord job: held, the exit last written, override, foreign; saved as `cce_exit*` nodes |
+| `ExitReadings`, `ExitReading` | `1.6/Utils/ExitReadings.cs` | Reads a map for the planner: edge cells, one region search per group of movers sharing a start region and door and fence rules (pen animals as led by a colonist), each edge region's depth in regions, area masks through `ExitPolicy.IsRestricted`, threats, the route side |
+| `ExitDirector` | `1.6/Utils/ExitDirector.cs` | The exit pass every 250 ticks, and at once on the first tick after a held caravan is loaded; the start of a caravan; Force depart. The writes that keep the lord job's exit, the three toil copies and the duties in step; putting down carried downed pawns on a hold; sending a waiting caravan back for downed pawns left away from its exit |
+| `ExitHandoff` | `1.6/Utils/ExitHandoff.cs` | Carries the formation window's pawns and route into the exit search inside it, and its hold to the new caravan |
+| `Alert_CaravanNoPermittedExit : Alert` | `1.6/Jobs/Alert_CaravanNoPermittedExit.cs` | Names the pawns whose areas hold a caravan and how to let it go; reads the held state only |
 
 Defs: `CCE_Loading` (WorkTypeDef, naturalPriority 310, the column directly left of Haul, Hauling's
 work tags), `CCE_LoadCaravan` (WorkGiverDef, priorityInType 110), `CCE_RopeAnimalsToCaravan`
@@ -75,7 +83,7 @@ Harmony surface, one class per vanilla target in `1.6/Patches/`, each applied on
 | `Patch_JobDriver_PrepareCaravan_GatherItems_IsUsableCarrier` | `JobDriver_PrepareCaravan_GatherItems.IsUsableCarrier` | Postfix | `CarrierRule` for helpers only; hot path, early exits first |
 | `Patch_JobDriver_PrepareCaravan_GatherItems_MakeNewToils` | `JobDriver_PrepareCaravan_GatherItems.MakeNewToils` | Postfix | A helper's job fails once the caravan leaves the gathering stages |
 | `Patch_CaravanFormingUtility_AllItemsLoadedOntoCaravan` | `CaravanFormingUtility.AllItemsLoadedOntoCaravan` | Postfix, last | The single owner of the answer, in the item-gathering stage only: drafted-member exemption, then the completion guard |
-| `Patch_LordJob_FormAndSendCaravan_LordJobTick` | `LordJob_FormAndSendCaravan.LordJobTick` | Postfix | Every 250 ticks per lord, staggered: the progress clock and letting expired items go; then, with its own error key, going back for animals stranded while leaving |
+| `Patch_LordJob_FormAndSendCaravan_LordJobTick` | `LordJob_FormAndSendCaravan.LordJobTick` | Postfix | Every 250 ticks per lord, staggered: the progress clock and letting expired items go; then, each with its own error key, going back for animals stranded while leaving, and the exit pass |
 | `Patch_CaravanFormingUtility_StopFormingCaravan` | `CaravanFormingUtility.StopFormingCaravan` | Prefix | Ends the animal helpers' rope jobs, current and queued, and has drafted members let go, before vanilla cancels, so vanilla's `LeadAnimalsToPen`, which skips any roped animal, leads their animals home too, and no queued job's reservation breaks the pen lord's rope jobs |
 | `Patch_Pawn_RopeTracker_RopingTick` | `Pawn_RopeTracker.RopingTick` | Prefix | For a roper `LeadUtility.KeepsLeads` accepts: vanilla's breaking checks less being drafted and not being in a rope job, needy releases every 250 ticks, speed matching. Hottest patch: leaves at once for a pawn leading nothing. For a roper it does not hold, tells the player about an undraft notice waiting for it |
 | `Patch_Pawn_DraftController_Drafted` | `Pawn_DraftController.Drafted` setter | Prefix and finalizer | Opens a `LeadKeepScope` across drafting a roper the mod will hold; the finalizer closes it and, on an undraft that will drop the leads, leaves a `LeadUndraftNotices` entry for the rope tick |
@@ -87,6 +95,15 @@ Harmony surface, one class per vanilla target in `1.6/Patches/`, each applied on
 | `Patch_TransitionAction_EndAllJobs_DoAction` | `TransitionAction_EndAllJobs.DoAction` | Prefix | For a vanilla forming caravan, ends every undrafted member's job and leaves the drafted to their orders |
 | `Patch_Pawn_GetGizmos` | `Pawn.GetGizmos` | Postfix, pass-through | Adds the drop-lead button |
 | `Patch_Pawn_WorkSettings_ExposeData` | `Pawn_WorkSettings.ExposeData` | Postfix | Saves `cceLoadingInit`; on the first load without it, realigns later work types' priorities and copies the helper's work type priority into Load |
+| `Patch_Dialog_FormCaravan_TryFormAndSendCaravan` | `Dialog_FormCaravan.TryFormAndSendCaravan` (private) | Prefix and finalizer | Opens `ExitHandoff` for the send when either exit switch is on; the finalizer closes it |
+| `Patch_RCellFinder_TryFindClosestEdgeCellTo` | `RCellFinder.TryFindClosestEdgeCellTo` | Prefix | Inside a send only, once: answers with the plan, or with the best exit ignoring areas and a hold when areas block; vanilla when nothing is reachable. Its sole caller is the send |
+| `Patch_CaravanFormingUtility_StartFormingCaravan` | `CaravanFormingUtility.StartFormingCaravan` | Prefix and postfix | The shared start: notes the first pawn's lord before, and sets up the new lord's exit state, holding it at once if the send said so |
+| `Patch_LordJob_FormAndSendCaravan_ExposeData` | `LordJob_FormAndSendCaravan.ExposeData` | Postfix | The shared save: the exit state, vanilla's exact type only |
+| `Patch_Trigger_NoPawnsVeryTiredAndSleeping_ActivateOn` | `Trigger_NoPawnsVeryTiredAndSleeping.ActivateOn` | Postfix | A held caravan never moves from waiting to collecting |
+| `Patch_JobGiver_PrepareCaravan_GatherDownedPawns_TryGiveJob` | `JobGiver_PrepareCaravan_GatherDownedPawns.TryGiveJob` (protected) | Postfix | A held caravan's colonists carry no downed pawn to the fallback edge |
+| `Patch_CaravanFormingUtility_ForceCaravanDepart` | `CaravanFormingUtility.ForceCaravanDepart` | Prefix | Force depart overrides the area rule: release to the fallback, and the rule leaves that caravan alone |
+| `Patch_LordToil_PrepareCaravan_GatherDownedPawns_CheckAllPawnsArrived` | `LordToil_PrepareCaravan_GatherDownedPawns.CheckAllPawnsArrived` (private) | Prefix | A held caravan's downed pawns never count as gathered, so one in bed near the spot is not left behind |
+| `Patch_JobGiver_GotoTravelDestination_CaravanBabyToCarry` | `JobGiver_GotoTravelDestination.CaravanBabyToCarry` (private) | Postfix | A held caravan's colonists pick up no baby to hold for the length of the hold |
 
 ## Invariants and traps
 
@@ -182,6 +199,66 @@ The plan's architecture rules are binding on every slice; the short form:
   going back would only move the wait from the exit to collecting. That memo's
   transition ends every undrafted member's job, so their ropes drop and are retied; vanilla does the
   same when a pen animal joins.
+- **The area rule stops once animal collection starts** (Matthew, 2026-10-16). Vanilla hides Force
+  depart in the leaving stage (it still shows in that stage's pause, where its memo has no transition
+  and does nothing but undraft and clear the downed list), so a caravan held there could only be ended
+  by Leave from here, removing a pawn or cancelling. `ExitPolicy.AreaRuleApplies` is the four gathering
+  and waiting stages and their pauses; past them a held caravan is released by its fallback, and
+  nothing parks it.
+- **Held, the lord job and the collecting and leaving copies keep the fallback; only the downed-pawn
+  stage's copy points at the meeting point.** Its duty's wander (`JobGiver_GotoTravelDestination`,
+  focus index 2) walks idle colonists to that copy; the collecting and leaving copies are never
+  reached while held, so they keep the fallback, and anything that sends the caravan on regardless
+  leaves by it rather than vanishing from the meeting point. A save loaded without the mod rebuilds
+  the toils from the lord job. The toils' copies are not saved, so a held caravan gets a whole pass on
+  the first tick after any load (`FirstTickAfterLoad`, ahead of the 250-tick interval), which writes
+  them back and fills the alert's names. While held, each pass also keeps the fallback current, so
+  Force depart or the switch going off never sends the caravan to a cell walled off since.
+- **A held caravan carries nobody.** Vanilla keeps a carried pawn through `Goto`, `GotoWander` and
+  `Wait_Wander` (`dropThingBeforeJob` false), so a carry cut short would last the whole hold. The
+  downed giver hands out no carry, `CaravanBabyToCarry` picks no baby, and the downed stage never
+  counts its pawns as gathered, since its test reads the copy that now points at the meeting point
+  and a pawn in bed there would count. On every held pass `StopCarrying` ends a pick-up still under
+  way (vanilla rethinks every member's job inside the send, before the hold) and has an undrafted
+  member already carrying one put it down only while it is wandering within 7 cells of the meeting
+  point; when the hold starts with the send, anybody already carrying one puts it down where it
+  stands (a colonist beside the crib finishes the pick-up within the send). The duties of gathering animals, of the held downed stage and
+  of waiting walk carriers there; while items are gathered, and in the pauses, vanilla's next job
+  drops the pawn where the carrier stands, as vanilla would. A job that uses the carry, such as
+  feeding a baby, is left alone, and a drafted carrier is the player's. Put down where the carrier
+  stood, an adult could lie at a far edge for the whole hold, since nothing rescues or feeds a downed
+  adult its caravan is to take (babies can still be fed). Removing the mod while held in the downed
+  stage can stick it: the saved duties' second focus is the meeting point, so the giver skips downed
+  pawns near it while the rebuilt toil waits for them near the fallback, until something refreshes
+  the duties (a pause, a downed pawn recovering). Since a carry under way at the hold ends with the
+  pawn put down at the spot, that is the usual case, and the store page's removal note, written at
+  Slice 9, has to say so.
+- **Downed pawns are carried only in their own stage, so a waiting caravan goes back for them, but
+  only after the mod wrote its exit.** A pass that wrote the exit (any action but none) in the waiting
+  stage or its pause, leaving the caravan not held, sets `RegatherPending`, saved as
+  `cce_exitRegather`; while held the lord job's exit is only the fallback, so the release's write arms
+  it against the real one. Every pass then counts the
+  listed downed pawns more than 7 cells from the exit and not in a member's arms (the downed stage
+  ends while its last pawn is still carried, and that one leaves with its carrier), babies included
+  (a member picks up only one baby while collecting and leaving). Once a colonist member with hands
+  can reach every one of them (reach only: drafting and reservations pass, and the gathering stage
+  waits them out), it sends the lord back to the downed stage with `Lord.GotoToil`, or from the pause
+  to that stage's own pause, and clears the flag; with none left, or the caravan past waiting, it
+  clears the flag; otherwise it asks again next pass. Going back ends in vanilla's own transition,
+  whose job ending can wake a sleeper early, which is why a caravan whose exit the mod left alone is
+  never sent back, whoever lies where. If the caravan finishes waiting before an unreachable one can
+  be fetched, it is left, as vanilla would leave it.
+- **Another mod's exit is never overwritten,** where "another mod's exit" means a lord job exit the mod
+  did not write. The exit last written is saved; a lord job whose exit differs, at the start (Enter
+  Here rewrites it while the graph is built) or later, is foreign for good, and a held one is released
+  by whatever exit it has. A mod that writes only the toils' copies, or changes the argument to
+  `StartFormingCaravan`, is not detected.
+- **Vanilla's baby carry to safety still reads the live exit.** `JobDriver_BringBabyToSafety.FindBedForBaby`
+  calls `FindRandomDropCell`, so a held caravan can have a baby carried toward the fallback edge. Accepted.
+- **The planner ranks by threat, then region depth, then straight-line distance, then the route's
+  side.** `ExitReadings` records each edge region's depth in the entry predicate of the breadth-first
+  search (the first entry into a region comes from one nearer); discovery order would differ between
+  regions at the same depth.
 - **Two vanilla behaviours stay as they are.** Drafting a member still drops the caravan items it
   hauled into its own inventory (`DropAllPackingCaravanThings`, in the draft setter); the plan
   considered covering that with the lead scope and decided against it: while items are gathered,

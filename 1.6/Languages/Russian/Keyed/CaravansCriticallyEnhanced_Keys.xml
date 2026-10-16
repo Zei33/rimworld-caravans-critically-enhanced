@@ -88,4 +88,11 @@
   <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0} отпускает животных. Поселенец держит животных на привязи, только пока он в режиме призыва или ведёт их к месту сбора каравана или к выходу.</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
   <CaravansCriticallyEnhanced_LeadRecollecting>Животное ({0}) не может само дойти до точки выхода каравана, поэтому караван возвращается к сбору животных.</CaravansCriticallyEnhanced_LeadRecollecting>
 
+  <!-- Exits -->
+  <CaravansCriticallyEnhanced_ExitHeld>Ни один край карты, до которого может добраться караван, не лежит в доступной области всех, кто уходит с ним, поэтому караван ждёт на месте сбора, пока такой край не появится.</CaravansCriticallyEnhanced_ExitHeld>
+  <CaravansCriticallyEnhanced_ExitReleased>Караван теперь может уйти через край карты в пределах всех доступных областей, поэтому больше не ждёт.</CaravansCriticallyEnhanced_ExitReleased>
+  <CaravansCriticallyEnhanced_ExitMoved>Точка выхода каравана перенесена, чтобы оставаться в доступной области всех, кто уходит с ним.</CaravansCriticallyEnhanced_ExitMoved>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExit>Караван ждёт точки выхода</CaravansCriticallyEnhanced_AlertNoPermittedExit>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>Собирающийся караван ждёт на месте сбора, потому что ни один край карты, до которого он может добраться, не лежит в доступной области всех, кто уходит с ним. Его удерживают:\n\n{0}\n\nЧтобы отпустить его, расширьте их области до края карты, до которого может добраться караван, снимите с них ограничение или используйте «Отправить караван немедленно». Также можно отключить «Уходить в пределах доступных областей» в настройках модов.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+
 </LanguageData>

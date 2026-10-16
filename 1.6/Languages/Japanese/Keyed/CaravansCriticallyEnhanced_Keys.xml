@@ -88,4 +88,11 @@
   <CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>{0}は家畜の誘導をやめました。誘導が続くのは、徴兵中か、家畜をキャラバンスポットや出発地点へ誘導している間だけです。</CaravansCriticallyEnhanced_LeadsDroppedOnUndraft>
   <CaravansCriticallyEnhanced_LeadRecollecting>{0}は自力ではキャラバン隊の出発地点にたどり着けないため、キャラバン隊は再び家畜を集めています。</CaravansCriticallyEnhanced_LeadRecollecting>
 
+  <!-- Exits -->
+  <CaravansCriticallyEnhanced_ExitHeld>キャラバン隊は、到達できるマップ端のうち参加する全メンバーの制限ゾーン内にあるものがないため、そのようなマップ端ができるまで集合した場所で待機します。</CaravansCriticallyEnhanced_ExitHeld>
+  <CaravansCriticallyEnhanced_ExitReleased>キャラバン隊は、すべての制限ゾーン内にあるマップ端から出発できるようになったため、待機を終えます。</CaravansCriticallyEnhanced_ExitReleased>
+  <CaravansCriticallyEnhanced_ExitMoved>参加する全メンバーの制限ゾーン内に収まるよう、キャラバン隊の出発地点を移動しました。</CaravansCriticallyEnhanced_ExitMoved>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExit>キャラバン隊が出発地点待ち</CaravansCriticallyEnhanced_AlertNoPermittedExit>
+  <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>編成中のキャラバン隊が集合した場所で待機しています。到達できるマップ端のうち、参加する全メンバーの制限ゾーン内にあるものがないためです。足止めしているメンバー：\n\n{0}\n\n出発させるには、そのメンバーの制限ゾーンをキャラバン隊が到達できるマップ端まで広げるか、制限を解除するか、「キャラバン隊を即時出発」を使ってください。MODオプションで「制限ゾーン内から出発」をオフにしても出発できます。</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+
 </LanguageData>

@@ -23,10 +23,13 @@ Four sliders:
 
 "Reset to defaults" puts every switch and slider back.
 
-As of Slice 3 these switches take effect: the four Loading ones ("Load work type", "Load into
+As of Slice 4a these switches take effect: the four Loading ones ("Load work type", "Load into
 colonists", "Load while animals gather" and "Helpers bring pen animals"), "Keep leads when drafted" in
-the Leads section, and "Wait for every item" among the stuck caravan fixes, together with its grace
-period and the watchdog of twice the grace period. The others do nothing yet.
+the Leads section, "Leave inside allowed areas" and "Avoid threats when leaving" in the leaving
+section, with both threat distances, and "Wait for every item" among the stuck caravan fixes, together
+with its grace period and the watchdog of twice the grace period. "Avoid threats when leaving" so far
+ranks exits only when one is being chosen anyway: at Send, and when an area change moves the exit.
+Moving away from a threat that appears while forming comes later. The others do nothing yet.
 
 ## The Load column
 
@@ -118,6 +121,54 @@ animals along into the fight.
 
 The mod also fixes a vanilla slip that could let an animal fall off its new lead when it was roped by
 somebody new: its previous holder is now made to let go first. That fix is always on.
+
+## Choosing where the caravan leaves
+
+Vanilla picks a caravan's exit as the first map edge a search from the pawns' average position
+meets, at a random cell there, without asking whether every pawn can reach it, whether it is
+fogged, whether enemies stand there, or whether anybody's allowed area includes it. With either of
+"Leave inside allowed areas" and "Avoid threats when leaving" on, the mod chooses instead, when you
+press Send:
+
+- only edge cells every pawn going can reach, a pen animal counted as a colonist leading it would;
+- with "Leave inside allowed areas" on, only cells inside the allowed area of every pawn restricted
+  to one (pawns whose area you cannot set, such as pen animals, guests and mechanoids with no
+  overseer, do not count, and nor does an area with no cells);
+- with "Avoid threats when leaving" on, the cell with the fewest and farthest hostiles near it or near
+  the straight way to it, using the two threat distances;
+- then the one the fewest regions away from where the pawns stand (regions are the map's own
+  pathfinding areas, up to 12 by 12 cells), then the nearest in a straight line to where the caravan
+  sets out, then the one facing the caravan's route on the world map.
+
+A pawn that cannot reach any map edge at all is left out of the choice. If nobody can reach one,
+vanilla chooses, as before.
+
+If no map edge the caravan can reach is inside every restricted pawn's area, the caravan still forms
+and packs, but then waits where it gathered, with a message and an alert naming the pawns that keep it
+in. An area that touches the edge only behind a wall, or in fog, does not count. Gathering animals and
+items carries on as usual. Downed colonists and babies stay where they are rather than being carried
+to the edge or held in someone's arms for the whole wait. One already being carried is put down once
+its carrier is back where the caravan gathered; while items are gathered, the carrier's next haul sets
+it down where it stands, as vanilla would. When the caravan is held from the moment it is sent, a
+colonist who had already picked up a baby puts it down where it stands. A drafted colonist's carry is
+yours to decide.
+The caravan does not set off to collect its animals. Every 250 ticks it looks again, so it carries on
+by itself once you extend an area to a reachable edge or remove a restriction. Force depart sends it
+off at once by the best exit ignoring areas, kept up to date while it waits, and turning "Leave inside
+allowed areas" off lets it go too.
+
+While the caravan is still gathering, or waiting for a tired member to wake, an area change that puts
+its exit outside someone's area moves the exit to one inside it, with a message, or holds the caravan
+if there is none. If downed pawns or babies then lie away from the exit it will leave by, the caravan
+goes back and carries them there, as soon as a colonist going with it can reach every one of them
+(a baby being fed by somebody else is fetched if the feed ends while the caravan still waits). Going back ends with vanilla's own step
+forward, which ends the members' jobs and can wake a sleeper early, so a caravan whose exit the mod
+left alone never goes back. An exit that nobody can reach any more, because of a new wall or fog, is
+replaced quietly. Once the caravan starts collecting its animals to leave, the exit it has stands,
+whatever happens to the areas.
+
+Areas are checked only for the exit cell. On the way there, a caravan's pawns ignore allowed areas, as
+in vanilla, so the route can still cross outside them.
 
 ## Waiting for every item
 

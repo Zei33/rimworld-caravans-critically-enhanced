@@ -10,9 +10,12 @@ A RimWorld 1.6 mod that fixes the slow and fragile parts of forming a caravan, i
 In development and not yet released. The mod is built in slices, and this file describes only what
 has landed. At the moment that is the settings window, the Load work type (colonists who are not
 going load a forming caravan and lead its pen animals to it, and the caravan keeps loading while any
-listed item can still be fetched), and drafted caravan colonists keeping their leads, with a button
-to drop a lead and a right-click option to take one. The features behind the other switches
-arrive one slice at a time.
+listed item can still be fetched), drafted caravan colonists keeping their leads, with a button
+to drop a lead and a right-click option to take one, and the caravan's exit. When you send a caravan,
+it leaves by a map edge inside the allowed area of every pawn restricted to one, preferring edges
+away from hostiles. If no edge fits every area, the caravan packs and then waits at its spot, with
+an alert naming the pawns, until an area change lets it go or you use Force depart. The features
+behind the other switches arrive one slice at a time.
 
 ## What it will do
 
