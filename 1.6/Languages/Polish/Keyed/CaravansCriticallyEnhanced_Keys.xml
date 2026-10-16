@@ -29,9 +29,9 @@
   <CaravansCriticallyEnhanced_SettingThreatAwareExit>Unikaj zagrożeń przy wyruszaniu</CaravansCriticallyEnhanced_SettingThreatAwareExit>
   <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>Karawana wybiera wyjście z dala od wrogów, a podczas formowania wybiera inne, jeśli w pobliżu wybranego pojawi się zagrożenie.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
   <CaravansCriticallyEnhanced_SettingLeaveFromHere>Wyrusz stąd</CaravansCriticallyEnhanced_SettingLeaveFromHere>
-  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Daje koloniście w trybie bojowym, który należy do formowanej karawany i stoi blisko krawędzi mapy, przycisk wysyłający karawanę przez tę krawędź.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Daje koloniście w trybie bojowym, który należy do formowanej karawany i stoi blisko krawędzi mapy, przycisk wysyłający karawanę przez tę krawędź. Kolonista z formowanej karawany nie może już wtedy na twój rozkaz sam opuścić mapy ani pieszo, ani wynosząc kogoś.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
   <CaravansCriticallyEnhanced_SettingDepartureWarnings>Ostrzegaj o pozostawionych</CaravansCriticallyEnhanced_SettingDepartureWarnings>
-  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Przy wymuszonym wyruszeniu karawany wyświetlana jest lista znokautowanych osób i niemowląt, których nikt nie niesie i które zostałyby pozostawione.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
+  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Przy wymuszonym wyruszeniu karawany wyświetlana jest lista znokautowanych osób i niemowląt, które zostałyby pozostawione.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
   <CaravansCriticallyEnhanced_SettingThreatRadius>Odległość zagrożenia od wyjścia: {0}</CaravansCriticallyEnhanced_SettingThreatRadius>
   <CaravansCriticallyEnhanced_SettingThreatRadiusTip>Jak blisko wyjścia, w polach, musi być wróg, aby wyjście uznać za zagrożone.</CaravansCriticallyEnhanced_SettingThreatRadiusTip>
   <CaravansCriticallyEnhanced_SettingRouteThreatRadius>Odległość zagrożenia od trasy: {0}</CaravansCriticallyEnhanced_SettingRouteThreatRadius>
@@ -94,5 +94,15 @@
   <CaravansCriticallyEnhanced_ExitMoved>Wyjście karawany zostało przeniesione, aby leżało w dozwolonym obszarze wszystkich, którzy z nią wyruszają.</CaravansCriticallyEnhanced_ExitMoved>
   <CaravansCriticallyEnhanced_AlertNoPermittedExit>Karawana czeka na wyjście</CaravansCriticallyEnhanced_AlertNoPermittedExit>
   <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>Formowana karawana czeka w miejscu, w którym się zebrała, ponieważ żadna krawędź mapy, do której może dotrzeć, nie leży w dozwolonym obszarze wszystkich, którzy z nią wyruszają. Zatrzymują ją:\n\n{0}\n\nAby ją wypuścić, rozszerz ich obszary do krawędzi mapy, do której karawana może dotrzeć, usuń ich ograniczenie lub użyj przycisku "Force caravan departure". Wyłączenie opcji "Wyruszaj w dozwolonych obszarach" w ustawieniach modyfikacji również ją wypuści.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+
+  <!-- Leave from here -->
+  <CaravansCriticallyEnhanced_LeaveFromHere>Wyrusz stąd</CaravansCriticallyEnhanced_LeaveFromHere>
+  <CaravansCriticallyEnhanced_LeaveFromHereDesc>Wyślij karawanę natychmiast przez krawędź mapy, przy której stoi ten kolonista. Karawana przerywa załadunek, sprowadza do tej krawędzi znokautowane osoby i zwierzęta, jeśli może je zabrać kolonista, który z nią wyrusza i nie jest w trybie bojowym, po czym wyrusza stąd. Żaden kolonista nie wychodzi z trybu bojowego, a koloniści w trybie bojowym nie puszczają prowadzonych zwierząt.</CaravansCriticallyEnhanced_LeaveFromHereDesc>
+  <CaravansCriticallyEnhanced_LeaveFromHereTooFar>Musi stać w odległości najwyżej {0} pól od krawędzi mapy.</CaravansCriticallyEnhanced_LeaveFromHereTooFar>
+  <CaravansCriticallyEnhanced_LeaveFromHereNoSpot>Do żadnej pobliskiej krawędzi mapy nie mogą dotrzeć wszyscy, którzy wyruszają z karawaną.</CaravansCriticallyEnhanced_LeaveFromHereNoSpot>
+  <CaravansCriticallyEnhanced_LeaveFromHereUnreachable>Następujących znokautowanych osób nie może zabrać żaden kolonista, który nie jest w trybie bojowym, więc zostaną one pozostawione:</CaravansCriticallyEnhanced_LeaveFromHereUnreachable>
+  <CaravansCriticallyEnhanced_LeaveFromHereOutsideAreas>Ta krawędź leży poza dozwolonym obszarem następujących członków karawany:</CaravansCriticallyEnhanced_LeaveFromHereOutsideAreas>
+  <CaravansCriticallyEnhanced_ForceDepartLeftBehind>Następujące znokautowane osoby i niemowlęta zostaną pozostawione:</CaravansCriticallyEnhanced_ForceDepartLeftBehind>
+  <CaravansCriticallyEnhanced_WalkOffBlocked>{0} wyrusza z formowaną karawaną i nie może opuścić mapy bez niej. Użyj przycisku "Wyrusz stąd", aby wysłać całą karawanę przez tę krawędź.</CaravansCriticallyEnhanced_WalkOffBlocked>
 
 </LanguageData>

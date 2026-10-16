@@ -23,11 +23,12 @@ Four sliders:
 
 "Reset to defaults" puts every switch and slider back.
 
-As of Slice 4a these switches take effect: the four Loading ones ("Load work type", "Load into
+As of Slice 4b these switches take effect: the four Loading ones ("Load work type", "Load into
 colonists", "Load while animals gather" and "Helpers bring pen animals"), "Keep leads when drafted" in
-the Leads section, "Leave inside allowed areas" and "Avoid threats when leaving" in the leaving
-section, with both threat distances, and "Wait for every item" among the stuck caravan fixes, together
-with its grace period and the watchdog of twice the grace period. "Avoid threats when leaving" so far
+the Leads section, all four in the leaving section ("Leave inside allowed areas", "Avoid threats when
+leaving", "Leave from here" and "Warn about pawns left behind"), with both threat distances, and "Wait
+for every item" among the stuck caravan fixes, together with its grace period and the watchdog of
+twice the grace period. "Avoid threats when leaving" so far
 ranks exits only when one is being chosen anyway: at Send, and when an area change moves the exit.
 Moving away from a threat that appears while forming comes later. The others do nothing yet.
 
@@ -169,6 +170,56 @@ whatever happens to the areas.
 
 Areas are checked only for the exit cell. On the way there, a caravan's pawns ignore allowed areas, as
 in vanilla, so the route can still cross outside them.
+
+## Leaving from here
+
+A drafted colonist going with a forming caravan gets a "Leave from here" button. It works within 10
+cells of a map edge, and is greyed out with the reason farther away. With several colonists selected
+it shows once, and one press sends the caravan of the first of them.
+
+Pressing it picks an edge cell within 12 cells of the colonist that everyone going can reach, a pen
+animal counted as a colonist leading it would, and asks first. The question is vanilla's own Force
+depart question, listing the items still to load and anybody in a mental break, plus any downed pawn
+nobody undrafted can fetch, who will be left, and, with "Leave inside allowed areas" on, the pawns
+whose allowed area this edge is outside: leaving from here overrides the areas, and the threats too.
+If no edge near enough can be reached by everyone, a message says so instead.
+
+Once confirmed, the caravan stops loading and leaves from that edge, through vanilla's own steps.
+Anybody in a mental break is left out, as Force depart does. No colonist is undrafted and drafted
+colonists keep their leads; any more than 7 cells from the edge are ordered over, since the caravan
+waits for everyone there before it leaves. A drafted mech beyond its mechanitor's command range cannot
+be ordered, so it is undrafted and goes with the caravan's steps by itself (by way of the gathering
+spot first, while downed pawns are carried). Only an undrafted colonist going with the
+caravan does its work, as in vanilla: a drafted one follows your orders. So:
+
+- if a downed colonist or baby lies away from the edge, or is held by an undrafted colonist away from
+  it, and somebody undrafted can fetch it, the caravan carries it there first;
+- otherwise, if a pen animal is not on a drafted colonist's lead and somebody undrafted can lead it,
+  the caravan collects its animals at the new edge (an undrafted colonist's leads are let go and
+  taken up again towards the new edge);
+- otherwise, with nobody undrafted, if a pen animal is fenced in and cannot walk out, the caravan
+  waits collecting its animals until you undraft somebody;
+- otherwise it goes straight to leaving, as Force depart does: animals tied at the spot are untied
+  and walk over by themselves.
+
+A downed pawn nobody undrafted can fetch is left, as the question said, and your other colonists can
+rescue it as usual. A very tired colonist may lie down while the animals are collected, as in
+vanilla, and the caravan waits for it. A held caravan stops waiting, and the area rule
+leaves it alone from then on.
+
+With "Leave from here" on, a colonist going with a forming caravan also can no longer leave the map
+alone at your order. That can only happen on a map that is not your home, while enemies are about:
+ordering a drafted colonist onto the map edge would otherwise send it off as a caravan of one,
+abandoning the one being formed. It now stops at the edge, with a message pointing at the button.
+Vanilla's "Carry to exit" order, which does the same with a downed pawn in its arms, is not offered to
+such a colonist. A colonist leaving in a mental break still goes, as in vanilla.
+
+## Warning about pawns left behind
+
+Vanilla's Force depart drops the caravan's list of downed pawns, so every downed colonist or baby not
+held by an undrafted colonist going with the caravan at that moment stays behind (Force depart
+undrafts the drafted, who put down what they carry), and its question never says so. With "Warn about
+pawns left behind" on, the question lists them, babies marked as such.
 
 ## Waiting for every item
 

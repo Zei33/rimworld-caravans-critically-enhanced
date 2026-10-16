@@ -29,9 +29,9 @@
   <CaravansCriticallyEnhanced_SettingThreatAwareExit>Evitar ameaças ao sair</CaravansCriticallyEnhanced_SettingThreatAwareExit>
   <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>A caravana prefere uma saída longe de hostis e, durante a formação, escolhe outra se uma ameaça aparecer perto da que ela escolheu.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
   <CaravansCriticallyEnhanced_SettingLeaveFromHere>Sair daqui</CaravansCriticallyEnhanced_SettingLeaveFromHere>
-  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Dá a um colono alistado de uma caravana em formação, que esteja perto do limite do mapa, um botão que faz a caravana partir por esse limite.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Dá a um colono alistado de uma caravana em formação, que esteja perto do limite do mapa, um botão que faz a caravana partir por esse limite. Com isso, você não pode mais ordenar que um colono de uma caravana em formação saia do mapa sozinho, nem a pé nem carregando alguém.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
   <CaravansCriticallyEnhanced_SettingDepartureWarnings>Avisar sobre quem fica para trás</CaravansCriticallyEnhanced_SettingDepartureWarnings>
-  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Forçar a partida de uma caravana lista as pessoas abatidas e os bebês que ninguém está carregando e que seriam deixados para trás.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
+  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Forçar a partida de uma caravana lista as pessoas abatidas e os bebês que ela deixaria para trás.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
   <CaravansCriticallyEnhanced_SettingThreatRadius>Distância de ameaça da saída: {0}</CaravansCriticallyEnhanced_SettingThreatRadius>
   <CaravansCriticallyEnhanced_SettingThreatRadiusTip>Quão perto, em células, um hostil precisa estar de uma saída para que ela seja considerada ameaçada.</CaravansCriticallyEnhanced_SettingThreatRadiusTip>
   <CaravansCriticallyEnhanced_SettingRouteThreatRadius>Distância de ameaça do caminho: {0}</CaravansCriticallyEnhanced_SettingRouteThreatRadius>
@@ -94,5 +94,15 @@
   <CaravansCriticallyEnhanced_ExitMoved>A saída da caravana foi movida para ficar dentro da área permitida de todos que vão com ela.</CaravansCriticallyEnhanced_ExitMoved>
   <CaravansCriticallyEnhanced_AlertNoPermittedExit>Caravana aguardando uma saída</CaravansCriticallyEnhanced_AlertNoPermittedExit>
   <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>Uma caravana em formação está esperando onde se reuniu, porque nenhum limite do mapa que ela consiga alcançar está dentro da área permitida de todos que vão com ela. Retida por:\n\n{0}\n\nPara liberá-la, estenda as áreas deles até um limite do mapa que a caravana consiga alcançar, remova a restrição deles ou use "Forçar partida da caravana". Desativar "Sair dentro das áreas permitidas" nas opções de mods também a libera.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+
+  <!-- Leave from here -->
+  <CaravansCriticallyEnhanced_LeaveFromHere>Sair daqui</CaravansCriticallyEnhanced_LeaveFromHere>
+  <CaravansCriticallyEnhanced_LeaveFromHereDesc>Faça a caravana partir imediatamente pelo limite do mapa perto deste colono. Ela interrompe o carregamento, leva as pessoas abatidas e os animais até este limite, se um colono que vai com ela e não está alistado puder buscá-los, e sai daqui. Nenhum colono é desalistado, e os colonos alistados continuam segurando os animais.</CaravansCriticallyEnhanced_LeaveFromHereDesc>
+  <CaravansCriticallyEnhanced_LeaveFromHereTooFar>Deve estar a no máximo {0} células de um limite do mapa.</CaravansCriticallyEnhanced_LeaveFromHereTooFar>
+  <CaravansCriticallyEnhanced_LeaveFromHereNoSpot>Nenhum limite do mapa aqui perto pode ser alcançado por todos que vão com a caravana.</CaravansCriticallyEnhanced_LeaveFromHereNoSpot>
+  <CaravansCriticallyEnhanced_LeaveFromHereUnreachable>Nenhum colono que não esteja alistado pode buscar as seguintes pessoas abatidas, então elas serão deixadas para trás:</CaravansCriticallyEnhanced_LeaveFromHereUnreachable>
+  <CaravansCriticallyEnhanced_LeaveFromHereOutsideAreas>Este limite fica fora da área permitida dos seguintes membros:</CaravansCriticallyEnhanced_LeaveFromHereOutsideAreas>
+  <CaravansCriticallyEnhanced_ForceDepartLeftBehind>As seguintes pessoas abatidas e bebês serão deixados para trás:</CaravansCriticallyEnhanced_ForceDepartLeftBehind>
+  <CaravansCriticallyEnhanced_WalkOffBlocked>{0} vai com uma caravana em formação e não pode sair do mapa sem ela. Use "Sair daqui" para fazer a caravana inteira partir por este limite.</CaravansCriticallyEnhanced_WalkOffBlocked>
 
 </LanguageData>

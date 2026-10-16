@@ -138,6 +138,25 @@ releases a held caravan by its fallback and the rule leaves that caravan alone.
 
 `Alert_CaravanNoPermittedExit` reads only the held state and the pawns the last pass blamed.
 
+Leave from here reuses all of that. `LeaveFromHere` reads the map with `ExitReadings` around the
+colonist whose button is used, over the members who will go (not those in a mental state), marks edge
+cells beyond 12 cells unusable, and plans with areas and threats switched off, so the cell is one
+every pawn going can reach. The confirmation is vanilla's own `GetForceDepartWarningMessage`, built
+while a flag keeps the mod's Force depart postfix out, with the downed pawns nobody undrafted can fetch
+and the overridden areas added. On confirming it removes members in a mental state as vanilla does,
+writes the exit through `ExitDirector.LeaveFrom` as a player override, takes the unfetchable downed
+pawns off the list, and moves the lord with `Lord.GotoToil` to whichever of vanilla's stages still
+has work for somebody undrafted (`LeaveFromHerePolicy.RouteFor`): gathering downed pawns, collecting
+animals, or straight to leaving with tied animals untied, as Force depart does. A drafted pawn's
+orders come above its duty, so it never does a stage's work. It ends the undrafted members' jobs, as
+a stage change would, and orders drafted members far from the exit over. Vanilla's Force depart uses
+a memo that skips the downed stage and clears its list; the mod adds to that path only a list of who
+it leaves.
+
+Two small patches close the ways a member leaves the map alone on a map that is not a home: the
+walk-off in `JobDriver_Goto.TryExitMap`, stopped for a player's order only, and "Carry to exit",
+whose provider is told it does not apply.
+
 ## Settings
 
 `SettingToggles.All` is a table with one row per switch: the section it is drawn in, the node name in

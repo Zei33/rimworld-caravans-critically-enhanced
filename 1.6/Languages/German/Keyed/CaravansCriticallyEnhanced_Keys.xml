@@ -29,9 +29,9 @@
   <CaravansCriticallyEnhanced_SettingThreatAwareExit>Beim Abreisen Gefahren meiden</CaravansCriticallyEnhanced_SettingThreatAwareExit>
   <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>Die Karawane bevorzugt einen Ausgang abseits von Feinden und wählt beim Formieren einen anderen, wenn nahe dem gewählten eine Gefahr auftaucht.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
   <CaravansCriticallyEnhanced_SettingLeaveFromHere>Von hier abreisen</CaravansCriticallyEnhanced_SettingLeaveFromHere>
-  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Gibt einem Kolonisten im Kampfmodus, der zu einer sich formierenden Karawane gehört und nahe am Kartenrand steht, eine Schaltfläche, mit der die Karawane über diesen Rand abreist.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Gibt einem Kolonisten im Kampfmodus, der zu einer sich formierenden Karawane gehört und nahe am Kartenrand steht, eine Schaltfläche, mit der die Karawane über diesen Rand abreist. Einem Kolonisten in einer sich formierenden Karawane kannst du dann nicht mehr befehlen, die Karte allein zu verlassen, gleich ob er hinausgeht oder jemanden hinausträgt.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
   <CaravansCriticallyEnhanced_SettingDepartureWarnings>Vor Zurückgelassenen warnen</CaravansCriticallyEnhanced_SettingDepartureWarnings>
-  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Wird die Abreise einer Karawane erzwungen, werden am Boden liegende Personen und Babys aufgelistet, die niemand trägt und die zurückgelassen würden.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
+  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Wird die Abreise einer Karawane erzwungen, werden die am Boden liegenden Personen und Babys aufgelistet, die sie zurücklassen würde.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
   <CaravansCriticallyEnhanced_SettingThreatRadius>Gefahrenabstand zum Ausgang: {0}</CaravansCriticallyEnhanced_SettingThreatRadius>
   <CaravansCriticallyEnhanced_SettingThreatRadiusTip>Wie nah ein Feind einem Ausgang in Zellen kommen muss, damit der Ausgang als bedroht gilt.</CaravansCriticallyEnhanced_SettingThreatRadiusTip>
   <CaravansCriticallyEnhanced_SettingRouteThreatRadius>Gefahrenabstand zum Weg: {0}</CaravansCriticallyEnhanced_SettingRouteThreatRadius>
@@ -94,5 +94,15 @@
   <CaravansCriticallyEnhanced_ExitMoved>Der Ausgang der Karawane wurde verlegt, damit er im erlaubten Gebiet aller bleibt, die mit ihr reisen.</CaravansCriticallyEnhanced_ExitMoved>
   <CaravansCriticallyEnhanced_AlertNoPermittedExit>Karawane wartet auf Ausgang</CaravansCriticallyEnhanced_AlertNoPermittedExit>
   <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>Eine sich formierende Karawane wartet dort, wo sie sich gesammelt hat, weil kein für sie erreichbarer Kartenrand im erlaubten Gebiet aller liegt, die mit ihr reisen. Festgehalten von:\n\n{0}\n\nUm sie abreisen zu lassen, erweitere deren Gebiete bis an einen für die Karawane erreichbaren Kartenrand, hebe deren Beschränkung auf oder nutze "Abreise der Karawane erzwingen". Wenn du "Innerhalb erlaubter Gebiete abreisen" in den Mod-Optionen ausschaltest, darf sie ebenfalls abreisen.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+
+  <!-- Leave from here -->
+  <CaravansCriticallyEnhanced_LeaveFromHere>Von hier abreisen</CaravansCriticallyEnhanced_LeaveFromHere>
+  <CaravansCriticallyEnhanced_LeaveFromHereDesc>Lass die Karawane sofort über den Kartenrand nahe diesem Kolonisten abreisen. Sie bricht das Beladen ab, bringt ihre am Boden liegenden Personen und Tiere an diesen Rand, sofern ein Kolonist, der mit ihr reist und nicht im Kampfmodus ist, sie holen kann, und reist dann von hier ab. Der Kampfmodus wird bei keinem Kolonisten beendet, und Kolonisten im Kampfmodus behalten ihre Leinen.</CaravansCriticallyEnhanced_LeaveFromHereDesc>
+  <CaravansCriticallyEnhanced_LeaveFromHereTooFar>Muss höchstens {0} Zellen von einem Kartenrand entfernt stehen.</CaravansCriticallyEnhanced_LeaveFromHereTooFar>
+  <CaravansCriticallyEnhanced_LeaveFromHereNoSpot>Kein Kartenrand in der Nähe ist für alle erreichbar, die mit der Karawane reisen.</CaravansCriticallyEnhanced_LeaveFromHereNoSpot>
+  <CaravansCriticallyEnhanced_LeaveFromHereUnreachable>Die folgenden am Boden liegenden Personen kann niemand holen, der nicht im Kampfmodus ist, daher werden sie zurückgelassen:</CaravansCriticallyEnhanced_LeaveFromHereUnreachable>
+  <CaravansCriticallyEnhanced_LeaveFromHereOutsideAreas>Dieser Rand liegt außerhalb des erlaubten Gebiets folgender Mitglieder:</CaravansCriticallyEnhanced_LeaveFromHereOutsideAreas>
+  <CaravansCriticallyEnhanced_ForceDepartLeftBehind>Die folgenden am Boden liegenden Personen und Babys werden zurückgelassen:</CaravansCriticallyEnhanced_ForceDepartLeftBehind>
+  <CaravansCriticallyEnhanced_WalkOffBlocked>{0} reist mit einer sich formierenden Karawane und kann die Karte nicht allein verlassen. Nutze "Von hier abreisen", damit die ganze Karawane über diesen Rand abreist.</CaravansCriticallyEnhanced_WalkOffBlocked>
 
 </LanguageData>

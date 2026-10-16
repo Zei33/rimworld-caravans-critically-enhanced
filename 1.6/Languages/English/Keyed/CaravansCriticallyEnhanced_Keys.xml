@@ -29,9 +29,9 @@
   <CaravansCriticallyEnhanced_SettingThreatAwareExit>Avoid threats when leaving</CaravansCriticallyEnhanced_SettingThreatAwareExit>
   <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>The caravan prefers an exit away from hostile pawns, and picks another one while forming if a threat appears near the one it chose.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
   <CaravansCriticallyEnhanced_SettingLeaveFromHere>Leave from here</CaravansCriticallyEnhanced_SettingLeaveFromHere>
-  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Gives a drafted colonist in a forming caravan, standing near the map edge, a button that sends the caravan off from that edge.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Gives a drafted colonist in a forming caravan, standing near the map edge, a button that sends the caravan off from that edge. A colonist in a forming caravan can then no longer leave the map alone at your order, by walking off or carrying someone off.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
   <CaravansCriticallyEnhanced_SettingDepartureWarnings>Warn about pawns left behind</CaravansCriticallyEnhanced_SettingDepartureWarnings>
-  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Forcing a caravan to depart lists the downed pawns and babies nobody is carrying, who would be left behind.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
+  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Forcing a caravan to depart lists the downed pawns and babies it would leave behind.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
   <CaravansCriticallyEnhanced_SettingThreatRadius>Threat distance from an exit: {0}</CaravansCriticallyEnhanced_SettingThreatRadius>
   <CaravansCriticallyEnhanced_SettingThreatRadiusTip>How close a hostile pawn has to be to an exit, in cells, for the exit to count as threatened.</CaravansCriticallyEnhanced_SettingThreatRadiusTip>
   <CaravansCriticallyEnhanced_SettingRouteThreatRadius>Threat distance from the route: {0}</CaravansCriticallyEnhanced_SettingRouteThreatRadius>
@@ -94,5 +94,15 @@
   <CaravansCriticallyEnhanced_ExitMoved>The caravan's exit moved to stay inside the allowed area of every pawn going with it.</CaravansCriticallyEnhanced_ExitMoved>
   <CaravansCriticallyEnhanced_AlertNoPermittedExit>Caravan waiting for an exit</CaravansCriticallyEnhanced_AlertNoPermittedExit>
   <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>A forming caravan is waiting where it gathered, because no map edge it can reach is inside the allowed area of every pawn going with it. Kept in by:\n\n{0}\n\nTo let it go, extend their areas to a map edge the caravan can reach, remove their restriction, or use "Force caravan departure". Turning off "Leave inside allowed areas" in the mod's options also lets it go.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+
+  <!-- Leave from here -->
+  <CaravansCriticallyEnhanced_LeaveFromHere>Leave from here</CaravansCriticallyEnhanced_LeaveFromHere>
+  <CaravansCriticallyEnhanced_LeaveFromHereDesc>Send the caravan off now from the map edge next to this colonist. It stops loading, brings its downed pawns and animals to this edge where an undrafted colonist going with it can fetch them, and leaves from here. No colonist is undrafted, and drafted colonists keep their leads.</CaravansCriticallyEnhanced_LeaveFromHereDesc>
+  <CaravansCriticallyEnhanced_LeaveFromHereTooFar>Stand within {0} cells of a map edge.</CaravansCriticallyEnhanced_LeaveFromHereTooFar>
+  <CaravansCriticallyEnhanced_LeaveFromHereNoSpot>No map edge near here can be reached by everyone going with the caravan.</CaravansCriticallyEnhanced_LeaveFromHereNoSpot>
+  <CaravansCriticallyEnhanced_LeaveFromHereUnreachable>Nobody undrafted can fetch these downed pawns, so they will be left behind:</CaravansCriticallyEnhanced_LeaveFromHereUnreachable>
+  <CaravansCriticallyEnhanced_LeaveFromHereOutsideAreas>This edge is outside the allowed area of:</CaravansCriticallyEnhanced_LeaveFromHereOutsideAreas>
+  <CaravansCriticallyEnhanced_ForceDepartLeftBehind>These downed pawns and babies will be left behind:</CaravansCriticallyEnhanced_ForceDepartLeftBehind>
+  <CaravansCriticallyEnhanced_WalkOffBlocked>{0} is going with a forming caravan and cannot leave the map alone. Use Leave from here to send the whole caravan from this edge.</CaravansCriticallyEnhanced_WalkOffBlocked>
 
 </LanguageData>

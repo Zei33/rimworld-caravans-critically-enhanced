@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CaravansCriticallyEnhanced.Core;
 using CaravansCriticallyEnhanced.Jobs;
 using CaravansCriticallyEnhanced.Utils;
 using HarmonyLib;
@@ -10,8 +11,8 @@ namespace CaravansCriticallyEnhanced.Patches
     /// Adds the mod's buttons to a pawn's gizmos.
     /// </summary>
     /// <remarks>
-    /// One postfix for every button the mod adds to pawns. So far that is the drop-lead button on a
-    /// drafted caravan colonist holding leads.
+    /// One postfix for every button the mod adds to pawns: the drop-lead button on a drafted caravan
+    /// colonist holding leads, and Leave from here on a drafted caravan colonist.
     /// </remarks>
     [HarmonyPatch(typeof(Pawn), nameof(Pawn.GetGizmos))]
     public static class Patch_Pawn_GetGizmos
@@ -32,6 +33,12 @@ namespace CaravansCriticallyEnhanced.Patches
             if (LeadUtility.ShowsDropLead(__instance))
             {
                 yield return new Command_DropLead(__instance);
+            }
+
+            LeaveButton leave = LeaveFromHere.ButtonFor(__instance);
+            if (leave != LeaveButton.Hidden)
+            {
+                yield return new Command_LeaveFromHere(__instance, leave);
             }
         }
     }

@@ -318,15 +318,25 @@ namespace CaravansCriticallyEnhanced.Tests
         {
             Assert.That(Calls(typeof(ExitDirector), nameof(ExitDirector.Tick)), Does.Contain("CaravansCriticallyEnhanced.Utils.ExitDirector.RegatherDowned"));
             List<string> calls = Calls(typeof(ExitDirector), "RegatherDowned");
-            int carried = calls.IndexOf("CaravansCriticallyEnhanced.Utils.ExitDirector.CarriedByMember");
-            int near = calls.IndexOf("RimWorld.JobGiver_PrepareCaravan_GatherDownedPawns.IsDownedPawnNearExitPoint");
-            int reach = calls.IndexOf("CaravansCriticallyEnhanced.Utils.ExitDirector.AnyMemberReaches");
+            int count = calls.IndexOf("CaravansCriticallyEnhanced.Utils.ExitDirector.CountStrays");
             int decide = calls.IndexOf("CaravansCriticallyEnhanced.Core.ExitPolicy.Regather");
             int back = calls.IndexOf("Verse.AI.Group.Lord.GotoToil");
-            Assert.That(new[] { carried, near, reach, decide, back }, Is.All.GreaterThanOrEqualTo(0), string.Join(", ", calls));
-            Assert.That(new[] { carried, near, reach, decide, back }, Is.Ordered,
-                "A pawn in a member's arms leaves with it and is no stray; then vanilla's own 7-cell test, the reach test, the rule, then back.");
-            Assert.That(calls, Does.Not.Contain("Verse.DevelopmentalStageExtensions.Baby"), "Babies count: one member picks up one baby while collecting and leaving.");
+            Assert.That(new[] { count, decide, back }, Is.All.GreaterThanOrEqualTo(0), string.Join(", ", calls));
+            Assert.That(new[] { count, decide, back }, Is.Ordered, "Counted against the lord job's exit, the rule, then back.");
+            Assert.That(calls, Does.Contain("RimWorld.LordJob_FormAndSendCaravan.get_ExitSpot"));
+
+            List<string> strays = Calls(typeof(ExitDirector), nameof(ExitDirector.CountStrays));
+            int carried = strays.IndexOf("CaravansCriticallyEnhanced.Utils.ExitDirector.CarrierOf");
+            int broken = strays.IndexOf("Verse.Pawn.get_InMentalState");
+            int works = strays.IndexOf("CaravansCriticallyEnhanced.Utils.ExitDirector.IsWorker");
+            int near = strays.IndexOf("RimWorld.JobGiver_PrepareCaravan_GatherDownedPawns.IsDownedPawnNearExitPoint");
+            int fetches = strays.LastIndexOf("CaravansCriticallyEnhanced.Utils.ExitDirector.IsWorker");
+            int reach = strays.IndexOf("CaravansCriticallyEnhanced.Utils.ExitDirector.AnyMemberReaches");
+            Assert.That(new[] { carried, broken, works, near, reach }, Is.All.GreaterThanOrEqualTo(0), string.Join(", ", strays));
+            Assert.That(new[] { carried, broken, works, near }, Is.Ordered,
+                "One a member holds that does not work the duties (drafted, or unable) goes with it; then vanilla's own 7-cell test, by the carrier's cell.");
+            Assert.That(new[] { fetches, reach }, Is.All.GreaterThan(near), "Then fetchable: held by a worker, or reachable.");
+            Assert.That(strays, Does.Not.Contain("Verse.DevelopmentalStageExtensions.Baby"), "Babies count: one member picks up one baby while collecting and leaving.");
             WalkResult regather = ILCalls.Read(Method(typeof(ExitDirector), "RegatherDowned"));
             Assert.That(regather.Fields.First().Field.Name, Is.EqualTo(nameof(CaravanExitState.RegatherPending)), "Nothing pending, nothing read.");
             Assert.That(regather.Fields.Where(f => f.IsStore && f.Field.Name == nameof(CaravanExitState.RegatherPending)).Select(f => f.IntBefore), Is.EqualTo(new int?[] { 0 }),
@@ -338,17 +348,24 @@ namespace CaravansCriticallyEnhanced.Tests
             WalkResult tickWalk = ILCalls.Read(Method(typeof(ExitDirector), nameof(ExitDirector.Tick)));
             Assert.That(tickWalk.Fields.Where(f => f.IsStore && f.Field.Name == nameof(CaravanExitState.RegatherPending)).Select(f => f.IntBefore), Is.EqualTo(new int?[] { 1 }),
                 "The pass only ever sets it; never clears it before the reach test has had its say.");
-            Assert.That(Calls(typeof(ExitDirector), "CarriedByMember"), Is.SupersetOf(new[] { "Verse.Thing.get_ParentHolder", "Verse.AI.Group.LordUtility.GetLord" }));
+            Assert.That(Calls(typeof(ExitDirector), nameof(ExitDirector.CarrierOf)), Is.SupersetOf(new[] { "Verse.Thing.get_ParentHolder", "Verse.AI.Group.LordUtility.GetLord" }));
             List<string> reaches = Calls(typeof(ExitDirector), "AnyMemberReaches");
             Assert.That(reaches.First(), Is.EqualTo("Verse.Thing.get_Spawned"), "The downed pawn itself first: one somebody else carries, or off the map, cannot be reached now.");
             Assert.That(reaches, Is.SupersetOf(new[]
             {
+                "CaravansCriticallyEnhanced.Utils.ExitDirector.IsWorker",
                 "Verse.Pawn.get_IsColonist",
                 "Verse.PawnCapacitiesHandler.CapableOf",
                 "Verse.ReachabilityUtility.CanReach",
-            }), "A colonist with hands that can reach it.");
-            Assert.That(reaches, Has.None.Contains("CanReserve").And.None.EqualTo("Verse.Pawn.get_Drafted"),
-                "Reach only: a drafted member or a reservation is a passing state, which the gathering stage waits out.");
+            }), "A colonist with hands that can reach it; only one working the duties when asked for workers.");
+            Assert.That(reaches, Has.None.Contains("CanReserve"), "Reach only: a reservation is a passing state, which the gathering stage waits out.");
+            Assert.That(Calls(typeof(ExitDirector), nameof(ExitDirector.IsWorker)), Is.SupersetOf(new[]
+            {
+                "Verse.Pawn.get_IsColonist",
+                "Verse.Pawn.get_Drafted",
+                "Verse.Pawn.get_InMentalState",
+                "Verse.PawnCapacitiesHandler.CapableOf",
+            }), "A drafted pawn takes orders above its duty; a broken one is left out.");
         }
 
         [Test]

@@ -437,29 +437,7 @@ namespace CaravansCriticallyEnhanced.Utils
             }
 
             Lord lord = job.lord;
-            List<Pawn> downed = job.downedPawns ?? new List<Pawn>();
-
-            int strays = 0;
-            int unreachable = 0;
-            for (int i = 0; i < downed.Count; i++)
-            {
-                Pawn pawn = downed[i];
-                // As vanilla's carry giver: only a pawn still downed, which vanilla's lord tick otherwise
-                // takes off the list. One in a member's arms leaves with its carrier wherever it is: the
-                // downed stage ends while its last pawn is still carried, and the carrier then wanders.
-                if (pawn == null || pawn.Destroyed || !pawn.Downed || CarriedByMember(pawn, lord)
-                    || JobGiver_PrepareCaravan_GatherDownedPawns.IsDownedPawnNearExitPoint(pawn, job.ExitSpot))
-                {
-                    continue;
-                }
-
-                strays++;
-                if (!AnyMemberReaches(lord, pawn))
-                {
-                    unreachable++;
-                }
-            }
-
+            CountStrays(job, job.ExitSpot, out int strays, out int unreachable, null, workersOnly: false);
             RegatherStep step = ExitPolicy.Regather(state.RegatherPending, waiting, strays, unreachable);
             if (step == RegatherStep.Forget || step == RegatherStep.GoBack)
             {
@@ -480,20 +458,122 @@ namespace CaravansCriticallyEnhanced.Utils
             }
         }
 
-        private static bool CarriedByMember(Pawn downed, Lord lord)
+        /// <summary>
+        /// Counts a caravan's listed downed pawns that lie away from an exit, and those of them nobody
+        /// can fetch now.
+        /// </summary>
+        /// <param name="job">The caravan's lord job.</param>
+        /// <param name="exit">The exit.</param>
+        /// <param name="strays">How many lie, or are held, more than vanilla's 7 cells from it, babies included.</param>
+        /// <param name="unfetchable">How many of those nobody can fetch.</param>
+        /// <param name="unfetchablePawns">A list to fill with the unfetchable ones, or <c>null</c>; cleared first.</param>
+        /// <param name="workersOnly">Whether only an undrafted member not in a mental state may fetch, as for leaving now; otherwise a drafted one counts too, for whom the gathering stage waits.</param>
+        /// <remarks>
+        /// <para>
+        /// As vanilla's carry giver: only a pawn still downed, which vanilla's lord tick otherwise takes
+        /// off the list.
+        /// </para>
+        /// <para>
+        /// One held by a member that does not work the duties (drafted, or unable to) goes with it:
+        /// a carried pawn joins the caravan with its carrier, whatever the distance. One held by a
+        /// worker far from the exit is a stray its carrier fetches (the giver hands a carrier its own
+        /// pawn first), and must be: the gathering stage ends while its last pawn is still carried,
+        /// and a collecting rope job, which drops whatever its roper holds, would leave it wherever
+        /// that was. One held by a member in a mental state cannot be fetched.
+        /// </para>
+        /// </remarks>
+        internal static void CountStrays(LordJob_FormAndSendCaravan job, IntVec3 exit, out int strays, out int unfetchable, List<Pawn> unfetchablePawns, bool workersOnly)
         {
-            return downed.ParentHolder is Pawn_CarryTracker tracker && tracker.pawn != null && tracker.pawn.Spawned && tracker.pawn.GetLord() == lord;
+            strays = 0;
+            unfetchable = 0;
+            unfetchablePawns?.Clear();
+            List<Pawn> downed = job.downedPawns;
+            if (downed == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < downed.Count; i++)
+            {
+                Pawn pawn = downed[i];
+                if (pawn == null || pawn.Destroyed || !pawn.Downed)
+                {
+                    continue;
+                }
+
+                Pawn carrier = CarrierOf(pawn, job.lord);
+                if ((carrier != null && !carrier.InMentalState && !IsWorker(carrier))
+                    || JobGiver_PrepareCaravan_GatherDownedPawns.IsDownedPawnNearExitPoint(pawn, exit))
+                {
+                    continue;
+                }
+
+                strays++;
+                bool fetchable = carrier != null ? IsWorker(carrier) : AnyMemberReaches(job.lord, pawn, workersOnly);
+                if (!fetchable)
+                {
+                    unfetchable++;
+                    unfetchablePawns?.Add(pawn);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sends a caravan off from a cell the player chose: Leave from here.
+        /// </summary>
+        /// <param name="job">The caravan's lord job.</param>
+        /// <param name="spot">The edge cell.</param>
+        /// <remarks>
+        /// An override, as Force depart is: the area rule leaves the caravan alone from now on, and a
+        /// hold ends. The stage it goes to is the caller's (<see cref="LeaveFromHerePolicy.RouteFor"/>).
+        /// </remarks>
+        public static void LeaveFrom(LordJob_FormAndSendCaravan job, IntVec3 spot)
+        {
+            CaravanExitState state = CaravanExitStates.For(job);
+            state.Initialised = true;
+            state.PlayerOverride = true;
+            state.RegatherPending = false;
+            Release(job, state, spot);
+        }
+
+        /// <summary>
+        /// Gets the member of a lord carrying a downed pawn.
+        /// </summary>
+        /// <param name="downed">The downed pawn.</param>
+        /// <param name="lord">The lord.</param>
+        /// <returns>The spawned member holding it, or <c>null</c>.</returns>
+        internal static Pawn CarrierOf(Pawn downed, Lord lord)
+        {
+            return downed.ParentHolder is Pawn_CarryTracker tracker && tracker.pawn != null && tracker.pawn.Spawned && tracker.pawn.GetLord() == lord
+                ? tracker.pawn
+                : null;
+        }
+
+        /// <summary>
+        /// Determines whether a member works its stage's duties: an undrafted colonist on its feet
+        /// with hands, not in a mental state. A drafted pawn takes orders, which come above the duty.
+        /// </summary>
+        /// <param name="pawn">The member.</param>
+        /// <returns><c>true</c> when it does.</returns>
+        internal static bool IsWorker(Pawn pawn)
+        {
+            return pawn.IsColonist && !pawn.Drafted && !pawn.InMentalState && !pawn.Downed && pawn.Spawned
+                && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation);
         }
 
         /// <summary>
         /// Determines whether some colonist member with hands can reach the pawn where it lies now.
         /// </summary>
         /// <remarks>
-        /// Reach only, not the downed giver's full test: a member drafted or a reservation held
-        /// elsewhere passes, and the giver waits for them in the gathering stage. A pawn somebody else
-        /// is carrying, or one off the map, cannot be reached now; it is asked about again next pass.
+        /// Reach only, not the downed giver's full test: a reservation held elsewhere passes, and the
+        /// giver waits for it in the gathering stage. A pawn somebody else is carrying, or one off the
+        /// map, cannot be reached now.
         /// </remarks>
-        private static bool AnyMemberReaches(Lord lord, Pawn downed)
+        /// <param name="lord">The caravan's lord.</param>
+        /// <param name="downed">The downed pawn.</param>
+        /// <param name="workersOnly">Whether only a member that works the duties counts; otherwise a drafted one does too.</param>
+        /// <returns><c>true</c> when some member can.</returns>
+        internal static bool AnyMemberReaches(Lord lord, Pawn downed, bool workersOnly)
         {
             if (!downed.Spawned)
             {
@@ -504,9 +584,10 @@ namespace CaravansCriticallyEnhanced.Utils
             for (int i = 0; i < owned.Count; i++)
             {
                 Pawn pawn = owned[i];
-                if (pawn.IsColonist && !pawn.Downed && pawn.Spawned
-                    && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation)
-                    && pawn.CanReach(downed, PathEndMode.Touch, Danger.Deadly))
+                bool able = workersOnly
+                    ? IsWorker(pawn)
+                    : pawn.IsColonist && !pawn.Downed && pawn.Spawned && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation);
+                if (able && pawn.CanReach(downed, PathEndMode.Touch, Danger.Deadly))
                 {
                     return true;
                 }

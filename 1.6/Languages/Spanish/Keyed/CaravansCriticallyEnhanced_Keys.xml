@@ -29,9 +29,9 @@
   <CaravansCriticallyEnhanced_SettingThreatAwareExit>Evitar amenazas al salir</CaravansCriticallyEnhanced_SettingThreatAwareExit>
   <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>La caravana prefiere una salida alejada de los hostiles, y durante la formación elige otra si aparece una amenaza cerca de la que había elegido.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
   <CaravansCriticallyEnhanced_SettingLeaveFromHere>Salir desde aquí</CaravansCriticallyEnhanced_SettingLeaveFromHere>
-  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Da a un colono reclutado de una caravana en formación que esté cerca del borde del mapa un botón que hace salir a la caravana por ese borde.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Da a un colono reclutado de una caravana en formación que esté cerca del borde del mapa un botón que hace salir a la caravana por ese borde. Con esta opción, ya no puedes ordenar a un colono de una caravana en formación que salga del mapa por su cuenta, ni a pie ni cargando a alguien.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
   <CaravansCriticallyEnhanced_SettingDepartureWarnings>Avisar de quién se queda atrás</CaravansCriticallyEnhanced_SettingDepartureWarnings>
-  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Al forzar la salida de una caravana, se muestran las personas abatidas y los bebés que nadie lleva, que se quedarían atrás.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
+  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Al forzar la salida de una caravana, se muestran las personas abatidas y los bebés que se quedarían atrás.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
   <CaravansCriticallyEnhanced_SettingThreatRadius>Distancia de amenaza a una salida: {0}</CaravansCriticallyEnhanced_SettingThreatRadius>
   <CaravansCriticallyEnhanced_SettingThreatRadiusTip>A cuántas casillas de una salida tiene que estar un hostil para que esa salida se considere amenazada.</CaravansCriticallyEnhanced_SettingThreatRadiusTip>
   <CaravansCriticallyEnhanced_SettingRouteThreatRadius>Distancia de amenaza al camino: {0}</CaravansCriticallyEnhanced_SettingRouteThreatRadius>
@@ -94,5 +94,15 @@
   <CaravansCriticallyEnhanced_ExitMoved>La salida de la caravana se ha movido para quedar dentro del área permitida de todos los que van con ella.</CaravansCriticallyEnhanced_ExitMoved>
   <CaravansCriticallyEnhanced_AlertNoPermittedExit>Caravana esperando una salida</CaravansCriticallyEnhanced_AlertNoPermittedExit>
   <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>Una caravana en formación está esperando donde se reunió, porque ningún borde del mapa al que pueda llegar está dentro del área permitida de todos los que van con ella. La retienen:\n\n{0}\n\nPara dejarla salir, extiende sus áreas hasta un borde del mapa al que pueda llegar la caravana, quita su restricción o usa "Forzar la salida de la caravana". Desactivar "Salir dentro de las áreas permitidas" en las opciones de mods también la deja salir.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+
+  <!-- Leave from here -->
+  <CaravansCriticallyEnhanced_LeaveFromHere>Salir desde aquí</CaravansCriticallyEnhanced_LeaveFromHere>
+  <CaravansCriticallyEnhanced_LeaveFromHereDesc>Haz salir a la caravana inmediatamente por el borde del mapa junto a este colono. La caravana deja de cargar, lleva hasta este borde a las personas abatidas y a los animales que pueda ir a buscar un colono que vaya con ella y no esté reclutado, y sale desde aquí. Ningún colono deja de estar reclutado, y los colonos reclutados mantienen sus sogas.</CaravansCriticallyEnhanced_LeaveFromHereDesc>
+  <CaravansCriticallyEnhanced_LeaveFromHereTooFar>Debe estar a {0} casillas o menos de un borde del mapa.</CaravansCriticallyEnhanced_LeaveFromHereTooFar>
+  <CaravansCriticallyEnhanced_LeaveFromHereNoSpot>No hay ningún borde del mapa cerca al que puedan llegar todos los que van con la caravana.</CaravansCriticallyEnhanced_LeaveFromHereNoSpot>
+  <CaravansCriticallyEnhanced_LeaveFromHereUnreachable>Ningún colono que no esté reclutado puede ir a buscar a las siguientes personas abatidas, así que se quedarán atrás:</CaravansCriticallyEnhanced_LeaveFromHereUnreachable>
+  <CaravansCriticallyEnhanced_LeaveFromHereOutsideAreas>Este borde está fuera del área permitida de los siguientes miembros:</CaravansCriticallyEnhanced_LeaveFromHereOutsideAreas>
+  <CaravansCriticallyEnhanced_ForceDepartLeftBehind>Las siguientes personas abatidas y bebés se quedarán atrás:</CaravansCriticallyEnhanced_ForceDepartLeftBehind>
+  <CaravansCriticallyEnhanced_WalkOffBlocked>{0} va con una caravana en formación y no puede salir del mapa sin ella. Usa "Salir desde aquí" para hacer salir a toda la caravana por este borde.</CaravansCriticallyEnhanced_WalkOffBlocked>
 
 </LanguageData>

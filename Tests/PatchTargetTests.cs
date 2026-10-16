@@ -65,6 +65,9 @@ namespace CaravansCriticallyEnhanced.Tests
             "Patch_Trigger_NoPawnsVeryTiredAndSleeping_ActivateOn",
             "Patch_LordToil_PrepareCaravan_GatherDownedPawns_CheckAllPawnsArrived",
             "Patch_JobGiver_GotoTravelDestination_CaravanBabyToCarry",
+            "Patch_CaravanFormingUtility_GetForceDepartWarningMessage",
+            "Patch_JobDriver_Goto_TryExitMap",
+            "Patch_FloatMenuOptionProvider_CarryPawnToExit_AppliesInt",
         };
 
         [Test]

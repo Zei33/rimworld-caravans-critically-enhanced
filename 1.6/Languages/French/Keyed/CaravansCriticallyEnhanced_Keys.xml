@@ -29,9 +29,9 @@
   <CaravansCriticallyEnhanced_SettingThreatAwareExit>Éviter les menaces au départ</CaravansCriticallyEnhanced_SettingThreatAwareExit>
   <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>La caravane préfère un point de sortie éloigné des hostiles, et en choisit un autre pendant la formation si une menace apparaît près de celui qu'elle avait choisi.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
   <CaravansCriticallyEnhanced_SettingLeaveFromHere>Partir d'ici</CaravansCriticallyEnhanced_SettingLeaveFromHere>
-  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Donne à un colon mobilisé d'une caravane en formation, qui se tient près du bord de la carte, un bouton qui fait partir la caravane par ce bord.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
+  <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Donne à un colon mobilisé d'une caravane en formation, qui se tient près du bord de la carte, un bouton qui fait partir la caravane par ce bord. Vous ne pouvez alors plus ordonner à un colon d'une caravane en formation de quitter la carte seul, ni à pied ni en transportant quelqu'un.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
   <CaravansCriticallyEnhanced_SettingDepartureWarnings>Signaler qui sera laissé sur place</CaravansCriticallyEnhanced_SettingDepartureWarnings>
-  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Forcer le départ de la caravane affiche la liste des personnes à terre et des bébés que personne ne porte, et qui seraient laissés sur place.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
+  <CaravansCriticallyEnhanced_SettingDepartureWarningsTip>Forcer le départ de la caravane affiche la liste des personnes à terre et des bébés qu'elle laisserait sur place.</CaravansCriticallyEnhanced_SettingDepartureWarningsTip>
   <CaravansCriticallyEnhanced_SettingThreatRadius>Distance de menace autour d'une sortie : {0}</CaravansCriticallyEnhanced_SettingThreatRadius>
   <CaravansCriticallyEnhanced_SettingThreatRadiusTip>À combien de cases d'une sortie un hostile doit se trouver pour que cette sortie soit considérée comme menacée.</CaravansCriticallyEnhanced_SettingThreatRadiusTip>
   <CaravansCriticallyEnhanced_SettingRouteThreatRadius>Distance de menace autour du trajet : {0}</CaravansCriticallyEnhanced_SettingRouteThreatRadius>
@@ -94,5 +94,15 @@
   <CaravansCriticallyEnhanced_ExitMoved>Le point de sortie de la caravane a été déplacé pour rester dans la zone autorisée de tous ceux qui partent avec elle.</CaravansCriticallyEnhanced_ExitMoved>
   <CaravansCriticallyEnhanced_AlertNoPermittedExit>Caravane en attente d'une sortie</CaravansCriticallyEnhanced_AlertNoPermittedExit>
   <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>Une caravane en formation attend là où elle s'est rassemblée, car aucun bord de la carte qu'elle puisse atteindre ne se trouve dans la zone autorisée de tous ceux qui partent avec elle. Retenue par :\n\n{0}\n\nPour la laisser partir, étendez leurs zones jusqu'à un bord de la carte que la caravane puisse atteindre, retirez leur restriction ou utilisez "Forcer le départ de la caravane". Désactiver "Partir depuis les zones autorisées" dans les options de mod permet aussi de la laisser partir.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+
+  <!-- Leave from here -->
+  <CaravansCriticallyEnhanced_LeaveFromHere>Partir d'ici</CaravansCriticallyEnhanced_LeaveFromHere>
+  <CaravansCriticallyEnhanced_LeaveFromHereDesc>Faites partir la caravane immédiatement par le bord de la carte proche de ce colon. Elle arrête le chargement, amène jusqu'à ce bord les personnes à terre et les animaux qu'un colon non mobilisé qui part avec elle peut aller chercher, puis part d'ici. Aucun colon n'est démobilisé et les colons mobilisés gardent leurs cordes.</CaravansCriticallyEnhanced_LeaveFromHereDesc>
+  <CaravansCriticallyEnhanced_LeaveFromHereTooFar>Doit se trouver à moins de {0} cases d'un bord de la carte.</CaravansCriticallyEnhanced_LeaveFromHereTooFar>
+  <CaravansCriticallyEnhanced_LeaveFromHereNoSpot>Aucun bord de la carte à proximité ne peut être atteint par tous ceux qui partent avec la caravane.</CaravansCriticallyEnhanced_LeaveFromHereNoSpot>
+  <CaravansCriticallyEnhanced_LeaveFromHereUnreachable>Aucun colon non mobilisé ne peut aller chercher les personnes à terre suivantes, qui seront donc laissées sur place :</CaravansCriticallyEnhanced_LeaveFromHereUnreachable>
+  <CaravansCriticallyEnhanced_LeaveFromHereOutsideAreas>Ce bord se trouve en dehors de la zone autorisée des membres suivants :</CaravansCriticallyEnhanced_LeaveFromHereOutsideAreas>
+  <CaravansCriticallyEnhanced_ForceDepartLeftBehind>Les personnes à terre et les bébés suivants seront laissés sur place :</CaravansCriticallyEnhanced_ForceDepartLeftBehind>
+  <CaravansCriticallyEnhanced_WalkOffBlocked>{0} part avec une caravane en formation et ne peut pas quitter la carte sans elle. Utilisez "Partir d'ici" pour faire partir toute la caravane par ce bord.</CaravansCriticallyEnhanced_WalkOffBlocked>
 
 </LanguageData>

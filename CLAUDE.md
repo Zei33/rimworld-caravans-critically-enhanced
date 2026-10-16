@@ -24,9 +24,10 @@ Fixes caravan forming. When finished it will:
 
 plus stuck-caravan fixes, loaded-cargo protection, unloading returning pack animals at a stockpile,
 and a better manual load. The work is in slices; `docs/ROADMAP.md` in the workspace says which have
-landed. **As of Slice 4a the Load work type, the completion guard, helpers leading pen animals, drafted
-caravan colonists keeping their leads, and the exit chosen at Send with the area hold are in; nothing
-else changes the game yet.**
+landed. **As of Slice 4b the Load work type, the completion guard, helpers leading pen animals, drafted
+caravan colonists keeping their leads, the exit chosen at Send with the area hold, Leave from here,
+the solo walk-off block and the Force depart list of pawns left behind are in; nothing else changes the
+game yet.**
 
 ## Architecture
 
@@ -66,6 +67,9 @@ else changes the game yet.**
 | `ExitDirector` | `1.6/Utils/ExitDirector.cs` | The exit pass every 250 ticks, and at once on the first tick after a held caravan is loaded; the start of a caravan; Force depart. The writes that keep the lord job's exit, the three toil copies and the duties in step; putting down carried downed pawns on a hold; sending a waiting caravan back for downed pawns left away from its exit |
 | `ExitHandoff` | `1.6/Utils/ExitHandoff.cs` | Carries the formation window's pawns and route into the exit search inside it, and its hold to the new caravan |
 | `Alert_CaravanNoPermittedExit : Alert` | `1.6/Jobs/Alert_CaravanNoPermittedExit.cs` | Names the pawns whose areas hold a caravan and how to let it go; reads the held state only |
+| `LeaveFromHerePolicy`, `LeaveButton`, `LeaveRoute` | `1.6/Core/LeaveFromHerePolicy.cs` | Who gets the Leave from here button and when it is greyed, which stage the caravan goes to (gathering downed pawns when one can be fetched, else collecting), how near an edge cell must be, and whom vanilla's Force depart leaves behind. Pure |
+| `LeaveFromHere` | `1.6/Utils/LeaveFromHere.cs` | Reads a pawn for the button; finds the edge cell with the exit planner (areas and threats overridden); builds the confirmation from vanilla's own Force depart text plus the downed pawns nobody can reach and the areas this edge is outside; departs: the broken left out as vanilla does, the exit written as an override, the stage chosen, the far drafted ordered over |
+| `Command_LeaveFromHere : Command` | `1.6/Jobs/Command_LeaveFromHere.cs` | The button: one group across the selected members, one press for the caravan of the first ready copy, whose colonist the edge is found near; greyed beyond 10 cells from an edge |
 
 Defs: `CCE_Loading` (WorkTypeDef, naturalPriority 310, the column directly left of Haul, Hauling's
 work tags), `CCE_LoadCaravan` (WorkGiverDef, priorityInType 110), `CCE_RopeAnimalsToCaravan`
@@ -93,7 +97,7 @@ Harmony surface, one class per vanilla target in `1.6/Patches/`, each applied on
 | `Patch_JobGiver_FollowRoper_TryGiveJob` | `JobGiver_FollowRoper.TryGiveJob` | Postfix | Vanilla's follow job, for a roper the mod holds |
 | `Patch_AutoUndrafter_ShouldAutoUndraft` | `AutoUndrafter.ShouldAutoUndraft` (private) | Postfix | Spares a lead holder in a vanilla forming caravan while items, downed pawns or sleepers are waited for and in the pauses before leaving; not while animals gather or are collected, where undrafting resumes leading, nor while leaving |
 | `Patch_TransitionAction_EndAllJobs_DoAction` | `TransitionAction_EndAllJobs.DoAction` | Prefix | For a vanilla forming caravan, ends every undrafted member's job and leaves the drafted to their orders |
-| `Patch_Pawn_GetGizmos` | `Pawn.GetGizmos` | Postfix, pass-through | Adds the drop-lead button |
+| `Patch_Pawn_GetGizmos` | `Pawn.GetGizmos` | Postfix, pass-through | Adds the drop-lead and Leave from here buttons |
 | `Patch_Pawn_WorkSettings_ExposeData` | `Pawn_WorkSettings.ExposeData` | Postfix | Saves `cceLoadingInit`; on the first load without it, realigns later work types' priorities and copies the helper's work type priority into Load |
 | `Patch_Dialog_FormCaravan_TryFormAndSendCaravan` | `Dialog_FormCaravan.TryFormAndSendCaravan` (private) | Prefix and finalizer | Opens `ExitHandoff` for the send when either exit switch is on; the finalizer closes it |
 | `Patch_RCellFinder_TryFindClosestEdgeCellTo` | `RCellFinder.TryFindClosestEdgeCellTo` | Prefix | Inside a send only, once: answers with the plan, or with the best exit ignoring areas and a hold when areas block; vanilla when nothing is reachable. Its sole caller is the send |
@@ -104,6 +108,9 @@ Harmony surface, one class per vanilla target in `1.6/Patches/`, each applied on
 | `Patch_CaravanFormingUtility_ForceCaravanDepart` | `CaravanFormingUtility.ForceCaravanDepart` | Prefix | Force depart overrides the area rule: release to the fallback, and the rule leaves that caravan alone |
 | `Patch_LordToil_PrepareCaravan_GatherDownedPawns_CheckAllPawnsArrived` | `LordToil_PrepareCaravan_GatherDownedPawns.CheckAllPawnsArrived` (private) | Prefix | A held caravan's downed pawns never count as gathered, so one in bed near the spot is not left behind |
 | `Patch_JobGiver_GotoTravelDestination_CaravanBabyToCarry` | `JobGiver_GotoTravelDestination.CaravanBabyToCarry` (private) | Postfix | A held caravan's colonists pick up no baby to hold for the length of the hold |
+| `Patch_CaravanFormingUtility_GetForceDepartWarningMessage` | `CaravanFormingUtility.GetForceDepartWarningMessage` | Postfix | Appends, in vanilla's shape, the downed pawns and babies Force depart leaves behind (every one not in a member's arms); not for Leave from here's own use of the method |
+| `Patch_JobDriver_Goto_TryExitMap` | `JobDriver_Goto.TryExitMap` (private) | Prefix | A forming caravan's colonist ordered onto an exit cell (drafted or a forced job) stops at the edge instead of leaving alone; throttled message pointing at Leave from here |
+| `Patch_FloatMenuOptionProvider_CarryPawnToExit_AppliesInt` | `FloatMenuOptionProvider_CarryPawnToExit.AppliesInt` (protected) | Postfix | No "Carry to exit" for a member of a forming caravan |
 
 ## Invariants and traps
 
@@ -259,6 +266,39 @@ The plan's architecture rules are binding on every slice; the short form:
   side.** `ExitReadings` records each edge region's depth in the entry predicate of the breadth-first
   search (the first entry into a region comes from one nearer); discovery order would differ between
   regions at the same depth.
+- **Leave from here goes through vanilla's own stages, not Force depart's memo, and only to stages
+  somebody can work.** `ForceDepartNow` jumps to leaving, skipping the stage that gathers downed
+  pawns, and vanilla's Force depart clears the downed list and undrafts everyone. Leave from here
+  writes the exit as an override (the area rule then leaves the caravan alone), removes members in a
+  mental state as Force depart does, and goes by `Lord.GotoToil` to the stage still needed. Drafted
+  pawns take orders, which `Humanlike.xml` puts above the lord duty, so only a worker
+  (`ExitDirector.IsWorker`: an undrafted colonist with hands, not in a mental state) does a stage's
+  work. With a worker: gathering downed pawns when a listed one lies, or is held by a worker, more
+  than 7 cells from the new exit and a worker can fetch it (a rope job drops whatever its roper
+  carries, so a carried pawn must be carried over first); else collecting when a pen animal is off
+  every drafted member's lead (an undrafted roper's lead drops when its job is ended below). Without a
+  worker, collecting only when such an animal is fenced in (cannot reach the exit itself), where it
+  waits for an undraft; otherwise straight to leaving, with animals tied at the spot untied, as Force
+  depart does. Downed pawns nobody undrafted can fetch come off the list first, as the question
+  warned, since the gathering stage waits for every listed one. Then it ends every undrafted member's
+  job, as a stage change does, because a collecting job under way keeps its old destination and never
+  ends by itself. Drafted members keep their orders and leads. Vanilla's leaving stage waits for every
+  member within 10 cells, and the downed stage counts a carried pawn by its carrier's cell, within 7,
+  so drafted members more than 7 cells from the exit are ordered over (`BestOrderedGotoDestNear`,
+  which gives back the pawn's own cell when it finds nothing). A drafted mech beyond its mechanitor's
+  command range cannot be ordered and is never undrafted by vanilla's auto-undraft, so it is
+  undrafted instead: the one draft change the mod makes. The spot is the exit planner's, over the
+  same readings as the area rule for the members who will go, with edge cells more than 12 cells from
+  the colonist whose button was used marked unusable and areas and threats overridden; the
+  confirmation lists what that overrides. It is vanilla's own Force depart text, built while
+  `LeaveFromHere.Confirming` is set so that the mod's Force depart postfix, which lists the downed it
+  would abandon, stays out. A very tired member can still lie down in the collecting stage, as in
+  vanilla.
+- **The solo walk-off is stopped, never `Pawn.ExitMap`.** Vanilla's own departure calls `ExitMap`
+  while the pawns are still members. The prefix on `JobDriver_Goto.TryExitMap` acts only for a
+  player's order (drafted, or a forced job), clears the job's exit flag so it is not asked again every
+  tick, and lets the walk finish; a mental break's exit is vanilla's. Both it and the hidden "Carry to
+  exit" arise only on a map that is not a home with enemies about, where the exit grid is on.
 - **Two vanilla behaviours stay as they are.** Drafting a member still drops the caravan items it
   hauled into its own inventory (`DropAllPackingCaravanThings`, in the draft setter); the plan
   considered covering that with the lead scope and decided against it: while items are gathered,

@@ -74,6 +74,7 @@ Measured, not assumed:
 | `ExitPlannerTests` | Each ranking step settling the choice in turn (threatened, score, regions away, distance, then the route's side, which only settles an exact tie); an unusable or unreachable cell never chosen; a mover that reaches no edge reported and blocking nobody; each blocker with the movers it names and the fallback beside it; the area rule off; the threat radii exclusive at their edge and the distance to the route measured to its nearest point; the current exit judged by the same rules, valid and reachable apart; the same readings always giving the same exit; threats ignored with their switch off; an area whose only edges are out of reach blocking like one with none; regions away beating distance, and distance beating the route's side |
 | `ExitPolicyTests` | Who an area restricts, where either vanilla area control hides it or the area is empty; the stages the rule applies in; every row of what the pass does, held and not held, including a quiet move off an exit nobody reaches and a held caravan's fallback kept current; when a waiting caravan goes back for its downed pawns |
 | `ExitSurfaceTests` | Run on real toils: the copies written, held (the downed stage's copy at the meeting point, the others at the fallback) and released, and the meeting point never. Run directly: the starting tile accessor; the state made once per caravan, read without being made, and the first-pass flag; the handoff forgotten on close; the exit search answering only inside a send, on its map, once; both gate patches and the baby patch leaving vanilla's answer alone with no held caravan. Pinned by IL, so by which calls appear and in what order, never by branch: the saved node names as literals; the search planning from the window's pawns and storing the hold flag (1 on an area block, 0 in its catch); a new caravan's set-up behind `IsVanilla`; the pass reading the map only after `AreaRuleApplies` and deciding through the policy; which plan index each action takes; every write keeping the lord job, the copies, the duties and the stale walks in step, and recording what it wrote; the stale-walk stage test first; a hold putting carried pawns down; the waiting stage going back for downed pawns through the rule; the first-tick pass ahead of the interval; a foreign exit or an override never written over; a missing field clearing the hold; the readings' region search and area gate; the alert planning nothing and naming nobody dead or gone |
+| `LeaveFromHereTests` | Who gets the button (one shown row in sixteen, drafted and controlled read from the pawn), greyed past 10 cells, hidden once the caravan has gone; the route as a whole table over fetchable strays, roping and workers, the same in every stage; the 12-cell circle; whom Force depart leaves. By IL, so by which calls appear and in what order: the button built by the gizmo postfix, field tests before the lord; one press and one click sound; the spot from the planner over those who will go, areas and threats overridden; the confirmation built from vanilla's with the Force depart list kept out; the departure's order; drafted members ordered as vanilla orders them; nothing undrafting, forcing vanilla's departure or setting a walk-off; the walk-off and carry-to-exit patches reading the caravan and the switch; the Force depart list through the policy, counting only an undrafted carrier |
 
 Mutations measured on Slice 0, each made by hand, run, and reverted:
 
@@ -330,6 +331,31 @@ sent from that pause straight to the gathering stage, its pending flag cleared o
 while held, or its early return inverted, which turns it off (44);
 and a carried pawn put down whatever its carrier is doing, feeding included (43).
 
+Mutations measured on Slice 4b (`muts-s4b.json` and `muts-s4b-fixes.json` in the workspace): 26 on
+the first draft, 21 caught; 19 on the rework after its reviews, 15 caught; 7 on the fixes after the
+rework's review (`muts-s4b-fixes2.json`), 6 caught.
+
+| Mutation | Caught by |
+|---|---|
+| The button shown to an uncontrolled pawn, its band shrunk, a pause left out of its stages, the spot's circle shrunk, a gone pawn listed by Force depart | `LeaveFromHereTests` (the policy tests) |
+| The route ignoring whether anybody undrafted is left to fetch or rope | `TheCaravanGoesWhereTheWorkLeftIsAndStraightToLeavingWithNobodyToDoIt` |
+| The button's cheap tests reordered or its edge distance ignored | `TheButtonIsBuiltByTheGizmoPostfixFromTheRuleAndCheapTestsComeFirst` |
+| The click sounding once per member | `TheButtonGroupsSoundsOnceAndOffersOnceForTheClickedCaravan` |
+| Areas not overridden, every edge cell ruled out | `TheSpotIsTheExitPlannersOverwhatEveryoneCanReachNearTheSelectedPawnsOverridingAreasAndThreats` |
+| The confirmation flag left set, or the Force depart list not kept out | `TheConfirmationIsVanillasOwnWithTheForceDepartListKeptOut` |
+| The broken kept or planned around, the exit not written, no override, jobs not ended, tied animals not untied, undrafted members ordered over, a mech ordered beyond range, the order threshold at 10, workers or roping misread | `TheDepartureRemovesTheBrokenWritesTheExitRoutesAndCallsTheFarDraftedOver` |
+| A carrier's draft or work ignored when counting strays, fetching by anybody rather than workers | `AWaitingCaravanGoesBackForDownedPawnsLeftAwayFromItsExit` |
+| Babies not marked, or a drafted carrier's pawn counted as going, in Force depart's list | `ForceDepartListsTheDownedItLeavesThroughThePolicy` |
+| A forced order not counted, or the walk-off's exit flag left set | `TheWalkOffIsStoppedOnlyForTheCaravansOwnPlayerOrders`, `OnlyAMechBeyondCommandIsUndraftedAndNothingForcesTheVanillaDepartureOrSetsAWalkOff` |
+
+The departure's fetchers argument was unpinned in the rework's run and is pinned since, by the literal
+before the call. Not pinned, eight, each control flow or an argument: the untying run when not going
+straight to leaving, and the leaving route landing on another toil (check 53); the route counting
+unfetchable downed pawns as fetchable, and the unfetchable not named in the question (52); the walk-off stopped but vanilla run anyway, and "Carry to exit" not
+hidden (56); a failed goto search ordering a drafted member onto its own cell (rare: the spot is one
+everybody can reach); and the button looking the lord up for every pawn, which costs time only. The first
+draft's group filter by caravan went with the rework, which presses for one caravan only.
+
 Not reachable here, and so left to in-game check 1: loading the settings file. The game's loader
 reaches a Unity logging call that does not exist outside the player, so the read half of
 `ExposeData` and the clamp after it run only in game. The saving half is tested.
@@ -557,3 +583,48 @@ leaves.
     members are spread across the map (each start region costs its own region search), the 250-tick
     pass is not measurable against the tick; nor while twenty members are held together; with no
     caravan forming, nothing at all.
+
+### Slice 4b
+
+50. **The button.** Draft a colonist going with a forming caravan: "Leave from here" shows, greyed
+    with "Stand within 10 cells of a map edge" until it walks within 10 cells of one. Select three
+    drafted members and one drafted colonist not going: one button, one press, one click sound, one
+    question. Turn "Leave from here" off: no button.
+51. **From each stage, with help.** With one member drafted at the edge and the rest undrafted, press
+    it and confirm from gathering animals, gathering items, gathering downed pawns, waiting for a
+    sleeper, collecting animals and leaving, and from a pause (give a member a mental break with dev
+    mode first). Each time: the caravan stops loading, leaves by an edge within about 12 cells of the
+    drafted colonist, the undrafted lead every pen animal there, nobody is undrafted, a drafted lead
+    holder keeps its animals, a drafted member more than 7 cells from the edge walks over, and the
+    member in a mental break is left behind, as Force depart leaves it. The world route and
+    destination are unchanged.
+52. **Downed pawns and babies.** With a downed colonist in a bed and a baby in a crib, both far from
+    the edge, press it from gathering items: they are carried to the new edge and leave with the
+    caravan. Press it while an undrafted colonist is carrying the downed one somewhere else: it is
+    carried to the new edge, not dropped. Wall one of them in where nobody can reach: the question
+    names it as left behind, the caravan leaves without it, and a colonist not going rescues it.
+53. **Everyone drafted.** Draft every colonist going, with pen animals tied at the spot and a downed
+    colonist in a bed, and press it: the question names the downed colonist as left behind, the
+    caravan goes straight to leaving, the tied animals are untied and walk to the edge, and it leaves.
+    With pen animals still shut in a pen, it waits collecting its animals until a colonist is
+    undrafted, then leads them over. Add a drafted mech with its mechanitor (undrafted, going or not)
+    more than 25 cells from the edge: the mech is undrafted and walks over by itself; with the
+    mechanitor drafted at the edge, the mech is ordered over and stays drafted.
+54. **Areas and threats.** With "Leave inside allowed areas" on and a member restricted to an area
+    that misses this edge, the question names that member, and the caravan leaves by the edge anyway.
+    A caravan held for want of an exit stops waiting and leaves by the chosen edge. Hostiles near the
+    edge do not stop it.
+55. **Nowhere to go.** Press it beside an edge cut off by a wall from the rest of the caravan: a
+    message says no edge near here can be reached by everyone, and nothing else happens.
+56. **Walking off alone.** On a map that is not your home, form a caravan at a hitching spot, then let
+    enemies arrive so the map's exit is open. Order a drafted member onto the map edge: it stops
+    there, with a message naming it and pointing at Leave from here, and does not leave as a caravan
+    of one. Right-click a downed colonist with that member: no "Carry to exit". A colonist not in the
+    caravan still gets both. Turn "Leave from here" off: both work as in vanilla.
+57. **Force depart's list.** With a downed colonist in a bed and a baby in a crib listed with the
+    caravan, press Force depart: the question lists both under "will be left behind", the baby marked
+    as a baby. Have an undrafted member carry the baby first: it is not listed. Have a drafted member
+    carry it instead: it is listed, and Force depart does leave it. Turn "Warn about pawns left
+    behind" off: vanilla's question alone. Leave from here's question never shows that list.
+58. **Removing the mod after leaving from here.** Save while a caravan sent from here is collecting,
+    remove the mod and load: it leaves by the chosen edge.
