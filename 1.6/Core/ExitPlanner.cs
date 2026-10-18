@@ -181,6 +181,24 @@ namespace CaravansCriticallyEnhanced.Core
         /// <summary>Gets or sets whether the current candidate is still usable and reachable, areas aside.</summary>
         public bool CurrentReachable { get; set; }
 
+        /// <summary>Gets or sets the current candidate's threat score, or 0 when it is not reachable or threats are off.</summary>
+        public float CurrentScore { get; set; }
+
+        /// <summary>Gets or sets the chosen candidate's threat score, or 0 when none was chosen.</summary>
+        public float CandidateScore { get; set; }
+
+        /// <summary>
+        /// Gets or sets the safe candidate for a move away from a threat, or -1 when none is safe or
+        /// threats are off: of the valid candidates with no threat at the set distances, the one ranked
+        /// first with both distances widened (<see cref="ThreatPolicy.Clearance"/>), so the nearest
+        /// (fewest regions away, then fewest cells) clear of the wider distances where there is one,
+        /// and otherwise the one least inside them.
+        /// </summary>
+        public int SafeIndex { get; set; } = -1;
+
+        /// <summary>Gets a value indicating whether a safe candidate was found (<see cref="SafeIndex"/>).</summary>
+        public bool HasSafeExit => SafeIndex >= 0;
+
         /// <summary>Gets or sets the movers whose areas stand in the way.</summary>
         public IList<int> BlockingMoverIds { get; set; } = new List<int>();
 
@@ -282,6 +300,7 @@ namespace CaravansCriticallyEnhanced.Core
             bool current = input.CurrentIndex >= 0 && input.CurrentIndex < candidates.Count;
             plan.CurrentValid = current && valid[input.CurrentIndex];
             plan.CurrentReachable = current && reachable[input.CurrentIndex];
+            plan.CurrentScore = current ? score[input.CurrentIndex] : 0f;
 
             if (!anyValid)
             {
@@ -290,8 +309,40 @@ namespace CaravansCriticallyEnhanced.Core
             }
 
             plan.CandidateIndex = Best(input, valid, rank, score);
+            plan.CandidateScore = score[plan.CandidateIndex];
             plan.Threatened = score[plan.CandidateIndex] > 0f;
+            plan.SafeIndex = Safest(input, valid, rank, score);
             return plan;
+        }
+
+        private static int Safest(ExitPlanInput input, bool[] valid, int[] rank, float[] score)
+        {
+            if (!input.ApplyThreats)
+            {
+                return -1;
+            }
+
+            // Only exits safe at the set distances; among them the wider distances rank, so a move goes
+            // to one clear of those where it can, rather than to the cell just outside the danger.
+            var safe = new bool[valid.Length];
+            var wide = new float[valid.Length];
+            var wider = new ExitPlanInput
+            {
+                Threats = input.Threats,
+                OriginX = input.OriginX,
+                OriginZ = input.OriginZ,
+                ThreatRadius = ThreatPolicy.Clearance(input.ThreatRadius),
+                RouteThreatRadius = ThreatPolicy.Clearance(input.RouteThreatRadius),
+            };
+            bool any = false;
+            for (int i = 0; i < valid.Length; i++)
+            {
+                safe[i] = valid[i] && score[i] == 0f;
+                wide[i] = safe[i] ? ThreatGeometry.Score(wider, input.Candidates[i]) : 0f;
+                any |= safe[i];
+            }
+
+            return any ? Best(input, safe, rank, wide) : -1;
         }
 
         private static bool Reachable(int regionId, List<MoverReading> counted, IList<IDictionary<int, int>> groups, out int rank)

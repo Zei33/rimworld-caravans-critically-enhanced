@@ -23,14 +23,12 @@ Four sliders:
 
 "Reset to defaults" puts every switch and slider back.
 
-As of Slice 4b these switches take effect: the four Loading ones ("Load work type", "Load into
+As of Slice 4c these switches take effect: the four Loading ones ("Load work type", "Load into
 colonists", "Load while animals gather" and "Helpers bring pen animals"), "Keep leads when drafted" in
 the Leads section, all four in the leaving section ("Leave inside allowed areas", "Avoid threats when
 leaving", "Leave from here" and "Warn about pawns left behind"), with both threat distances, and "Wait
 for every item" among the stuck caravan fixes, together with its grace period and the watchdog of
-twice the grace period. "Avoid threats when leaving" so far
-ranks exits only when one is being chosen anyway: at Send, and when an area change moves the exit.
-Moving away from a threat that appears while forming comes later. The others do nothing yet.
+twice the grace period. The others do nothing yet.
 
 ## The Load column
 
@@ -166,10 +164,36 @@ goes back and carries them there, as soon as a colonist going with it can reach 
 forward, which ends the members' jobs and can wake a sleeper early, so a caravan whose exit the mod
 left alone never goes back. An exit that nobody can reach any more, because of a new wall or fog, is
 replaced quietly. Once the caravan starts collecting its animals to leave, the exit it has stands,
-whatever happens to the areas.
+whatever happens to the areas; only a threat can still move it.
 
 Areas are checked only for the exit cell. On the way there, a caravan's pawns ignore allowed areas, as
 in vanilla, so the route can still cross outside them.
+
+## Moving away from threats
+
+With "Avoid threats when leaving" on, a forming caravan whose exit gets hostiles near it, or on the
+straight way to it, after the exit was chosen moves to an edge clear of them, with a message. It
+looks every 250 ticks while hostiles are about, from gathering animals right up to leaving, but never
+during a mental break's pause. It only ever moves to an edge with no hostile within either threat
+distance, and inside every restricted pawn's allowed area when "Leave inside allowed areas" is on;
+if there is no such edge it keeps the one it has. Of those edges it prefers the nearest that is
+clear of hostiles at half as far again as the two distances, and failing that the one least inside
+them, so it does not stop just outside the danger, where the raid's next few steps would reach it.
+It stays where it is once half its colonists are within 15 cells of the exit, except while it
+gathers its downed pawns: the colonists with nothing to carry then wait at the exit, which says
+nothing about how ready the caravan is, and after a move they carry the downed pawns beside them
+to the new edge. While it waits for sleepers, everybody is back at the meeting point, so it also
+stays once a downed pawn or baby has been brought to the exit, which a move would have somebody
+fetch back past the raid. From collecting animals on, it stays whenever it has downed pawns or
+babies still to take along. It moves at most once an hour. While
+collecting or leaving, the way out is measured from where its colonists are, and a move sends the
+caravan back through vanilla's own steps, as Leave from here does, so that animals are led to the new
+edge. Drafted colonists are yours to move, and the message says so.
+
+While the exit a caravan keeps is threatened, because no clear edge is open, it is committed, or it
+moved within the hour, the alert "Caravan's way out threatened" says so. A caravan you sent off with Force depart or Leave from here, or one another
+mod has set the exit of, is never moved. Sleeping or dormant hostiles, and insects guarding a hive,
+do not count as a threat, as in vanilla's own danger checks.
 
 ## Leaving from here
 

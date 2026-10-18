@@ -13,7 +13,7 @@ going load a forming caravan and lead its pen animals to it, and the caravan kee
 listed item can still be fetched), drafted caravan colonists keeping their leads, with a button
 to drop a lead and a right-click option to take one, and the caravan's exit. When you send a caravan,
 it leaves by a map edge inside the allowed area of every pawn restricted to one, preferring edges
-away from hostiles. If no edge fits every area, the caravan packs and then waits where it gathered, with
+away from hostiles, and moves to a safer edge if hostiles turn up near its exit while it forms. If no edge fits every area, the caravan packs and then waits where it gathered, with
 an alert naming the pawns, until an area change lets it go or you use Force depart. A drafted
 colonist near the map edge can send the caravan off from there at once with "Leave from here", and
 can no longer walk off the map alone; Force depart's question lists the downed colonists and babies it

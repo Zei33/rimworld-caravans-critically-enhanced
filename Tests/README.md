@@ -71,10 +71,12 @@ Measured, not assumed:
 | `PatchTargetTests` | Every patch class resolved the way Harmony will, every parameter bound by name, one class per target, the guard running last, the injected private fields |
 | `LoadingDefsTests` | The Load column directly left of Haul against every shipped work type; Hauling's tags; the mech patch matching the Lifter alone in the shipped game |
 | `DefReferenceTests`, `TypeReferenceTests` | Every defName and class the mod's XML names resolves to the right type; the DefOf field binds; every def carries the prefix |
-| `ExitPlannerTests` | Each ranking step settling the choice in turn (threatened, score, regions away, distance, then the route's side, which only settles an exact tie); an unusable or unreachable cell never chosen; a mover that reaches no edge reported and blocking nobody; each blocker with the movers it names and the fallback beside it; the area rule off; the threat radii exclusive at their edge and the distance to the route measured to its nearest point; the current exit judged by the same rules, valid and reachable apart; the same readings always giving the same exit; threats ignored with their switch off; an area whose only edges are out of reach blocking like one with none; regions away beating distance, and distance beating the route's side |
+| `ExitPlannerTests` | Each ranking step settling the choice in turn (threatened, score, regions away, distance, then the route's side, which only settles an exact tie); an unusable or unreachable cell never chosen; a mover that reaches no edge reported and blocking nobody; each blocker with the movers it names and the fallback beside it; the area rule off; the threat radii exclusive at their edge and the distance to the route measured to its nearest point; the current exit judged by the same rules, valid and reachable apart; the safe exit for a move: the nearest clear of the wider distances rather than the nearest at the set ones, its way judged at the wider route distance too, the least inside the wider distances when none is clear of them, only ever one scoring nothing at the set distances (two hostiles), inside the areas, at index 0 like any other, and none when nothing is safe or threats are off; the same readings always giving the same exit; threats ignored with their switch off; an area whose only edges are out of reach blocking like one with none; regions away beating distance, and distance beating the route's side |
 | `ExitPolicyTests` | Who an area restricts, where either vanilla area control hides it or the area is empty; the stages the rule applies in; every row of what the pass does, held and not held, including a quiet move off an exit nobody reaches and a held caravan's fallback kept current; when a waiting caravan goes back for its downed pawns |
+| `ExitSurfaceTests` (Slice 4c additions) | The threat move asked only after the area decision and through the policy; the map read for threats only in a movable stage with a hostile about, measured from the colonists in collecting and leaving; one plan, which widens both distances itself (the pass calls no `Clearance`), and the move taken to its safe exit, every index getter in order; colonists counted near the exit the caravan has, and both downed counts passed in their own places, at that exit by vanilla's own test less a drafted carrier's pawn; the cooldown stored at a move, the alert's flag set or cleared, never an order to a drafted pawn; collecting and leaving routed through `CaravanRoute` with workers only; the threat alert reading only the flag |
 | `ExitSurfaceTests` | Run on real toils: the copies written, held (the downed stage's copy at the meeting point, the others at the fallback) and released, and the meeting point never. Run directly: the starting tile accessor; the state made once per caravan, read without being made, and the first-pass flag; the handoff forgotten on close; the exit search answering only inside a send, on its map, once; both gate patches and the baby patch leaving vanilla's answer alone with no held caravan. Pinned by IL, so by which calls appear and in what order, never by branch: the saved node names as literals; the search planning from the window's pawns and storing the hold flag (1 on an area block, 0 in its catch); a new caravan's set-up behind `IsVanilla`; the pass reading the map only after `AreaRuleApplies` and deciding through the policy; which plan index each action takes; every write keeping the lord job, the copies, the duties and the stale walks in step, and recording what it wrote; the stale-walk stage test first; a hold putting carried pawns down; the waiting stage going back for downed pawns through the rule; the first-tick pass ahead of the interval; a foreign exit or an override never written over; a missing field clearing the hold; the readings' region search and area gate; the alert planning nothing and naming nobody dead or gone |
 | `LeaveFromHereTests` | Who gets the button (one shown row in sixteen, drafted and controlled read from the pawn), greyed past 10 cells, hidden once the caravan has gone; the route as a whole table over fetchable strays, roping and workers, the same in every stage; the 12-cell circle; whom Force depart leaves. By IL, so by which calls appear and in what order: the button built by the gizmo postfix, field tests before the lord; one press and one click sound; the spot from the planner over those who will go, areas and threats overridden; the confirmation built from vanilla's with the Force depart list kept out; the departure's order; drafted members ordered as vanilla orders them; nothing undrafting, forcing vanilla's departure or setting a walk-off; the walk-off and carry-to-exit patches reading the caravan and the switch; the Force depart list through the policy, counting only an undrafted carrier |
+| `ThreatPolicyTests` | The stages a threat move may happen in (working stages, never a pause); the commit rule at half the colonists in every stage but gathering downed pawns, for a downed pawn already at the exit while waiting and for downed pawns to take along from collecting on, as whole tables over the stages; the clearance factor; the hour's cooldown at its edge; the move's gates as a whole table (one row in 128) and its score (any current threat, only with a safe exit open); which stages measure from the colonists and need routing again |
 
 Mutations measured on Slice 0, each made by hand, run, and reverted:
 
@@ -123,7 +125,7 @@ Ten of the first twelve passed every test before the review; all are caught now.
 | The Load giver's `ShouldSkip` no longer asking the Load switch | `SkippingIsDecidedByTheSettingTheMembershipAndTheOpenCaravans` |
 | The carrier postfix narrowing members' own carrier choice too | `TheCarrierPostfixNarrowsHelpersOnlyAndOnlyWithLoadOn` |
 | The drafted exemption no longer gated on "Keep leads when drafted" | `TheCompletionPostfixStandsAsideOutsideItemGatheringAndGatesTheExemption` |
-| The hold and blocked clocks swapped inside `Decide` | `TheHoldAndBlockedClocksAreReadFromTheirOwnFields` and three more |
+| The hold and blocked clocks swapped inside `Decide` | `TheHoldAndBlockedCountsAreReadFromTheirOwnFields` and three more |
 | The lord tick's re-count before letting go removed | `TheLordTickConfirmsAnExpiryBeforeLettingGo` |
 | `HelpersMayContinue` always true | `HelpersCarryOnThroughBothGatheringStagesAndTheirPausesOnly` |
 | `MemberState` ignoring drafted | `AMemberCountsOnlyAsAnUndraftedColonist` |
@@ -355,6 +357,50 @@ unfetchable downed pawns as fetchable, and the unfetchable not named in the ques
 hidden (56); a failed goto search ordering a drafted member onto its own cell (rare: the spot is one
 everybody can reach); and the button looking the lord up for every pawn, which costs time only. The first
 draft's group filter by caravan went with the rework, which presses for one caravan only.
+
+Mutations measured on Slice 4c (`muts-s4c.json` in the workspace, run while the translations were
+still missing, so two language tests failed throughout; a catch counts only when the named test
+failed): 19 on the first draft, 13 caught, and one more once the chosen exit's score was pinned on a
+threatened plan. The rework after the reviews was measured again (`muts-s4c-fixes.json`): 10, 8
+caught; the round after its review (`muts-s4c-fixes2.json`): 4, 3 caught; the third
+(`muts-s4c-fixes3.json`): 13, 12 caught; the fourth (`muts-s4c-fixes4.json`): 15, 13 caught; and
+the fifth (`muts-s4c-fixes5.json`): 9, all caught, and two more after its review
+(`muts-s4c-fixes6.json`), both caught.
+
+| Mutation | Caught by |
+|---|---|
+| A stage, the commit rule's half, the cooldown's edge or length, the commit radius, the hold gate, the score test, the stages routed again | `ThreatPolicyTests` |
+| The cooldown not started, the caravan not routed again, everybody counted as at the exit | `TheExitMovesAwayFromAThreatOnlyWhenTheAreaRuleDidNothingAndThroughThePolicy` |
+| The threat alert not reading the flag | `TheThreatAlertReadsTheFlagAndPlansNothing` |
+| The current or chosen exit's score not reported | `ThePlanReportsTheThreatOnTheExitItHasAndOnTheOneItChose`, `WhenEveryExitIsThreatenedTheLeastThreatenedIsChosenAndSaidToBe` |
+| The commit rule without the downed at the exit, or with downed pawns to take along in every stage; the safe exit not limited to exits scoring 0, ranked at the set distances, its way judged at the set route distance, or given with threats off | `HalfTheColonistsAtTheExitOrDownedAlreadyAtItCommitsIt`, `TheSafeExitForAMoveIsClearOfTheWiderDistancesNotAtTheDangersRim`, `TheWayToTheSafeExitIsJudgedAtTheWiderRouteDistanceToo` |
+| The move sent to the plan's choice rather than its safe exit; the downed at the exit not passed to the commit rule, or counted wherever they lie; the distances never widened | `EachActionTakesTheCellItsPlanMeans`, `TheExitMovesAwayFromAThreatOnlyWhenTheAreaRuleDidNothingAndThroughThePolicy` |
+| The safe exit's wider score flattened to a flag, ranked over every valid exit, or missing the start's z from the wider input; a safe exit reported for -1 | `AHostileNearTheStartStillLeavesASafeExitToMoveTo`, `TheSafeExitIsOnlyEverOneScoringNothingAtTheSetDistances`, `TheSafeExitForAMoveIsClearOfTheWiderDistancesNotAtTheDangersRim` |
+| The downed at the exit committing in every stage or only from collecting; the move without a safe exit open | `HalfTheColonistsAtTheExitOrDownedAlreadyAtItCommitsIt`, `TheExitMovesOnlyForACurrentThreatToASafeExitWithNothingElseInTheWay` |
+| Either distance widened from the other, or into the other's slot (in the pass, before the fifth round moved the widening into the planner); the two downed counts swapped at the commit rule; a safe exit assumed open; a drafted carrier's pawn, or a pawn not downed, counted at the exit | `TheExitMovesAwayFromAThreatOnlyWhenTheAreaRuleDidNothingAndThroughThePolicy` |
+| The colonists at the exit committing while downed pawns are gathered; the downed at the exit committing outside waiting; the safe exit at index 0 reported as none; the planner's widening left out, given the other distance, or with threats off; the downed and the colonists counted from the meeting point | `HalfTheColonistsAtTheExitOrDownedAlreadyAtItCommitsIt`, `TheFirstCandidateCanBeTheSafeExit`, `TheSafeExitForAMoveIsClearOfTheWiderDistancesNotAtTheDangersRim`, `TheWayToTheSafeExitIsJudgedAtTheWiderRouteDistanceToo`, `TheExitMovesAwayFromAThreatOnlyWhenTheAreaRuleDidNothingAndThroughThePolicy` |
+| The move to any safer exit rather than a safe one, the downed commitment from any stage or none, the read with no hostile about, the way out measured from the meeting point while leaving, pets counted for the commit rule, a drafted carrier's pawn counted as one to take along, the alert's flag never cleared | `ThreatPolicyTests`, `TheExitMovesAwayFromAThreatOnlyWhenTheAreaRuleDidNothingAndThroughThePolicy` |
+
+Equivalent, two: moving with no threat on the current exit, since no safe score is below 0; and a move
+refused for a downed pawn nobody could fetch, which the commit rule had already ruled out (the guard
+was removed). One of the third round's catches was of an equivalent mutation too, caught only by the
+IL: the safe exit compared with the current one through the plan's choice instead, since under the
+guard both always differed from a threatened current exit. That comparison went with the fourth,
+whose `HasSafeExit` replaced it. Not pinned, six, each control
+flow: the threat move taken over an area action (check 59); the alert's flag kept after an area
+move, on a map with no hostile left, or through a pause once none is left (63); and in
+`DownedAtExit`, a drafted carrier's pawn counted rather than skipped (61), and the pawns away from
+the exit counted rather than those at it (67). The third round's survivor, the route distance
+widened from the exit distance, was caught once the fourth pinned the widening's calls; since the
+fifth moved the widening into the planner, `TheWayToTheSafeExitIsJudgedAtTheWiderRouteDistanceToo`
+catches it there, and `Clearance` rounding to the nearest even number rather than up is caught by
+`TheDistancesAMoveIsRankedByAreHalfAsFarAgain` (both `muts-s4c-fixes6.json`). The first
+draft's areas-off mutation went with the rework, which keeps areas in every stage. The second
+round's clearance plan, which vetoed every exit inside the wider distances, went with the third,
+which ranks the safe exits by them (`ExitPlan.SafeIndex`) and committed a caravan with a downed pawn
+already at its exit in any stage; the fourth narrowed that to waiting on, and the fifth to waiting
+alone, kept the colonists waiting at the exit while downed pawns are gathered from committing it,
+and moved the widening into the planner, where nothing in the pass can skip it.
 
 Not reachable here, and so left to in-game check 1: loading the settings file. The game's loader
 reaches a Unity logging call that does not exist outside the player, so the read half of
@@ -628,3 +674,48 @@ leaves.
     behind" off: vanilla's question alone. Leave from here's question never shows that list.
 58. **Removing the mod after leaving from here.** Save while a caravan sent from here is collecting,
     remove the mod and load: it leaves by the chosen edge.
+
+### Slice 4c
+
+59. **A raid while gathering.** Send a caravan with "Avoid threats when leaving" on, then, while items
+    gather, spawn raiders near its exit with dev mode: within about 250 ticks a message says it now
+    leaves by an edge clear of them and to move drafted colonists yourself, and it does. With a member
+    restricted to an area whose only edge is the threatened one, it stays, and "Caravan's way out
+    threatened" shows.
+60. **A raid while collecting and while leaving.** Repeat once the caravan is collecting its animals,
+    and again while it walks out, with no downed pawns or babies going and raiders arriving before
+    half the colonists reach the exit (colonists with nothing to lead walk ahead to it, and once half
+    are there the caravan is committed, check 61): undrafted colonists let go
+    and lead the animals to the new edge, a drafted lead holder keeps its animals, and the caravan
+    leaves by the new edge. Spawn the raiders behind the walking caravan, at the colony, instead:
+    it does not turn round. With a baby going, or a downed colonist at the old exit, it keeps its exit
+    and the alert shows, and the same while it waits for a sleeper. A raider walking along the edge
+    just past the exit never moves the caravan to the cell beside it: the edge it picks is clear of
+    the raiders by half as far again as the threat distances where such an edge is open.
+61. **Committed.** Let half the caravan's colonists reach the exit, then spawn raiders there: it does
+    not move, and the alert shows. Pets and prisoners already at the exit do not count, and nor do
+    colonists waiting at the exit while downed pawns are gathered. With at least three colonists going,
+    while the caravan waits for a sleeper, draft one holding its only baby and stand it at the exit,
+    the rest at the meeting point more than 25 cells away: raiders there move the exit, and the message
+    asks you to bring that colonist over.
+62. **Cooldown and small gains.** Spawn a raid near the exit, let the caravan move, then spawn
+    another near the new exit within the hour: it stays until the hour is up, then moves if a clear
+    edge exists. With hostiles that leave no edge clear of them, it never moves, however slightly
+    one edge is better.
+63. **The alert.** Whenever the exit the caravan keeps is threatened, "Caravan's way out threatened"
+    shows, pointing at the exit; it stays through a mental break's pause; kill the raiders, or
+    finish the caravan, and it goes.
+64. **Overrides.** After Force depart, or after Leave from here, raiders near the exit move nothing.
+    With Enter Here's exit, nothing moves. Turn "Avoid threats when leaving" off: nothing moves, and
+    the alert never shows.
+65. **A break.** Give a member a mental break while raiders sit near the exit: nothing moves during
+    the pause; once it ends, the next pass moves the exit.
+66. **Cost.** With no hostile on the map, a caravan collecting and leaving costs nothing measurable in
+    the dev profiler; with a raid on, the pass every 250 ticks is not measurable against the tick.
+67. **A raid while waiting, and downed pawns.** With the exit about 25 cells or more from the meeting
+    point (the waiting colonists wander up to 5 cells around it), down a colonist with dev mode near the meeting point while the caravan waits for a
+    sleeper, then spawn raiders near the exit: the exit moves, and the
+    caravan goes back to gathering downed pawns, carries that colonist to the new edge, and waits
+    again. Repeat with the downed colonist already within a few cells of the exit: the caravan keeps
+    its exit and the alert shows. And while downed pawns are still being gathered, with one already
+    at the exit, raiders there move the exit, and the one at the old exit is carried to the new one.

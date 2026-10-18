@@ -222,10 +222,10 @@ namespace CaravansCriticallyEnhanced.Tests
                 "CaravansCriticallyEnhanced.Utils.ExitDirector.LeaveFrom",
                 "CaravansCriticallyEnhanced.Utils.ExitDirector.CountStrays",
                 "CaravansCriticallyEnhanced.Jobs.JobDriver_CCE_RopeAnimalToCaravan.LetGoFor",
-                "CaravansCriticallyEnhanced.Utils.LeaveFromHere.NeedsRoping",
-                "CaravansCriticallyEnhanced.Utils.LeaveFromHere.AnyWorker",
-                "CaravansCriticallyEnhanced.Utils.LeaveFromHere.UntieFromSpots",
-                "CaravansCriticallyEnhanced.Utils.LeaveFromHere.GoTo",
+                "CaravansCriticallyEnhanced.Utils.CaravanRoute.NeedsRoping",
+                "CaravansCriticallyEnhanced.Utils.CaravanRoute.AnyWorker",
+                "CaravansCriticallyEnhanced.Utils.CaravanRoute.UntieFromSpots",
+                "CaravansCriticallyEnhanced.Utils.CaravanRoute.GoTo",
                 "CaravansCriticallyEnhanced.Utils.LeaveFromHere.OrderDraftedOver",
             };
             int[] at = order.Select(c => calls.IndexOf(c)).ToArray();
@@ -233,10 +233,10 @@ namespace CaravansCriticallyEnhanced.Tests
             Assert.That(at, Is.Ordered, "Re-checked, the broken left out as vanilla does, the exit written, then the stage, then the drafted.");
             Assert.That(calls.Count(c => c == "CaravansCriticallyEnhanced.Core.LeaveFromHerePolicy.RouteFor"), Is.EqualTo(2), "The stage checked before anything, and the route chosen after the exit.");
             Assert.That(calls, Does.Contain("Verse.AI.Group.LordManager.RemoveLord"), "Nobody left: the caravan ends as vanilla's does.");
-            Assert.That(calls.IndexOf("System.Collections.Generic.List`1.RemoveAll"), Is.InRange(calls.IndexOf("CaravansCriticallyEnhanced.Utils.ExitDirector.CountStrays"), calls.IndexOf("CaravansCriticallyEnhanced.Utils.LeaveFromHere.GoTo")),
+            Assert.That(calls.IndexOf("System.Collections.Generic.List`1.RemoveAll"), Is.InRange(calls.IndexOf("CaravansCriticallyEnhanced.Utils.ExitDirector.CountStrays"), calls.IndexOf("CaravansCriticallyEnhanced.Utils.CaravanRoute.GoTo")),
                 "Those nobody can reach come off the list before the stage is chosen, or the gathering stage would wait for them for good.");
 
-            List<string> go = Calls(typeof(LeaveFromHere), "GoTo");
+            List<string> go = Calls(typeof(CaravanRoute), "GoTo");
             Assert.That(go.IndexOf("Verse.AI.Group.Lord.GotoToil"), Is.InRange(0, go.IndexOf("Verse.AI.Pawn_JobTracker.EndCurrentJob")));
             Assert.That(go, Does.Contain("Verse.Pawn.get_Drafted"), "Drafted members keep their orders and leads.");
 
@@ -251,9 +251,9 @@ namespace CaravansCriticallyEnhanced.Tests
             }), "As vanilla's drafted move: a cell nobody else is sent to, and a mech only within range.");
             Assert.That(LeaveFromHerePolicy.OrderOverBeyond, Is.EqualTo(ExitDirector.DownedNearExit), "Within 7: the downed stage counts a carried pawn by its carrier's cell.");
 
-            Assert.That(Calls(typeof(LeaveFromHere), "AnyWorker"), Does.Contain("CaravansCriticallyEnhanced.Utils.ExitDirector.IsWorker"),
+            Assert.That(Calls(typeof(CaravanRoute), "AnyWorker"), Does.Contain("CaravansCriticallyEnhanced.Utils.ExitDirector.IsWorker"),
                 "A worker is one who works the duties: undrafted, unbroken, with hands.");
-            Assert.That(Calls(typeof(LeaveFromHere), "NeedsRoping"), Is.SupersetOf(new[]
+            Assert.That(Calls(typeof(CaravanRoute), "NeedsRoping"), Is.SupersetOf(new[]
             {
                 "Verse.AnimalPenUtility.NeedsToBeManagedByRope",
                 "RimWorld.Pawn_RopeTracker.get_RopedByPawn",
@@ -271,7 +271,7 @@ namespace CaravansCriticallyEnhanced.Tests
             WalkResult regather = ILCalls.Read(Method(typeof(ExitDirector), "RegatherDowned"));
             int counted = regather.Calls.ToList().FindIndex(c => c.Name == nameof(ExitDirector.CountStrays));
             Assert.That(regather.IntBeforeCall[counted], Is.EqualTo(0), "Waiting: a drafted member is waited for in the gathering stage.");
-            Assert.That(Calls(typeof(LeaveFromHere), "UntieFromSpots"), Does.Contain("RimWorld.Pawn_RopeTracker.UnropeFromSpot"), "Straight to leaving: tied animals walk, as Force depart has them.");
+            Assert.That(Calls(typeof(CaravanRoute), "UntieFromSpots"), Does.Contain("RimWorld.Pawn_RopeTracker.UnropeFromSpot"), "Straight to leaving: tied animals walk, as Force depart has them.");
             List<string> find = Calls(typeof(LeaveFromHere), nameof(LeaveFromHere.FindSpot));
             Assert.That(find.IndexOf("CaravansCriticallyEnhanced.Utils.LeaveFromHere.Going"), Is.InRange(0, find.IndexOf("CaravansCriticallyEnhanced.Utils.ExitReadings.Read")),
                 "Planned over those who will go.");

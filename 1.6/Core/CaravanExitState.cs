@@ -9,7 +9,7 @@ namespace CaravansCriticallyEnhanced.Core
     /// What the mod knows about one forming caravan's exit.
     /// </summary>
     /// <remarks>
-    /// The public fields but <see cref="Passed"/> are saved with the lord job (<see cref="CaravanExitStates.Expose"/>), as
+    /// The public fields but <see cref="Passed"/> and <see cref="ExitThreatened"/> are saved with the lord job (<see cref="CaravanExitStates.Expose"/>), as
     /// <c>cce_exit*</c> nodes vanilla ignores if the mod is removed. Fields rather than properties,
     /// because <c>Scribe_Values.Look</c> takes them by reference.
     /// </remarks>
@@ -32,6 +32,15 @@ namespace CaravansCriticallyEnhanced.Core
 
         /// <summary>Whether the mod wrote the exit while the caravan waited, so its downed pawns may need gathering again.</summary>
         public bool RegatherPending;
+
+        /// <summary>The tick of the last move away from a threat, or -1 for none, for the cooldown.</summary>
+        public int LastThreatMoveTick = -1;
+
+        /// <summary>
+        /// Whether the last pass found the exit the caravan keeps threatened. Not saved: the first pass
+        /// after a load sets it again.
+        /// </summary>
+        public bool ExitThreatened;
 
         /// <summary>
         /// Whether a pass has run since this state was made. Not saved, so it is false after a load,
@@ -79,6 +88,17 @@ namespace CaravansCriticallyEnhanced.Core
         }
 
         /// <summary>
+        /// Determines whether the exit a caravan keeps was threatened at its last pass, without creating
+        /// a state for it.
+        /// </summary>
+        /// <param name="job">The caravan's lord job, or <c>null</c>.</param>
+        /// <returns><c>true</c> when it was.</returns>
+        public static bool IsExitThreatened(LordJob_FormAndSendCaravan job)
+        {
+            return job != null && States.TryGetValue(job, out CaravanExitState state) && state.ExitThreatened;
+        }
+
+        /// <summary>
         /// Determines whether a held caravan has had no pass since it was loaded, without creating a
         /// state for it.
         /// </summary>
@@ -102,6 +122,7 @@ namespace CaravansCriticallyEnhanced.Core
             Scribe_Values.Look(ref state.PlayerOverride, "cce_exitOverride");
             Scribe_Values.Look(ref state.Foreign, "cce_exitForeign");
             Scribe_Values.Look(ref state.RegatherPending, "cce_exitRegather");
+            Scribe_Values.Look(ref state.LastThreatMoveTick, "cce_exitThreatMoved", -1);
         }
     }
 }

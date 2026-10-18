@@ -209,6 +209,7 @@ namespace CaravansCriticallyEnhanced.Tests
             ExitPlan plan = ExitPlanner.Plan(input);
 
             Assert.That(plan.Threatened, Is.True);
+            Assert.That(plan.CandidateScore, Is.GreaterThan(0f), "Its score is reported too.");
             Assert.That(Cell(input, plan.CandidateIndex), Is.EqualTo((19, 0)), "The farthest corner from the threat.");
         }
 
@@ -229,6 +230,153 @@ namespace CaravansCriticallyEnhanced.Tests
 
             Assert.That(Cell(input, plan.CandidateIndex), Is.Not.EqualTo((19, 10)), "The hostile stands on the way there.");
             Assert.That(plan.Threatened, Is.False);
+        }
+
+        [Test]
+        public void ThePlanReportsTheThreatOnTheExitItHasAndOnTheOneItChose()
+        {
+            ExitPlanInput input = Map();
+            input.ApplyThreats = true;
+            input.ThreatRadius = 5;
+            input.RouteThreatRadius = 0;
+            input.Groups.Add(Reach((1, 0), (2, 0)));
+            input.Movers.Add(new MoverReading(7, 0, null));
+            input.Threats.Add(new ThreatReading(19, 12));
+            input.CurrentIndex = Index(input, 19, 10);
+
+            ExitPlan plan = ExitPlanner.Plan(input);
+
+            Assert.That(plan.CurrentScore, Is.EqualTo(3f), "Two cells from the hostile, inside a radius of five.");
+            Assert.That(plan.CandidateScore, Is.EqualTo(0f), "The choice is clear of it.");
+            Assert.That(plan.CandidateIndex, Is.Not.EqualTo(input.CurrentIndex));
+
+            input.ApplyThreats = false;
+            Assert.That(ExitPlanner.Plan(input).CurrentScore, Is.EqualTo(0f), "Threats off: nothing scored.");
+        }
+
+        [Test]
+        public void TheSafeExitForAMoveIsClearOfTheWiderDistancesNotAtTheDangersRim()
+        {
+            ExitPlanInput input = Map();
+            input.OriginX = 17;
+            input.OriginZ = 10;
+            input.ApplyThreats = true;
+            input.ThreatRadius = 5;
+            input.RouteThreatRadius = 0;
+            input.Groups.Add(Reach((1, 0), (2, 0)));
+            input.Movers.Add(new MoverReading(7, 0, null));
+            input.Threats.Add(new ThreatReading(19, 10));
+            Assert.That(ThreatPolicy.Clearance(input.ThreatRadius), Is.EqualTo(8), "The wider distance the safe exits are ranked at.");
+            ExitPlan plan = ExitPlanner.Plan(input);
+
+            // The edge is symmetrical about the hostile: (19, 15) ties with (19, 5), and (19, 18) with
+            // (19, 2), and candidate order settles both.
+            Assert.That(Cell(input, plan.CandidateIndex), Is.EqualTo((19, 5)), "The control: the nearest safe exit, five cells along the edge from the hostile.");
+            Assert.That(Cell(input, plan.SafeIndex), Is.EqualTo((19, 2)), "The nearest with no hostile inside the wider distance.");
+            Assert.That(plan.HasSafeExit, Is.True);
+            int rim = plan.CandidateIndex;
+            int safe = plan.SafeIndex;
+            input.Threats[0] = new ThreatReading(19, 9);
+            Assert.That(ThreatGeometry.Score(input, input.Candidates[rim]), Is.GreaterThan(0f), "One step along the edge and the hostile reaches the rim cell.");
+            Assert.That(ThreatGeometry.Score(input, input.Candidates[safe]), Is.EqualTo(0f), "But not the move's.");
+            input.Threats[0] = new ThreatReading(19, 10);
+
+            input.ApplyAreas = true;
+            input.Movers.Add(new MoverReading(8, 0, Allow(input, c => c.Z >= 5)));
+            Assert.That(Cell(input, ExitPlanner.Plan(input).SafeIndex), Is.EqualTo((19, 18)), "Only inside the areas.");
+
+            input.ApplyThreats = false;
+            Assert.That(ExitPlanner.Plan(input).SafeIndex, Is.EqualTo(-1), "Threats off: no move.");
+            input.ApplyThreats = true;
+            input.ThreatRadius = 60;
+            Assert.That(ExitPlanner.Plan(input).SafeIndex, Is.EqualTo(-1), "Every exit threatened: nothing safe to move to.");
+            Assert.That(ExitPlanner.Plan(input).HasSafeExit, Is.False);
+        }
+
+        [Test]
+        public void TheSafeExitIsOnlyEverOneScoringNothingAtTheSetDistances()
+        {
+            ExitPlanInput input = Map();
+            input.ApplyThreats = true;
+            input.ThreatRadius = 8;
+            input.RouteThreatRadius = 4;
+            input.Groups.Add(Reach((1, 0), (2, 0)));
+            input.Movers.Add(new MoverReading(7, 0, null));
+            input.Threats.Add(new ThreatReading(9, 16));
+            input.Threats.Add(new ThreatReading(11, 6));
+
+            ExitPlan plan = ExitPlanner.Plan(input);
+
+            Assert.That(ThreatGeometry.Score(input, input.Candidates[plan.SafeIndex]), Is.EqualTo(0f), "Safe at the set distances, however the wider ones rank it.");
+            Assert.That(Cell(input, plan.SafeIndex), Is.EqualTo((0, 8)));
+        }
+
+        [Test]
+        public void TheWayToTheSafeExitIsJudgedAtTheWiderRouteDistanceToo()
+        {
+            ExitPlanInput input = Map();
+            input.OriginZ = 11;
+            input.ApplyThreats = true;
+            input.ThreatRadius = 1;
+            input.RouteThreatRadius = 2;
+            input.Groups.Add(Reach((1, 0), (2, 0)));
+            input.Movers.Add(new MoverReading(7, 0, null));
+            input.Threats.Add(new ThreatReading(12, 16));
+
+            ExitPlan plan = ExitPlanner.Plan(input);
+
+            Assert.That(Cell(input, plan.CandidateIndex), Is.EqualTo((10, 19)), "The control: the nearest safe exit, its way two cells from the hostile.");
+            Assert.That(Cell(input, plan.SafeIndex), Is.EqualTo((8, 19)), "The nearest whose way passes three cells clear.");
+        }
+
+        [Test]
+        public void AHostileNearTheStartStillLeavesASafeExitToMoveTo()
+        {
+            ExitPlanInput input = Map();
+            input.ApplyThreats = true;
+            input.ThreatRadius = 5;
+            input.RouteThreatRadius = 2;
+            input.Groups.Add(Reach((1, 0), (2, 0)));
+            input.Movers.Add(new MoverReading(7, 0, null));
+            input.Threats.Add(new ThreatReading(12, 8));
+            var wider = new ExitPlanInput
+            {
+                OriginX = input.OriginX,
+                OriginZ = input.OriginZ,
+                ThreatRadius = ThreatPolicy.Clearance(input.ThreatRadius),
+                RouteThreatRadius = ThreatPolicy.Clearance(input.RouteThreatRadius),
+            };
+            wider.Threats.Add(input.Threats[0]);
+            Assert.That(input.Candidates.Count(c => ThreatGeometry.Score(wider, c) == 0f), Is.EqualTo(0),
+                "The premise: under three cells from the start, the hostile is inside the wider distance of every way out.");
+
+            ExitPlan plan = ExitPlanner.Plan(input);
+
+            Assert.That(plan.HasSafeExit, Is.True, "The wider distances only rank the safe exits; they never rule them all out.");
+            Assert.That(ThreatGeometry.Score(input, input.Candidates[plan.SafeIndex]), Is.EqualTo(0f));
+            Assert.That(Cell(input, plan.CandidateIndex), Is.EqualTo((19, 10)), "The control: of the two nearest safe exits, nine cells off, the first in order, its way passing two cells from the hostile.");
+            Assert.That(Cell(input, plan.SafeIndex), Is.EqualTo((10, 19)), "Of those two, the one less inside the wider distances: its way leaves the hostile behind at the start.");
+        }
+
+        [Test]
+        public void TheFirstCandidateCanBeTheSafeExit()
+        {
+            ExitPlanInput input = Map();
+            input.OriginX = 9;
+            input.OriginZ = 2;
+            input.ApplyThreats = true;
+            input.ThreatRadius = 9;
+            input.RouteThreatRadius = 4;
+            input.Groups.Add(Reach((1, 0), (2, 0)));
+            input.Movers.Add(new MoverReading(7, 0, null));
+            input.Threats.Add(new ThreatReading(10, 6));
+
+            ExitPlan plan = ExitPlanner.Plan(input);
+
+            Assert.That(Cell(input, plan.CandidateIndex), Is.EqualTo((3, 0)), "The control.");
+            Assert.That(plan.SafeIndex, Is.EqualTo(0), "The south-west corner, where the game's edge cells start.");
+            Assert.That(Cell(input, 0), Is.EqualTo((0, 0)));
+            Assert.That(plan.HasSafeExit, Is.True, "Index 0 is a safe exit like any other.");
         }
 
         [Test]

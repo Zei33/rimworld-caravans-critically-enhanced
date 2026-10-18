@@ -27,7 +27,7 @@
   <CaravansCriticallyEnhanced_SettingAreaAwareExit>Sair dentro das áreas permitidas</CaravansCriticallyEnhanced_SettingAreaAwareExit>
   <CaravansCriticallyEnhanced_SettingAreaAwareExitTip>A caravana sai por um limite do mapa dentro da área permitida de cada membro restrito a uma. Se não houver um limite assim, a caravana se prepara e depois espera onde se reuniu, com um alerta, até que haja um.</CaravansCriticallyEnhanced_SettingAreaAwareExitTip>
   <CaravansCriticallyEnhanced_SettingThreatAwareExit>Evitar ameaças ao sair</CaravansCriticallyEnhanced_SettingThreatAwareExit>
-  <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>A caravana prefere uma saída longe de hostis e, durante a formação, escolhe outra se uma ameaça aparecer perto da que ela escolheu.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
+  <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>A caravana prefere uma saída longe de hostis e, durante a formação, passa para uma livre deles se uma ameaça aparecer perto da que ela escolheu, a menos que já seja tarde demais para mudar.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
   <CaravansCriticallyEnhanced_SettingLeaveFromHere>Sair daqui</CaravansCriticallyEnhanced_SettingLeaveFromHere>
   <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Dá a um colono alistado de uma caravana em formação, que esteja perto do limite do mapa, um botão que faz a caravana partir por esse limite. Com isso, você não pode mais ordenar que um colono de uma caravana em formação saia do mapa sozinho, nem a pé nem carregando alguém.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
   <CaravansCriticallyEnhanced_SettingDepartureWarnings>Avisar sobre quem fica para trás</CaravansCriticallyEnhanced_SettingDepartureWarnings>
@@ -94,6 +94,9 @@
   <CaravansCriticallyEnhanced_ExitMoved>A saída da caravana foi movida para ficar dentro da área permitida de todos que vão com ela.</CaravansCriticallyEnhanced_ExitMoved>
   <CaravansCriticallyEnhanced_AlertNoPermittedExit>Caravana aguardando uma saída</CaravansCriticallyEnhanced_AlertNoPermittedExit>
   <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>Uma caravana em formação está esperando onde se reuniu, porque nenhum limite do mapa que ela consiga alcançar está dentro da área permitida de todos que vão com ela. Retida por:\n\n{0}\n\nPara liberá-la, estenda as áreas deles até um limite do mapa que a caravana consiga alcançar, remova a restrição deles ou use "Forçar partida da caravana". Desativar "Sair dentro das áreas permitidas" nas opções de mods também a libera.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+  <CaravansCriticallyEnhanced_ExitMovedThreat>Hostis se aproximaram do caminho de saída da caravana, então ela agora sai por um limite do mapa livre deles. Se houver colonos alistados que vão com ela, leve-os até lá você mesmo.</CaravansCriticallyEnhanced_ExitMovedThreat>
+  <CaravansCriticallyEnhanced_AlertExitThreatened>Caminho de saída da caravana ameaçado</CaravansCriticallyEnhanced_AlertExitThreatened>
+  <CaravansCriticallyEnhanced_AlertExitThreatenedDesc>Há hostis perto da saída de uma caravana em formação ou no caminho até ela, e a caravana mantém esse caminho de saída: nenhum limite do mapa livre de hostis está disponível para ela, já é tarde demais para mudar ou ela mudou de saída menos de uma hora atrás. Lide primeiro com a ameaça ou use "Sair daqui" para escolher você mesmo o limite.</CaravansCriticallyEnhanced_AlertExitThreatenedDesc>
 
   <!-- Leave from here -->
   <CaravansCriticallyEnhanced_LeaveFromHere>Sair daqui</CaravansCriticallyEnhanced_LeaveFromHere>

@@ -27,7 +27,7 @@
   <CaravansCriticallyEnhanced_SettingAreaAwareExit>Wyruszaj w dozwolonych obszarach</CaravansCriticallyEnhanced_SettingAreaAwareExit>
   <CaravansCriticallyEnhanced_SettingAreaAwareExitTip>Karawana opuszcza mapę przez krawędź leżącą w dozwolonym obszarze każdego członka, który ma taki obszar przypisany. Jeśli takiej krawędzi nie ma, karawana pakuje się, a potem czeka w miejscu, w którym się zebrała, i włącza alarm, dopóki taka krawędź się nie pojawi.</CaravansCriticallyEnhanced_SettingAreaAwareExitTip>
   <CaravansCriticallyEnhanced_SettingThreatAwareExit>Unikaj zagrożeń przy wyruszaniu</CaravansCriticallyEnhanced_SettingThreatAwareExit>
-  <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>Karawana wybiera wyjście z dala od wrogów, a podczas formowania wybiera inne, jeśli w pobliżu wybranego pojawi się zagrożenie.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
+  <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>Karawana wybiera wyjście z dala od wrogów, a jeśli podczas formowania w pobliżu wybranego pojawi się zagrożenie, przenosi się do innego, wolnego od wrogów, chyba że na zmianę jest już za późno.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
   <CaravansCriticallyEnhanced_SettingLeaveFromHere>Wyrusz stąd</CaravansCriticallyEnhanced_SettingLeaveFromHere>
   <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Daje koloniście w trybie bojowym, który należy do formowanej karawany i stoi blisko krawędzi mapy, przycisk wysyłający karawanę przez tę krawędź. Kolonista z formowanej karawany nie może już wtedy na twój rozkaz sam opuścić mapy ani pieszo, ani wynosząc kogoś.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
   <CaravansCriticallyEnhanced_SettingDepartureWarnings>Ostrzegaj o pozostawionych</CaravansCriticallyEnhanced_SettingDepartureWarnings>
@@ -94,6 +94,9 @@
   <CaravansCriticallyEnhanced_ExitMoved>Wyjście karawany zostało przeniesione, aby leżało w dozwolonym obszarze wszystkich, którzy z nią wyruszają.</CaravansCriticallyEnhanced_ExitMoved>
   <CaravansCriticallyEnhanced_AlertNoPermittedExit>Karawana czeka na wyjście</CaravansCriticallyEnhanced_AlertNoPermittedExit>
   <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>Formowana karawana czeka w miejscu, w którym się zebrała, ponieważ żadna krawędź mapy, do której może dotrzeć, nie leży w dozwolonym obszarze wszystkich, którzy z nią wyruszają. Zatrzymują ją:\n\n{0}\n\nAby ją wypuścić, rozszerz ich obszary do krawędzi mapy, do której karawana może dotrzeć, usuń ich ograniczenie lub użyj przycisku "Force caravan departure". Wyłączenie opcji "Wyruszaj w dozwolonych obszarach" w ustawieniach modyfikacji również ją wypuści.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+  <CaravansCriticallyEnhanced_ExitMovedThreat>Wrogowie znaleźli się w pobliżu drogi karawany do wyjścia, więc opuści ona teraz mapę przez krawędź wolną od nich. Jeśli z karawaną wyruszają koloniści w trybie bojowym, przeprowadź ich tam samodzielnie.</CaravansCriticallyEnhanced_ExitMovedThreat>
+  <CaravansCriticallyEnhanced_AlertExitThreatened>Zagrożona droga karawany do wyjścia</CaravansCriticallyEnhanced_AlertExitThreatened>
+  <CaravansCriticallyEnhanced_AlertExitThreatenedDesc>Przy wyjściu formowanej karawany lub na drodze do niego są wrogowie, a karawana mimo to nie zmienia drogi do wyjścia: żadna krawędź wolna od wrogów nie jest dla niej dostępna, na zmianę jest już za późno albo zmieniła drogę mniej niż godzinę temu. Najpierw zajmij się zagrożeniem albo użyj przycisku "Wyrusz stąd", aby samodzielnie wybrać krawędź.</CaravansCriticallyEnhanced_AlertExitThreatenedDesc>
 
   <!-- Leave from here -->
   <CaravansCriticallyEnhanced_LeaveFromHere>Wyrusz stąd</CaravansCriticallyEnhanced_LeaveFromHere>

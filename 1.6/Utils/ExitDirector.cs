@@ -96,11 +96,21 @@ namespace CaravansCriticallyEnhanced.Utils
             FormingStage stage = FormingLords.StageOf(lord);
             bool featureOn = settings.IsOn(Toggle.AreaAwareExit);
             bool ruleApplies = featureOn && !state.Foreign && !state.PlayerOverride && ExitPolicy.AreaRuleApplies(stage);
+            bool threatOn = settings.IsOn(Toggle.ThreatAwareExit);
+            bool threatWatched = threatOn && !state.Foreign && !state.PlayerOverride && !state.Holding;
+
+            // With no hostile about there is nothing to move from: the map is read only for the area
+            // rule then. Asked in a working stage only; a pause keeps what the last pass found.
+            bool threatLooks = threatWatched && ThreatPolicy.Movable(stage) && GenHostility.AnyHostileActiveThreatToPlayer(lord.Map);
             ExitReading reading = null;
             ExitPlan plan = null;
-            if (ruleApplies)
+            if (ruleApplies || threatLooks)
             {
-                reading = ExitReadings.Read(lord.Map, lord.ownedPawns, CaravanLordAccess.JobMeetingPoint(job), StartingTile(job), job.ExitSpot, settings);
+                // Collecting and leaving: the members are on their way, so the way out is measured from
+                // where the colonists are, not from the meeting point they left. Areas count as the
+                // switch says in every stage, so a move never breaks an area the rule would then restore.
+                IntVec3 origin = ThreatPolicy.ReroutesAfterMove(stage) ? ColonistCentre(lord, CaravanLordAccess.JobMeetingPoint(job)) : CaravanLordAccess.JobMeetingPoint(job);
+                reading = ExitReadings.Read(lord.Map, lord.ownedPawns, origin, StartingTile(job), job.ExitSpot, settings);
                 plan = ExitPlanner.Plan(reading.Input);
             }
 
@@ -136,6 +146,42 @@ namespace CaravansCriticallyEnhanced.Utils
                     break;
             }
 
+            // Only when the area rule did nothing: a move it made already chose the least threatened exit.
+            bool threatMoved = false;
+            if (action == ExitAction.None && threatLooks && plan != null && plan.Blocker == ExitBlocker.None)
+            {
+                int tick = Find.TickManager.TicksGame;
+                ColonistsNear(lord, job.ExitSpot, out int near, out int colonists);
+                bool moves = ThreatPolicy.Moves(
+                    threatOn,
+                    state.Foreign,
+                    state.PlayerOverride,
+                    state.Holding,
+                    stage,
+                    plan.CurrentScore,
+                    plan.HasSafeExit,
+                    ThreatPolicy.Committed(near, colonists, stage, DownedToTake(job), DownedAtExit(job)),
+                    ThreatPolicy.Cooling(tick, state.LastThreatMoveTick));
+                if (moves)
+                {
+                    MoveFromThreat(job, state, stage, reading.Cells[plan.SafeIndex]);
+                    state.LastThreatMoveTick = tick;
+                    threatMoved = true;
+                    Tell(job, "CaravansCriticallyEnhanced_ExitMovedThreat", job.ExitSpot, MessageTypeDefOf.CautionInput);
+                }
+            }
+
+            // The alert: the exit it keeps is threatened, whatever keeps it there. A pause keeps the
+            // last pass's answer; the rule no longer watching, or no hostile left, clears it.
+            if (threatLooks && plan != null)
+            {
+                state.ExitThreatened = action == ExitAction.None && !threatMoved && plan.CurrentScore > 0f;
+            }
+            else if (!threatWatched || ThreatPolicy.Movable(stage) || !GenHostility.AnyHostileActiveThreatToPlayer(lord.Map))
+            {
+                state.ExitThreatened = false;
+            }
+
             if (state.Holding)
             {
                 // A pass that cannot say whose areas are to blame (nobody reaches any edge) keeps the
@@ -153,12 +199,143 @@ namespace CaravansCriticallyEnhanced.Utils
             bool waiting = now == FormingStage.Wait || now == FormingStage.WaitPause;
             // Not while held: the lord job's exit is then only the fallback, and the release's own write
             // arms it against the exit the caravan will really leave by.
-            if (ExitPolicy.WritesExit(action) && waiting && !state.Holding)
+            if ((ExitPolicy.WritesExit(action) || threatMoved) && waiting && !state.Holding)
             {
                 state.RegatherPending = true;
             }
 
             RegatherDowned(job, state, now, waiting);
+        }
+
+        /// <summary>
+        /// Moves the exit away from a threat.
+        /// </summary>
+        /// <param name="job">The caravan's lord job.</param>
+        /// <param name="state">Its exit state.</param>
+        /// <param name="stage">Its stage.</param>
+        /// <param name="exit">The safe exit.</param>
+        /// <remarks>
+        /// Before collecting, the write is enough: the downed stage's stale walks end in it, and the
+        /// gathering stages' duties never name the exit. Collecting and leaving also take the caravan
+        /// through <see cref="CaravanRoute"/>, since their rope jobs keep the old destination. A caravan
+        /// there with downed pawns to take along is committed (<see cref="ThreatPolicy.Committed"/>), so
+        /// none is left behind by a move; the stray count only keeps the route honest if that changes.
+        /// </remarks>
+        private static void MoveFromThreat(LordJob_FormAndSendCaravan job, CaravanExitState state, FormingStage stage, IntVec3 exit)
+        {
+            if (!ThreatPolicy.ReroutesAfterMove(stage))
+            {
+                Release(job, state, exit);
+                return;
+            }
+
+            CountStrays(job, exit, out int strays, out int _, null, workersOnly: true);
+            Lord lord = job.lord;
+            Release(job, state, exit);
+            LeaveRoute route = LeaveFromHerePolicy.RouteFor(stage, strays > 0, CaravanRoute.NeedsRoping(lord, exit, out bool penned), CaravanRoute.AnyWorker(lord), penned);
+            if (route == LeaveRoute.LeaveStage)
+            {
+                CaravanRoute.UntieFromSpots(lord);
+            }
+
+            CaravanRoute.GoTo(lord, route);
+        }
+
+        private static void ColonistsNear(Lord lord, IntVec3 exit, out int near, out int colonists)
+        {
+            near = 0;
+            colonists = 0;
+            List<Pawn> owned = lord.ownedPawns;
+            for (int i = 0; i < owned.Count; i++)
+            {
+                Pawn pawn = owned[i];
+                if (!pawn.IsColonist)
+                {
+                    continue;
+                }
+
+                colonists++;
+                if (pawn.Spawned && pawn.Position.InHorDistOf(exit, ThreatPolicy.CommitRadius))
+                {
+                    near++;
+                }
+            }
+        }
+
+        private static IntVec3 ColonistCentre(Lord lord, IntVec3 fallback)
+        {
+            int x = 0;
+            int z = 0;
+            int count = 0;
+            List<Pawn> owned = lord.ownedPawns;
+            for (int i = 0; i < owned.Count; i++)
+            {
+                if (owned[i].IsColonist && owned[i].Spawned)
+                {
+                    x += owned[i].Position.x;
+                    z += owned[i].Position.z;
+                    count++;
+                }
+            }
+
+            return count == 0 ? fallback : new IntVec3(x / count, 0, z / count);
+        }
+
+        private static int DownedAtExit(LordJob_FormAndSendCaravan job)
+        {
+            int count = 0;
+            List<Pawn> downed = job.downedPawns;
+            if (downed == null)
+            {
+                return 0;
+            }
+
+            for (int i = 0; i < downed.Count; i++)
+            {
+                Pawn pawn = downed[i];
+                if (pawn == null || pawn.Destroyed || !pawn.Downed || !JobGiver_PrepareCaravan_GatherDownedPawns.IsDownedPawnNearExitPoint(pawn, job.ExitSpot))
+                {
+                    continue;
+                }
+
+                // Vanilla's test reads a carried pawn at its carrier's cell; one in a drafted member's
+                // arms goes with it, wherever the exit is.
+                Pawn carrier = CarrierOf(pawn, job.lord);
+                if (carrier == null || !carrier.Drafted)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        private static int DownedToTake(LordJob_FormAndSendCaravan job)
+        {
+            int count = 0;
+            List<Pawn> downed = job.downedPawns;
+            if (downed == null)
+            {
+                return 0;
+            }
+
+            for (int i = 0; i < downed.Count; i++)
+            {
+                Pawn pawn = downed[i];
+                if (pawn == null || pawn.Destroyed || !pawn.Downed)
+                {
+                    continue;
+                }
+
+                // One in a drafted member's arms goes with it, wherever the exit is.
+                Pawn carrier = CarrierOf(pawn, job.lord);
+                if (carrier == null || !carrier.Drafted)
+                {
+                    count++;
+                }
+            }
+
+            return count;
         }
 
         /// <summary>

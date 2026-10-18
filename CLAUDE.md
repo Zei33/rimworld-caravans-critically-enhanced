@@ -24,10 +24,10 @@ Fixes caravan forming. When finished it will:
 
 plus stuck-caravan fixes, loaded-cargo protection, unloading returning pack animals at a stockpile,
 and a better manual load. The work is in slices; `docs/ROADMAP.md` in the workspace says which have
-landed. **As of Slice 4b the Load work type, the completion guard, helpers leading pen animals, drafted
-caravan colonists keeping their leads, the exit chosen at Send with the area hold, Leave from here,
-the solo walk-off block and the Force depart list of pawns left behind are in; nothing else changes the
-game yet.**
+landed. **As of Slice 4c the Load work type, the completion guard, helpers leading pen animals, drafted
+caravan colonists keeping their leads, the exit chosen at Send with the area hold, the exit moved away
+from threats that turn up while forming, Leave from here, the solo walk-off block and the Force depart
+list of pawns left behind are in; nothing else changes the game yet.**
 
 ## Architecture
 
@@ -60,7 +60,7 @@ game yet.**
 | `AnimalGatherIndex` | `1.6/Core/AnimalGatherIndex.cs` | Per map, per tick and frame: the rope animals of vanilla lords gathering animals that nobody is leading, and each one's spot, read from its own duty |
 | `RopeCandidates` | `1.6/Core/RopeCandidates.cs` | Which animals wait to be led: rope-managed, not on a rope, not tied at the spot, with the gather duty, in the gathering stage itself. Pure |
 | `LoadingMigration` | `1.6/Core/LoadingMigration.cs` | The one-time Load priority copy, and `MakeRoom`, which puts later work types' priorities back in their own slots on the first load. Pure |
-| `ExitPlanner`, `ExitPlanInput`, `ExitPlan`, `ExitBlocker`, `EdgeCandidate`, `MoverReading`, `ThreatReading`, `ThreatGeometry` | `1.6/Core/ExitPlanner.cs` | Chooses the exit cell from plain readings: reachable by every mover that reaches an edge at all, inside every restricted mover's area, then least threatened, fewest regions away, nearest, facing the world route; or a typed blocker, the movers to blame, and the best cell ignoring areas. Also whether the current exit is still valid, and still reachable. No randomness. Pure |
+| `ExitPlanner`, `ExitPlanInput`, `ExitPlan`, `ExitBlocker`, `EdgeCandidate`, `MoverReading`, `ThreatReading`, `ThreatGeometry` | `1.6/Core/ExitPlanner.cs` | Chooses the exit cell from plain readings: reachable by every mover that reaches an edge at all, inside every restricted mover's area, then least threatened, fewest regions away, nearest, facing the world route; or a typed blocker, the movers to blame, and the best cell ignoring areas. Also whether the current exit is still valid, and still reachable, the threat scores of the current exit and the choice, and for a threat move the safe exit ranked first at distances it widens by half (`SafeIndex`, `HasSafeExit`). No randomness. Pure |
 | `ExitPolicy`, `ExitAction` | `1.6/Core/ExitPolicy.cs` | Which pawns an area restricts (both vanilla area controls must show it), the stages the area rule applies in (before collecting), what the exit pass does (park, keep the fallback current, release, move with or without the area message, or nothing), and when a waiting caravan goes back for its downed pawns. Pure |
 | `CaravanExitState`, `CaravanExitStates` | `1.6/Core/CaravanExitState.cs` | Per caravan, in a `ConditionalWeakTable` on the lord job: held, the exit last written, override, foreign; saved as `cce_exit*` nodes |
 | `ExitReadings`, `ExitReading` | `1.6/Utils/ExitReadings.cs` | Reads a map for the planner: edge cells, one region search per group of movers sharing a start region and door and fence rules (pen animals as led by a colonist), each edge region's depth in regions, area masks through `ExitPolicy.IsRestricted`, threats, the route side |
@@ -69,6 +69,9 @@ game yet.**
 | `Alert_CaravanNoPermittedExit : Alert` | `1.6/Jobs/Alert_CaravanNoPermittedExit.cs` | Names the pawns whose areas hold a caravan and how to let it go; reads the held state only |
 | `LeaveFromHerePolicy`, `LeaveButton`, `LeaveRoute` | `1.6/Core/LeaveFromHerePolicy.cs` | Who gets the Leave from here button and when it is greyed, which stage the caravan goes to (gathering downed pawns when one can be fetched, else collecting), how near an edge cell must be, and whom vanilla's Force depart leaves behind. Pure |
 | `LeaveFromHere` | `1.6/Utils/LeaveFromHere.cs` | Reads a pawn for the button; finds the edge cell with the exit planner (areas and threats overridden); builds the confirmation from vanilla's own Force depart text plus the downed pawns nobody can reach and the areas this edge is outside; departs: the broken left out as vanilla does, the exit written as an override, the stage chosen, the far drafted ordered over |
+| `ThreatPolicy` | `1.6/Core/ThreatPolicy.cs` | When an exit already chosen is given up for a safe one: a working stage, not a pause, the current exit threatened and one with no threat valid, not committed (half the colonists at the exit, except while downed pawns are gathered; while waiting, a downed pawn already brought there; from collecting on, downed pawns to take along), not within an hour of the last such move; and which stages measure from the colonists and need routing again. Pure |
+| `CaravanRoute` | `1.6/Utils/CaravanRoute.cs` | Shared by Leave from here and the threat move: who works the duties, whether pen animals need leading or are fenced in, untying from spots, and `GoTo`, which moves the lord to a route's stage and ends the undrafted members' jobs |
+| `Alert_CaravanExitThreatened : Alert` | `1.6/Jobs/Alert_CaravanExitThreatened.cs` | The exit a forming caravan keeps is threatened (no safe one open, committed, or cooling down); reads the flag the exit pass keeps |
 | `Command_LeaveFromHere : Command` | `1.6/Jobs/Command_LeaveFromHere.cs` | The button: one group across the selected members, one press for the caravan of the first ready copy, whose colonist the edge is found near; greyed beyond 10 cells from an edge |
 
 Defs: `CCE_Loading` (WorkTypeDef, naturalPriority 310, the column directly left of Haul, Hauling's
@@ -245,8 +248,10 @@ The plan's architecture rules are binding on every slice; the short form:
   stage or its pause, leaving the caravan not held, sets `RegatherPending`, saved as
   `cce_exitRegather`; while held the lord job's exit is only the fallback, so the release's write arms
   it against the real one. Every pass then counts the
-  listed downed pawns more than 7 cells from the exit and not in a member's arms (the downed stage
-  ends while its last pawn is still carried, and that one leaves with its carrier), babies included
+  listed downed pawns more than 7 cells from the exit and not held by a member who works no duties and
+  is not in a mental state (a drafted carrier keeps its pawn and leaves with it; one a worker holds,
+  such as the last pawn of the downed stage, which ends while it is still carried, is counted, and so
+  is one a broken member holds, as one nobody can fetch), babies included
   (a member picks up only one baby while collecting and leaving). Once a colonist member with hands
   can reach every one of them (reach only: drafting and reservations pass, and the gathering stage
   waits them out), it sends the lord back to the downed stage with `Lord.GotoToil`, or from the pause
@@ -266,6 +271,45 @@ The plan's architecture rules are binding on every slice; the short form:
   side.** `ExitReadings` records each edge region's depth in the entry predicate of the breadth-first
   search (the first entry into a region comes from one nearer); discovery order would differ between
   regions at the same depth.
+- **The exit moves away from a threat only to a safe one, only after the area rule had nothing to do,
+  and never once committed.** With "Avoid threats when leaving" on and some hostile an active threat
+  on the map (`GenHostility.AnyHostileActiveThreatToPlayer`, which keeps the read off a quiet map),
+  the 250-tick pass plans in every working stage and, when the area decision is None, asks
+  `ThreatPolicy.Moves`: never in a pause, not held, foreign or overridden; the current exit's threat
+  score above 0 and a safe exit open (`ExitPlan.HasSafeExit`), which the move goes to (`SafeIndex`):
+  of the valid exits scoring 0, the one ranked first with both threat distances widened by half
+  (`ThreatPolicy.Clearance`, which the planner applies itself, so nothing in the pass can skip it), so
+  the nearest (fewest regions away, then fewest cells) clear of the wider distances where there is one,
+  otherwise the one least inside them, rather than the nearest just outside the danger; a small gain
+  never moves it. The wider distances only rank: an earlier draft vetoed every exit inside them, and a
+  hostile inside the wider route distance of the start then ruled out every way out. Not committed; an hour since
+  the last threat move (`LastThreatMoveTick`, `cce_exitThreatMoved`). Areas count as the switch says in
+  every stage, so a move never breaks an area the rule would then restore. Committed
+  (`ThreatPolicy.Committed`) is half the colonist members within 15 cells of the exit (pets and
+  prisoners walk ahead), except while downed pawns are gathered, whose duty walks every colonist with
+  nothing to carry to the exit to wait (`JobGiver_GotoTravelDestination` on the duty's second focus),
+  so standing there says nothing of how far along the caravan is; or, while waiting, when everybody
+  is back at the meeting point, a listed downed pawn within vanilla's 7 cells of it
+  (`IsDownedPawnNearExitPoint`, which reads a carried pawn at its carrier's cell) and not in a drafted
+  member's arms, since a move would send carriers back into the threat for it; or, from collecting on,
+  any listed downed pawn or baby not in a drafted member's arms, since going back for it would send the
+  animals back to the colony too. Before waiting a pawn already at the exit does not commit: the
+  downed stage fetches every listed pawn to wherever the exit is, so a move has the pawns already at
+  the old exit carried again, mostly by the idle colonists the duty parked beside them (the giver takes
+  the nearest first). That is accepted, and so is its worst case, a caravan with no pen animals whose
+  last carry is nearly done, which a move sends the long way round. In the downed stage the way out
+  is still measured from the meeting point, though the idle colonists stand at the old exit, so the
+  route test there is rougher than in collecting and leaving. A waiting caravan whose downed pawns all lie away from
+  its exit is not committed either: the move arms the go-back to the downed stage, which carries them
+  to the new exit. One with some at the exit and some away is committed, and the ones away are left as
+  vanilla leaves them.
+  In collecting and leaving the way out is measured
+  from the colonists' centre, since they have left the meeting point. Before collecting the write is
+  the whole move; in collecting and leaving the move also goes through `CaravanRoute`, as Leave from
+  here does, because rope jobs keep their old destination. Drafted members are not ordered; the
+  message asks the player to move them. `Alert_CaravanExitThreatened` shows while the exit a caravan
+  keeps is threatened (`ExitThreatened`, set from the plan, cleared when the rule stops watching or no
+  hostile is left, kept through a pause).
 - **Leave from here goes through vanilla's own stages, not Force depart's memo, and only to stages
   somebody can work.** `ForceDepartNow` jumps to leaving, skipping the stage that gathers downed
   pawns, and vanilla's Force depart clears the downed list and undrafts everyone. Leave from here

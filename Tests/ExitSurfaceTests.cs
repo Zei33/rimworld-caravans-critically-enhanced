@@ -151,6 +151,7 @@ namespace CaravansCriticallyEnhanced.Tests
                 "cce_exitOverride",
                 "cce_exitForeign",
                 "cce_exitRegather",
+                "cce_exitThreatMoved",
             }));
             Assert.That(Calls(typeof(Patch_LordJob_FormAndSendCaravan_ExposeData), "Postfix"), Is.EqualTo(new[]
             {
@@ -261,7 +262,7 @@ namespace CaravansCriticallyEnhanced.Tests
                 "CaravansCriticallyEnhanced.Utils.ExitDirector.KeepParked",
                 "CaravansCriticallyEnhanced.Utils.CaravanLordAccess.get_AllExitFieldsAvailable",
             }));
-            Assert.That(ToggleReads.AskedBy(Method(typeof(ExitDirector), nameof(ExitDirector.Tick))), Is.EqualTo(new Toggle?[] { Toggle.AreaAwareExit }));
+            Assert.That(ToggleReads.AskedBy(Method(typeof(ExitDirector), nameof(ExitDirector.Tick))), Is.EqualTo(new Toggle?[] { Toggle.AreaAwareExit, Toggle.ThreatAwareExit }));
 
             List<string> postfix = Calls(typeof(Patch_LordJob_FormAndSendCaravan_LordJobTick), "Postfix");
             Assert.That(postfix, Does.Contain("CaravansCriticallyEnhanced.Utils.ExitDirector.Tick"));
@@ -277,17 +278,19 @@ namespace CaravansCriticallyEnhanced.Tests
         [Test]
         public void EachActionTakesTheCellItsPlanMeans()
         {
-            // The order of the plan's two index getters in the pass: the fallback for the moved test
-            // and for holding, the choice for every release and move. Swapping one is a caravan held at
-            // a cell it may not use, or released to -1.
+            // The order of the plan's three index getters in the pass: the fallback for the moved test
+            // and for holding, the choice for every area release and move, the safe exit for a threat
+            // move. Swapping one is a caravan held at a cell it may not use, released to -1, or moved
+            // to the nearest safe exit rather than the one the wider distances ranked first.
             WalkResult tick = ILCalls.Read(Method(typeof(ExitDirector), nameof(ExitDirector.Tick)));
-            List<string> indices = tick.Calls.Select(c => c.Name).Where(n => n == "get_FallbackIndex" || n == "get_CandidateIndex").ToList();
+            List<string> indices = tick.Calls.Select(c => c.Name).Where(n => n == "get_FallbackIndex" || n == "get_CandidateIndex" || n == "get_SafeIndex").ToList();
             Assert.That(indices, Is.EqualTo(new[]
             {
                 "get_FallbackIndex", "get_FallbackIndex",
                 "get_FallbackIndex", "get_FallbackIndex",
                 "get_FallbackIndex",
                 "get_CandidateIndex", "get_CandidateIndex", "get_CandidateIndex",
+                "get_SafeIndex",
             }));
 
             WalkResult search = ILCalls.Read(Method(typeof(Patch_RCellFinder_TryFindClosestEdgeCellTo), "Prefix"));
@@ -304,6 +307,7 @@ namespace CaravansCriticallyEnhanced.Tests
                 "CaravansCriticallyEnhanced_ExitHeld",
                 "CaravansCriticallyEnhanced_ExitReleased",
                 "CaravansCriticallyEnhanced_ExitMoved",
+                "CaravansCriticallyEnhanced_ExitMovedThreat",
             }), "One message each for holding, releasing and an area-driven move; a quiet move or fallback update says nothing.");
             Assert.That(Calls(typeof(ExitDirector), "KeepParked"), Is.SupersetOf(new[]
             {
@@ -311,6 +315,85 @@ namespace CaravansCriticallyEnhanced.Tests
                 "CaravansCriticallyEnhanced.Utils.CaravanLordAccess.get_JobMeetingPoint",
                 "CaravansCriticallyEnhanced.Utils.ExitDirector.CopiesAt",
             }), "The copies are checked against the fallback and the meeting point, where a hold puts them.");
+        }
+
+        [Test]
+        public void TheExitMovesAwayFromAThreatOnlyWhenTheAreaRuleDidNothingAndThroughThePolicy()
+        {
+            List<string> tick = Calls(typeof(ExitDirector), nameof(ExitDirector.Tick));
+            int read = tick.IndexOf("CaravansCriticallyEnhanced.Utils.ExitReadings.Read");
+            int plan = tick.IndexOf("CaravansCriticallyEnhanced.Core.ExitPlanner.Plan");
+            int decide = tick.IndexOf("CaravansCriticallyEnhanced.Core.ExitPolicy.Decide");
+            int safe = tick.IndexOf("CaravansCriticallyEnhanced.Core.ExitPlan.get_HasSafeExit");
+            int near = tick.IndexOf("CaravansCriticallyEnhanced.Utils.ExitDirector.ColonistsNear");
+            int committed = tick.IndexOf("CaravansCriticallyEnhanced.Core.ThreatPolicy.Committed");
+            int cooling = tick.IndexOf("CaravansCriticallyEnhanced.Core.ThreatPolicy.Cooling");
+            int moves = tick.IndexOf("CaravansCriticallyEnhanced.Core.ThreatPolicy.Moves");
+            int move = tick.IndexOf("CaravansCriticallyEnhanced.Utils.ExitDirector.MoveFromThreat");
+            int[] order = { read, plan, decide, near, safe, committed, cooling, moves, move };
+            Assert.That(order, Is.All.GreaterThanOrEqualTo(0), string.Join(", ", tick));
+            Assert.That(order, Is.Ordered, "One plan; the area rule first; the threat rule only after, to the safe exit the plan named.");
+            Assert.That(tick.Count(c => c == "CaravansCriticallyEnhanced.Core.ExitPlanner.Plan"), Is.EqualTo(1), "One plan: the wider distances rank inside it rather than vetoing in a second.");
+            Assert.That(tick, Has.No.Member("CaravansCriticallyEnhanced.Core.ThreatPolicy.Clearance"), "The planner widens the distances itself, so nothing here can skip it.");
+            Assert.That(Calls(typeof(ExitPlanner), "Safest").Count(c => c == "CaravansCriticallyEnhanced.Core.ThreatPolicy.Clearance"), Is.EqualTo(2), "The control: the planner widens both.");
+            Assert.That(tick[near - 1], Is.EqualTo("RimWorld.LordJob_FormAndSendCaravan.get_ExitSpot"), "Colonists counted near the exit the caravan has.");
+            Assert.That(tick.Skip(moves).Take(move - moves), Has.Member("CaravansCriticallyEnhanced.Core.ExitPlan.get_SafeIndex"), "The move goes to the safe exit the plan named.");
+            Assert.That(tick.IndexOf("CaravansCriticallyEnhanced.Core.ThreatPolicy.Movable"), Is.InRange(0, read));
+            Assert.That(tick.IndexOf("RimWorld.GenHostility.AnyHostileActiveThreatToPlayer"), Is.InRange(0, read), "With no hostile about, the map is read only for the area rule.");
+            Assert.That(tick.IndexOf("CaravansCriticallyEnhanced.Utils.ExitDirector.ColonistCentre"), Is.InRange(0, read), "Collecting and leaving measure the way out from the colonists.");
+            Assert.That(tick.Skip(committed - 2).Take(3), Is.EqualTo(new[]
+            {
+                "CaravansCriticallyEnhanced.Utils.ExitDirector.DownedToTake",
+                "CaravansCriticallyEnhanced.Utils.ExitDirector.DownedAtExit",
+                "CaravansCriticallyEnhanced.Core.ThreatPolicy.Committed",
+            }), "Both downed counts go to the commit rule, each in its own place.");
+            Assert.That(tick.Count(c => c.EndsWith(".DownedToTake") || c.EndsWith(".DownedAtExit")), Is.EqualTo(2));
+            Assert.That(Calls(typeof(ExitDirector), "DownedAtExit"), Is.SupersetOf(new[]
+            {
+                "Verse.Pawn.get_Downed",
+                "RimWorld.LordJob_FormAndSendCaravan.get_ExitSpot",
+                "RimWorld.JobGiver_PrepareCaravan_GatherDownedPawns.IsDownedPawnNearExitPoint",
+                "CaravansCriticallyEnhanced.Utils.ExitDirector.CarrierOf",
+                "Verse.Pawn.get_Drafted",
+            }), "Vanilla's own 7 cells, which read a carried pawn at its carrier: one a drafted member holds goes with it.");
+            Assert.That(Calls(typeof(ExitDirector), "ColonistsNear"), Is.SupersetOf(new[] { "Verse.Pawn.get_IsColonist", "Verse.IntVec3.InHorDistOf" }), "Colonists only.");
+            Assert.That(Calls(typeof(ExitDirector), "DownedToTake"), Is.SupersetOf(new[] { "CaravansCriticallyEnhanced.Utils.ExitDirector.CarrierOf", "Verse.Pawn.get_Drafted" }));
+            foreach (string body in Calls(typeof(ExitDirector), "MoveFromThreat").Concat(typeof(CaravanRoute).GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).SelectMany(m => ILCalls.CalledBy(m)).Select(Generic)))
+            {
+                Assert.That(body, Is.Not.EqualTo("RimWorld.Pawn_DraftController.set_Drafted").And.Not.Contains("TryTakeOrderedJob"), "Drafted members are the player's: the message tells.");
+            }
+
+            Assert.That(Calls(typeof(ExitDirector), "MoveFromThreat"), Does.Contain("CaravansCriticallyEnhanced.Utils.CaravanRoute.GoTo"), "The control: the scan reaches the route.");
+            Assert.That(typeof(CaravanRoute).GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).SelectMany(m => ILCalls.CalledBy(m)).Select(Generic),
+                Has.Member("Verse.AI.Group.Lord.GotoToil").And.Member("Verse.AI.Pawn_JobTracker.EndCurrentJob"), "The control inside the route: the scan sees its calls.");
+
+            WalkResult walk = ILCalls.Read(Method(typeof(ExitDirector), nameof(ExitDirector.Tick)));
+            Assert.That(walk.Fields.Count(f => f.IsStore && f.Field.Name == nameof(CaravanExitState.LastThreatMoveTick)), Is.EqualTo(1), "The cooldown starts at a move.");
+            Assert.That(walk.Fields.Where(f => f.IsStore && f.Field.Name == nameof(CaravanExitState.ExitThreatened)).Select(f => f.IntBefore), Is.EqualTo(new int?[] { null, 0 }),
+                "Set from the plan when the rule looks, cleared when it stops watching, kept through a pause.");
+
+            List<string> move2 = Calls(typeof(ExitDirector), "MoveFromThreat");
+            int reroutes = move2.IndexOf("CaravansCriticallyEnhanced.Core.ThreatPolicy.ReroutesAfterMove");
+            int strays = move2.IndexOf("CaravansCriticallyEnhanced.Utils.ExitDirector.CountStrays");
+            int release = move2.LastIndexOf("CaravansCriticallyEnhanced.Utils.ExitDirector.Release");
+            int route = move2.IndexOf("CaravansCriticallyEnhanced.Core.LeaveFromHerePolicy.RouteFor");
+            int go = move2.IndexOf("CaravansCriticallyEnhanced.Utils.CaravanRoute.GoTo");
+            Assert.That(new[] { reroutes, strays, release, route, go }, Is.All.GreaterThanOrEqualTo(0), string.Join(", ", move2));
+            Assert.That(new[] { reroutes, strays, release, route, go }, Is.Ordered,
+                "Collecting and leaving: the strays counted against the new exit, then the write, then vanilla's stages by the 4b route.");
+            WalkResult moveWalk = ILCalls.Read(Method(typeof(ExitDirector), "MoveFromThreat"));
+            int counting = moveWalk.Calls.ToList().FindIndex(c => c.Name == nameof(ExitDirector.CountStrays));
+            Assert.That(moveWalk.IntBeforeCall[counting], Is.EqualTo(1), "Fetching now: workers only.");
+        }
+
+        [Test]
+        public void TheThreatAlertReadsTheFlagAndPlansNothing()
+        {
+            List<string> report = Calls(typeof(Alert_CaravanExitThreatened), nameof(Alert_CaravanExitThreatened.GetReport));
+            Assert.That(report, Does.Contain("CaravansCriticallyEnhanced.Core.CaravanExitStates.IsExitThreatened"));
+            Assert.That(report.Where(c => c.Contains("ExitPlanner") || c.Contains("ExitReadings")), Is.Empty, "It is asked every few frames.");
+            Assert.That(typeof(Alert_CaravanExitThreatened).GetConstructor(Type.EmptyTypes), Is.Not.Null, "The game builds it by reflection.");
+            Assert.That(Calls(typeof(CaravanExitStates), nameof(CaravanExitStates.IsExitThreatened)), Does.Contain("System.Runtime.CompilerServices.ConditionalWeakTable`2.TryGetValue"));
         }
 
         [Test]

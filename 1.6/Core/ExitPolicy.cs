@@ -178,7 +178,7 @@ namespace CaravansCriticallyEnhanced.Core
         /// </summary>
         /// <param name="pending">Whether the mod has written the exit while the caravan waited and not yet settled the downed pawns since.</param>
         /// <param name="waiting">Whether the caravan is in the waiting stage or its pause.</param>
-        /// <param name="strays">How many listed downed pawns, babies included, lie more than vanilla's 7 cells from the exit it will leave by, in nobody's arms.</param>
+        /// <param name="strays">How many listed downed pawns, babies included, lie more than vanilla's 7 cells from the exit it will leave by and are not held by a member who works no duties and is not in a mental state, a drafted one say.</param>
         /// <param name="unfetchableStrays">How many of those no member can reach now.</param>
         /// <returns>The step.</returns>
         /// <remarks>

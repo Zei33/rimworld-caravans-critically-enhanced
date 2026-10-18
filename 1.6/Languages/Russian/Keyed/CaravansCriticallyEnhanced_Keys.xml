@@ -27,7 +27,7 @@
   <CaravansCriticallyEnhanced_SettingAreaAwareExit>Уходить в пределах доступных областей</CaravansCriticallyEnhanced_SettingAreaAwareExit>
   <CaravansCriticallyEnhanced_SettingAreaAwareExitTip>Караван уходит через край карты, который лежит в доступной области каждого участника, ограниченного такой областью. Если такого края нет, караван завершает погрузку, а затем ждёт на месте сбора с оповещением, пока край не появится.</CaravansCriticallyEnhanced_SettingAreaAwareExitTip>
   <CaravansCriticallyEnhanced_SettingThreatAwareExit>Избегать угроз при уходе</CaravansCriticallyEnhanced_SettingThreatAwareExit>
-  <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>Караван предпочитает точку выхода подальше от врагов, а во время сборов выбирает другую, если рядом с выбранной появляется угроза.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
+  <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>Караван предпочитает точку выхода подальше от врагов, а во время сборов переходит к точке, свободной от них, если рядом с выбранной появляется угроза и менять ещё не поздно.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
   <CaravansCriticallyEnhanced_SettingLeaveFromHere>Уйти отсюда</CaravansCriticallyEnhanced_SettingLeaveFromHere>
   <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Даёт поселенцу в режиме призыва, который входит в собирающийся караван и стоит у края карты, кнопку, отправляющую караван через этот край. При этом вы больше не можете приказать поселенцу собирающегося каравана покинуть карту в одиночку: ни уйти самому, ни унести кого-то.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
   <CaravansCriticallyEnhanced_SettingDepartureWarnings>Предупреждать об оставленных</CaravansCriticallyEnhanced_SettingDepartureWarnings>
@@ -94,6 +94,9 @@
   <CaravansCriticallyEnhanced_ExitMoved>Точка выхода каравана перенесена, чтобы оставаться в доступной области всех, кто уходит с ним.</CaravansCriticallyEnhanced_ExitMoved>
   <CaravansCriticallyEnhanced_AlertNoPermittedExit>Караван ждёт точки выхода</CaravansCriticallyEnhanced_AlertNoPermittedExit>
   <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>Собирающийся караван ждёт на месте сбора, потому что ни один край карты, до которого он может добраться, не лежит в доступной области всех, кто уходит с ним. Его удерживают:\n\n{0}\n\nЧтобы отпустить его, расширьте их области до края карты, до которого может добраться караван, снимите с них ограничение или используйте «Отправить караван немедленно». Также можно отключить «Уходить в пределах доступных областей» в настройках модов.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+  <CaravansCriticallyEnhanced_ExitMovedThreat>Враги приблизились к пути выхода каравана, поэтому теперь он уйдёт через край карты, свободный от них. Если с ним уходят поселенцы в режиме призыва, отправьте их туда сами.</CaravansCriticallyEnhanced_ExitMovedThreat>
+  <CaravansCriticallyEnhanced_AlertExitThreatened>Путь выхода каравана под угрозой</CaravansCriticallyEnhanced_AlertExitThreatened>
+  <CaravansCriticallyEnhanced_AlertExitThreatenedDesc>У точки выхода собирающегося каравана или на пути к ней есть враги, но караван не меняет путь выхода: свободного от врагов края карты у него нет, менять уже слишком поздно или он сменил путь меньше часа назад. Сначала разберитесь с угрозой или используйте «Уйти отсюда», чтобы выбрать край самостоятельно.</CaravansCriticallyEnhanced_AlertExitThreatenedDesc>
 
   <!-- Leave from here -->
   <CaravansCriticallyEnhanced_LeaveFromHere>Уйти отсюда</CaravansCriticallyEnhanced_LeaveFromHere>

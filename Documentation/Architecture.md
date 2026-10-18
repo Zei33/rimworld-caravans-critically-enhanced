@@ -131,12 +131,28 @@ sleeper whose downed pawns now lie away from its exit is sent back to it with `L
 graph is not changed, only which of its toils is current. It is armed only by a pass that wrote the
 exit while the caravan waited and was not held, since going back ends in vanilla's step forward again, which can wake
 the sleeper; once armed, a saved flag has every pass try again until every such pawn can be reached,
-none is left away from the exit, or the caravan moves on. A downed pawn in a member's arms is not
-counted, since it leaves with its carrier. The exit last written is saved; if the lord job's exit is ever
+none is left away from the exit, or the caravan moves on. A downed pawn in the arms of a drafted
+member, or of another who works no duties and is not in a mental state, is not counted, since it
+leaves with its carrier; one a worker holds is, since the downed stage has it carried over, and so is
+one a member in a mental state holds, which nobody can fetch. The exit last written is saved; if the lord job's exit is ever
 something else, another mod wrote it and owns it from then on. Force depart is a player override: it
 releases a held caravan by its fallback and the rule leaves that caravan alone.
 
 `Alert_CaravanNoPermittedExit` reads only the held state and the pawns the last pass blamed.
+
+The same pass moves the exit away from a threat. With "Avoid threats when leaving" on and a hostile
+about, it also plans in collecting and leaving, measuring the way out from the colonists rather than
+the meeting point they left, and when the area decision is to do nothing, `ThreatPolicy.Moves` says
+whether a current exit with hostiles near it, or on the way to it, gives way to the plan's
+`SafeIndex`: of the valid exits clear of them, the one ranked first with both distances widened by
+half (`ThreatPolicy.Clearance`, inside the planner), so the nearest (fewest regions away, then fewest
+cells) clear of the wider distances where there is one and otherwise the one least inside them,
+rather than the nearest just outside the danger. Not in a pause, not held, not overridden or
+foreign, not committed (half the colonists at the exit, except while downed pawns are gathered,
+whose duty walks the idle to the exit to wait; while waiting, a downed pawn already brought there;
+from collecting on, any downed pawn to take along), and not within an hour of the last such move. Before collecting the write is the move; in collecting and leaving `CaravanRoute` also takes the
+caravan back through vanilla's stages, because their rope jobs keep the old destination.
+`Alert_CaravanExitThreatened` reads a flag the pass sets while the exit a caravan keeps is threatened.
 
 Leave from here reuses all of that. `LeaveFromHere` reads the map with `ExitReadings` around the
 colonist whose button is used, over the members who will go (not those in a mental state), marks edge
@@ -145,8 +161,8 @@ every pawn going can reach. The confirmation is vanilla's own `GetForceDepartWar
 while a flag keeps the mod's Force depart postfix out, with the downed pawns nobody undrafted can fetch
 and the overridden areas added. On confirming it removes members in a mental state as vanilla does,
 writes the exit through `ExitDirector.LeaveFrom` as a player override, takes the unfetchable downed
-pawns off the list, and moves the lord with `Lord.GotoToil` to whichever of vanilla's stages still
-has work for somebody undrafted (`LeaveFromHerePolicy.RouteFor`): gathering downed pawns, collecting
+pawns off the list, and moves the lord with `Lord.GotoToil` (through `CaravanRoute`) to whichever of
+vanilla's stages still has work for somebody undrafted (`LeaveFromHerePolicy.RouteFor`): gathering downed pawns, collecting
 animals, or straight to leaving with tied animals untied, as Force depart does. A drafted pawn's
 orders come above its duty, so it never does a stage's work. It ends the undrafted members' jobs, as
 a stage change would, and orders drafted members far from the exit over. Vanilla's Force depart uses

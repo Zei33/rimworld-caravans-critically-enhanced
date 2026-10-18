@@ -130,14 +130,14 @@ namespace CaravansCriticallyEnhanced.Utils
             // A helper's lead ends with the stage change below; let go now, so that an animal it holds is
             // judged by whether it can walk out by itself.
             JobDriver_CCE_RopeAnimalToCaravan.LetGoFor(lord);
-            LeaveRoute route = LeaveFromHerePolicy.RouteFor(FormingLords.StageOf(lord), strays > unfetchable, NeedsRoping(lord, spot, out bool penned), AnyWorker(lord), penned);
+            LeaveRoute route = LeaveFromHerePolicy.RouteFor(FormingLords.StageOf(lord), strays > unfetchable, CaravanRoute.NeedsRoping(lord, spot, out bool penned), CaravanRoute.AnyWorker(lord), penned);
             if (route == LeaveRoute.LeaveStage)
             {
                 // As vanilla's Force depart: an animal tied at the spot walks to the exit by itself.
-                UntieFromSpots(lord);
+                CaravanRoute.UntieFromSpots(lord);
             }
 
-            GoTo(lord, route);
+            CaravanRoute.GoTo(lord, route);
             OrderDraftedOver(lord, spot);
         }
 
@@ -217,50 +217,6 @@ namespace CaravansCriticallyEnhanced.Utils
             return text;
         }
 
-        private static void GoTo(Lord lord, LeaveRoute route)
-        {
-            // The graph's order is vanilla's and pinned by test.
-            List<LordToil> toils = lord.Graph.lordToils;
-            int target;
-            Type expected;
-            switch (route)
-            {
-                case LeaveRoute.DownedStage:
-                    target = (int)FormingStage.GatherDownedPawns;
-                    expected = typeof(LordToil_PrepareCaravan_GatherDownedPawns);
-                    break;
-                case LeaveRoute.CollectStage:
-                    target = (int)FormingStage.CollectAnimals;
-                    expected = typeof(LordToil_PrepareCaravan_CollectAnimals);
-                    break;
-                case LeaveRoute.LeaveStage:
-                    target = (int)FormingStage.Leave;
-                    expected = typeof(LordToil_PrepareCaravan_Leave);
-                    break;
-                default:
-                    return;
-            }
-
-            if (toils.Count <= target || toils[target].GetType() != expected)
-            {
-                return;
-            }
-
-            lord.GotoToil(toils[target]);
-
-            // What a stage change does, sparing the drafted, as the mod's transition patch does: collecting
-            // jobs under way keep their old destination and never end by themselves.
-            List<Pawn> owned = lord.ownedPawns;
-            for (int i = 0; i < owned.Count; i++)
-            {
-                Pawn pawn = owned[i];
-                if (pawn.jobs?.curJob != null && !pawn.Drafted)
-                {
-                    pawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
-                }
-            }
-        }
-
         private static void OrderDraftedOver(Lord lord, IntVec3 spot)
         {
             // Vanilla's leaving stage waits for every member within 10 cells of the exit, drafted ones
@@ -302,57 +258,6 @@ namespace CaravansCriticallyEnhanced.Utils
             }
 
             return going;
-        }
-
-        private static bool AnyWorker(Lord lord)
-        {
-            foreach (Pawn pawn in lord.ownedPawns)
-            {
-                if (ExitDirector.IsWorker(pawn))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool NeedsRoping(Lord lord, IntVec3 spot, out bool penned)
-        {
-            // As vanilla's collecting stage finishes, every pen animal on a member's lead; but only a
-            // drafted member's counts here, since the undrafted members' jobs are about to end, and
-            // their leads with them.
-            bool needs = false;
-            penned = false;
-            foreach (Pawn pawn in lord.ownedPawns)
-            {
-                if (!AnimalPenUtility.NeedsToBeManagedByRope(pawn))
-                {
-                    continue;
-                }
-
-                Pawn roper = pawn.roping?.RopedByPawn;
-                if (roper != null && roper.Drafted && roper.GetLord() == lord)
-                {
-                    continue;
-                }
-
-                needs = true;
-                penned |= pawn.Spawned && !pawn.CanReach(spot, PathEndMode.OnCell, Danger.Deadly);
-            }
-
-            return needs;
-        }
-
-        private static void UntieFromSpots(Lord lord)
-        {
-            foreach (Pawn pawn in lord.ownedPawns)
-            {
-                if (pawn.roping != null && pawn.roping.IsRopedToSpot)
-                {
-                    pawn.roping.UnropeFromSpot();
-                }
-            }
         }
 
         private static void Reject(Pawn anchor)

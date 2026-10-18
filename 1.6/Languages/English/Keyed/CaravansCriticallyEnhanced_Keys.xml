@@ -27,7 +27,7 @@
   <CaravansCriticallyEnhanced_SettingAreaAwareExit>Leave inside allowed areas</CaravansCriticallyEnhanced_SettingAreaAwareExit>
   <CaravansCriticallyEnhanced_SettingAreaAwareExitTip>The caravan leaves from a map edge inside the allowed area of every pawn that is restricted to one. If no such edge exists, the caravan packs and then waits where it gathered, with an alert, until there is one.</CaravansCriticallyEnhanced_SettingAreaAwareExitTip>
   <CaravansCriticallyEnhanced_SettingThreatAwareExit>Avoid threats when leaving</CaravansCriticallyEnhanced_SettingThreatAwareExit>
-  <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>The caravan prefers an exit away from hostile pawns, and picks another one while forming if a threat appears near the one it chose.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
+  <CaravansCriticallyEnhanced_SettingThreatAwareExitTip>The caravan prefers an exit away from hostile pawns, and moves to one clear of them while forming if a threat appears near the one it chose, unless it is too far along to change.</CaravansCriticallyEnhanced_SettingThreatAwareExitTip>
   <CaravansCriticallyEnhanced_SettingLeaveFromHere>Leave from here</CaravansCriticallyEnhanced_SettingLeaveFromHere>
   <CaravansCriticallyEnhanced_SettingLeaveFromHereTip>Gives a drafted colonist in a forming caravan, standing near the map edge, a button that sends the caravan off from that edge. A colonist in a forming caravan can then no longer leave the map alone at your order, by walking off or carrying someone off.</CaravansCriticallyEnhanced_SettingLeaveFromHereTip>
   <CaravansCriticallyEnhanced_SettingDepartureWarnings>Warn about pawns left behind</CaravansCriticallyEnhanced_SettingDepartureWarnings>
@@ -94,6 +94,9 @@
   <CaravansCriticallyEnhanced_ExitMoved>The caravan's exit moved to stay inside the allowed area of every pawn going with it.</CaravansCriticallyEnhanced_ExitMoved>
   <CaravansCriticallyEnhanced_AlertNoPermittedExit>Caravan waiting for an exit</CaravansCriticallyEnhanced_AlertNoPermittedExit>
   <CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>A forming caravan is waiting where it gathered, because no map edge it can reach is inside the allowed area of every pawn going with it. Kept in by:\n\n{0}\n\nTo let it go, extend their areas to a map edge the caravan can reach, remove their restriction, or use "Force caravan departure". Turning off "Leave inside allowed areas" in the mod's options also lets it go.</CaravansCriticallyEnhanced_AlertNoPermittedExitDesc>
+  <CaravansCriticallyEnhanced_ExitMovedThreat>Hostiles are near the caravan's way out, so it now leaves by an edge clear of them. Move any drafted colonists going with it there yourself.</CaravansCriticallyEnhanced_ExitMovedThreat>
+  <CaravansCriticallyEnhanced_AlertExitThreatened>Caravan's way out threatened</CaravansCriticallyEnhanced_AlertExitThreatened>
+  <CaravansCriticallyEnhanced_AlertExitThreatenedDesc>A forming caravan's way out has hostiles near it or on the way to it, and the caravan is staying with it: no edge clear of them is open to it, or it is too far along to change, or it changed less than an hour ago. Deal with the threat first, or choose the edge yourself with Leave from here.</CaravansCriticallyEnhanced_AlertExitThreatenedDesc>
 
   <!-- Leave from here -->
   <CaravansCriticallyEnhanced_LeaveFromHere>Leave from here</CaravansCriticallyEnhanced_LeaveFromHere>
